@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jagdishpur Gaon Portal</title>
+
+<!-- PWA setup: isse "Add to Home Screen" karne par ye asli app jaisi chalti hai -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1F3F5C">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gaon Portal">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wall:#EFE6D3;
+    --wall-dark:#E4D6B8;
+    --indigo:#1F3F5C;
+    --indigo-dark:#152C41;
+    --turmeric:#D99A2B;
+    --terracotta:#B8562F;
+    --neem:#4F6B3A;
+    --ink:#2A2118;
+    --ink-soft:#5B4E3E;
+    --card:#FFFCF5;
+    --line:#D8C9A8;
+    --radius:14px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--wall);
+    color:var(--ink);
+    font-family:'Noto Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:900px;margin:0 auto;min-height:100vh;background:var(--wall);position:relative;}
+
+  /* ---- Header: hand-pump blue band with whitewash wall texture ---- */
+  .site-header{
+    background:linear-gradient(180deg,var(--indigo) 0%,var(--indigo-dark) 100%);
+    color:#F3ECDD;
+    padding:22px 20px 18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .site-header::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:0;height:6px;
+    background:repeating-linear-gradient(90deg,var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
+    opacity:.9;
+  }
+  .brand-row{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+  .brand-mark{
+    width:44px;height:44px;flex:none;border-radius:10px;
+    background:var(--turmeric);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);
+  }
+  .brand-text h1{margin:0;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:.2px;}
+  .brand-text p{margin:2px 0 0;font-size:.8rem;opacity:.8;}
+  .install-btn{
+    margin-left:auto;flex:none;
+    background:var(--turmeric);color:var(--indigo-dark);
+    border:none;border-radius:9px;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.8rem;
+    padding:9px 13px;cursor:pointer;
+    display:none;align-items:center;gap:5px;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .install-btn.show{display:inline-flex;}
+
+  .admin-row{
+    position:relative;z-index:1;
+    display:flex;justify-content:flex-end;
+    margin-top:8px;
+  }
+  .admin-link{
+    background:rgba(255,255,255,.1);
+    color:#D9C9A3;
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:8px;
+    font-family:'Baloo 2',sans-serif;font-size:.76rem;font-weight:600;
+    padding:6px 11px;cursor:pointer;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .admin-link.logged-in{background:var(--neem);color:#fff;border-color:var(--neem);}
+
+  .locked-notice{
+    background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+    padding:36px 20px;text-align:center;color:var(--ink-soft);
+  }
+  .locked-notice .big{font-size:2.2rem;display:block;margin-bottom:10px;}
+  .locked-notice p{margin:0 0 4px;font-size:.9rem;}
+  .locked-notice .small{font-size:.78rem;color:var(--ink-soft);opacity:.8;}
+
+  /* ---- Tab nav ---- */
+  .tabs{
+    display:flex;
+    gap:0;
+    background:var(--indigo-dark);
+    position:sticky;top:0;z-index:20;
+    overflow-x:auto;
+    scrollbar-width:none;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:1 0 auto;
+    background:transparent;
+    border:none;
+    color:#C9D3DB;
+    font-family:'Baloo 2',sans-serif;
+    font-size:.92rem;
+    font-weight:600;
+    padding:13px 14px 11px;
+    cursor:pointer;
+    white-space:nowrap;
+    border-bottom:3px solid transparent;
+    transition:.15s;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tab-btn span.emoji{margin-right:6px;}
+  .tab-btn:hover{color:#fff;}
+  .tab-btn:focus-visible{outline:2px solid var(--turmeric);outline-offset:-2px;}
+  .tab-btn.active{color:#fff;border-bottom-color:var(--turmeric);background:rgba(255,255,255,.05);}
+
+  main{padding:18px 16px 60px;}
+  .panel{display:none;animation:fadeIn .25s ease;}
+  .panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .panel-head{margin-bottom:16px;}
+  .panel-head h2{
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.3rem;margin:0 0 4px;color:var(--indigo-dark);
+  }
+  .panel-head p{margin:0;color:var(--ink-soft);font-size:.88rem;}
+
+  /* ---- Buttons ---- */
+  .btn{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:600;
+    border:none;
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:.92rem;
+    cursor:pointer;
+    display:inline-flex;align-items:center;gap:7px;
+    transition:transform .1s, filter .15s;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn:focus-visible{outline:2px solid var(--indigo-dark);outline-offset:2px;}
+  .btn-primary{background:var(--terracotta);color:#fff;box-shadow:0 3px 0 #8f421f;}
+  .btn-primary:hover{filter:brightness(1.05);}
+  .btn-outline{background:transparent;color:var(--indigo-dark);border:2px solid var(--indigo-dark);}
+  .btn-small{padding:7px 12px;font-size:.8rem;}
+  .btn-block{width:100%;justify-content:center;margin-top:10px;}
+
+  /* ---- Category grid (Samasya) ---- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .cat-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.15s;
+    position:relative;
+    font-family:inherit;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+    user-select:none;
+    width:100%;
+  }
+  .cat-card:active{transform:scale(.96);border-color:var(--terracotta);}
+  .cat-card:focus-visible{outline:2px solid var(--indigo-dark);outline-offset:2px;}
+  .cat-card:hover{border-color:var(--terracotta);transform:translateY(-2px);}
+  .cat-card.active{border-color:var(--terracotta);background:#FFF6EC;box-shadow:0 0 0 2px var(--terracotta) inset;}
+  .cat-card .icon{font-size:1.8rem;display:block;margin-bottom:6px;}
+  .cat-card .name{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:.85rem;color:var(--ink);}
+  .cat-card .count{
+    position:absolute;top:8px;right:8px;
+    background:var(--indigo);color:#fff;font-size:.68rem;font-weight:700;
+    border-radius:20px;padding:1px 7px;
+  }
+
+  .section-divider{
+    display:flex;align-items:center;gap:10px;margin:20px 0 12px;
+  }
+  .section-divider .line{flex:1;height:1px;background:var(--line);}
+  .section-divider .label{font-family:'Baloo 2',sans-serif;color:var(--indigo-dark);font-weight:700;font-size:1rem;}
+
+  /* ---- Complaint / item cards ---- */
+  .item-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin-bottom:12px;
+    display:flex;
+    gap:0;
+  }
+  .item-photo{
+    width:110px;flex:none;
+    background:var(--wall-dark) center/cover no-repeat;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);font-size:1.6rem;
+  }
+  .item-photo.has-photo{
+    cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .photo-lightbox{
+    position:fixed;inset:0;background:rgba(10,8,5,.9);
+    display:none;align-items:center;justify-content:center;
+    z-index:300;padding:20px;
+  }
+  .photo-lightbox.open{display:flex;}
+  .photo-lightbox img{
+    max-width:100%;max-height:100%;border-radius:10px;
+    box-shadow:0 8px 30px rgba(0,0,0,.5);
+  }
+  .photo-lightbox-close{
+    position:absolute;top:16px;right:20px;
+    background:rgba(255,255,255,.15);color:#fff;border:none;
+    width:38px;height:38px;border-radius:50%;font-size:1.2rem;cursor:pointer;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .item-body{padding:11px 13px;flex:1;min-width:0;}
+  .item-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;}
+  .item-cat{font-size:.72rem;font-weight:700;color:var(--terracotta);text-transform:uppercase;letter-spacing:.4px;}
+  .item-desc{margin:4px 0 6px;font-size:.92rem;line-height:1.4;color:var(--ink);word-break:break-word;}
+  .item-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+  .item-by{font-size:.76rem;color:var(--ink-soft);}
+  .status-pill{
+    font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;
+    font-family:'Baloo 2',sans-serif;flex:none;
+  }
+  .status-nayi{background:#FCE7D6;color:var(--terracotta);}
+  .status-progress{background:#FBF0D6;color:#8a6a10;}
+  .status-solved{background:#E4EEDC;color:var(--neem);}
+  .status-cycle{cursor:pointer;border:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  .empty-state{
+    text-align:center;padding:34px 16px;color:var(--ink-soft);
+    background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+  }
+  .empty-state .big{font-size:2rem;display:block;margin-bottom:8px;}
+
+  /* ---- Suchna (announcement) board ---- */
+  .board{
+    background:#8a6a3f;
+    background-image:
+      linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.08)),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 40px);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:16px;
+  }
+  .pin-note{
+    background:#FFF9E8;
+    border-radius:4px;
+    padding:14px 14px 12px;
+    margin-bottom:12px;
+    position:relative;
+    box-shadow:0 4px 8px rgba(0,0,0,.18);
+    transform:rotate(var(--tilt,-.6deg));
+  }
+  .pin-note:nth-child(even){--tilt:.6deg;}
+  .pin-note::before{
+    content:"";
+    position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#e7594a,#a3271c);
+    box-shadow:0 2px 3px rgba(0,0,0,.4);
+  }
+  .pin-note h3{margin:4px 0 4px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);}
+  .pin-note p{margin:0 0 6px;font-size:.88rem;line-height:1.45;color:var(--ink);}
+  .pin-note .meta{font-size:.72rem;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+  .pin-note-actions{display:flex;gap:8px;flex:none;}
+  .pin-note-actions button{
+    background:none;border:none;cursor:pointer;font-size:.85rem;
+    color:var(--ink-soft);padding:2px 4px;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .pin-note-actions button:hover{color:var(--terracotta);}
+
+  /* ---- Info cards (Gaon Jaankari) ---- */
+  .info-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;margin-bottom:12px;
+  }
+  .info-card h3{margin:0 0 8px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);display:flex;align-items:center;gap:8px;}
+  .info-card p{margin:0;font-size:.9rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;}
+  .contact-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem;}
+  .contact-row:last-child{border-bottom:none;}
+  .contact-row .who{font-weight:600;}
+  .contact-row .num{color:var(--terracotta);font-weight:700;}
+
+  /* ---- Yojana cards ---- */
+  .yojana-card{
+    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--neem);
+    border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;
+  }
+  .yojana-card h3{margin:0 0 5px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);}
+  .yojana-card p{margin:0 0 6px;font-size:.88rem;line-height:1.5;color:var(--ink);}
+  .yojana-card .apply{font-size:.78rem;color:var(--ink-soft);}
+
+  /* ---- Modal / form ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(20,15,10,.55);
+    display:none;align-items:flex-end;justify-content:center;z-index:100;
+  }
+  .overlay.open{display:flex;}
+  .sheet{
+    background:var(--wall);width:100%;max-width:900px;max-height:90vh;overflow-y:auto;
+    border-radius:18px 18px 0 0;padding:20px 18px 26px;
+    animation:slideUp .25s ease;
+  }
+  @keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .sheet h2{margin:0 0 14px;font-family:'Baloo 2',sans-serif;font-size:1.15rem;color:var(--indigo-dark);}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-soft);margin-bottom:5px;}
+  .field select, .field textarea, .field input[type=text]{
+    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;
+    font-family:'Noto Sans',sans-serif;font-size:.92rem;background:#fff;color:var(--ink);
+  }
+  .field textarea{min-height:80px;resize:vertical;}
+  .photo-input{
+    border:2px dashed var(--line);border-radius:10px;padding:16px;text-align:center;
+    cursor:pointer;background:#fff;color:var(--ink-soft);font-size:.85rem;
+  }
+  .photo-input input{display:none;}
+  .photo-preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;}
+  .sheet-actions{display:flex;gap:10px;margin-top:6px;}
+  .sheet-actions .btn{flex:1;}
+  .close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;color:var(--ink-soft);cursor:pointer;}
+  .sheet-wrap{position:relative;}
+
+  .fab{
+    position:fixed;bottom:20px;right:calc(50% - 450px + 20px);
+    background:var(--terracotta);color:#fff;border:none;border-radius:50px;
+    padding:13px 20px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.92rem;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;z-index:30;
+  }
+  @media (max-width:940px){.fab{right:20px;}}
+  .fab:active{transform:scale(.96);}
+
+  .toast{
+    position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+    background:var(--indigo-dark);color:#fff;padding:10px 20px;border-radius:30px;
+    font-size:.85rem;z-index:200;opacity:0;pointer-events:none;transition:.25s;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+
+  .loading-row{text-align:center;padding:30px;color:var(--ink-soft);font-size:.88rem;}
+
+  /* ---- Builder credit footer ---- */
+  .builder-footer{
+    margin:34px 16px 40px;
+    padding:26px 20px 30px;
+    background:linear-gradient(180deg,var(--indigo) 0%,var(--indigo-dark) 100%);
+    border-radius:18px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .builder-footer::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:5px;
+    background:repeating-linear-gradient(90deg,var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
+  }
+  .builder-photo{
+    width:78px;height:78px;border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--turmeric);
+    box-shadow:0 4px 14px rgba(0,0,0,.3);
+    margin:0 auto 12px;
+    display:block;
+  }
+  .builder-label{
+    font-size:.72rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#B9C6D1;
+    margin:0 0 4px;
+    font-weight:600;
+  }
+  .builder-name{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    color:#F3ECDD;
+    margin:0;
+  }
+  .builder-sub{
+    font-size:.78rem;
+    color:#9FB0BE;
+    margin:4px 0 0;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-mark">🏡</div>
+      <div class="brand-text">
+        <h1>Jagdishpur Gaon Portal</h1>
+        <p>Gaon ki awaaz, gaon ke liye</p>
+      </div>
+      <button class="install-btn" id="installBtn">📲 App Install Karein</button>
+    </div>
+    <div class="admin-row" id="adminRow">
+      <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>Samasya</button>
+    <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>Suchna Board</button>
+    <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>Gaon ki Jaankari</button>
+    <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>Sarkari Yojanaein</button>
+  </nav>
+
+  <main>
+
+    <!-- ===================== SAMASYA PANEL ===================== -->
+    <section class="panel active" id="panel-samasya">
+      <div class="panel-head">
+        <h2>Apni Samasya Batayein</h2>
+        <p>Category chunein aur photo ke saath samasya darj karein — sirf Gaon ke Pradhan hi ise dekh payenge.</p>
+      </div>
+
+      <div class="cat-grid" id="catGrid"></div>
+
+      <div id="samasyaListWrap">
+        <div class="loading-row">Load ho raha hai...</div>
+      </div>
+    </section>
+
+    <!-- ===================== SUCHNA PANEL ===================== -->
+    <section class="panel" id="panel-suchna">
+      <div class="panel-head">
+        <h2>Suchna Board</h2>
+        <p>Gaon ke liye zaruri suchnaein — meeting, camp, yojana ki taarikh aadi.</p>
+      </div>
+      <div class="board" id="suchnaBoard">
+        <div class="loading-row" style="color:#f3ecdd;">Suchnaein load ho rahi hain...</div>
+      </div>
+    </section>
+
+    <!-- ===================== JAANKARI PANEL ===================== -->
+    <section class="panel" id="panel-jaankari">
+      <div class="panel-head">
+        <h2>Gaon ki Jaankari</h2>
+        <p>Gaon ka itihaas, jansankhya aur zaruri contact numbers.</p>
+      </div>
+      <div id="jaankariWrap">
+        <div class="loading-row">Jaankari load ho rahi hai...</div>
+      </div>
+    </section>
+
+    <!-- ===================== YOJANA PANEL ===================== -->
+    <section class="panel" id="panel-yojana">
+      <div class="panel-head">
+        <h2>Sarkari Yojanaein</h2>
+        <p>Gaon walon ke liye upalabdh sarkari yojanaein aur apply karne ka tareeka.</p>
+      </div>
+      <div id="yojanaWrap">
+        <div class="loading-row">Yojanaein load ho rahi hain...</div>
+      </div>
+      <button class="btn btn-outline btn-block" id="addYojanaBtn">+ Nayi Yojana Jodein</button>
+    </section>
+
+  </main>
+
+  <div class="builder-footer">
+    <img class="builder-photo" src="/images/builder-photo.jpg" alt="Website Builder">
+    <p class="builder-label">Website Builder</p>
+    <p class="builder-name">Alok Kushwaha</p>
+    <p class="builder-sub">🏡 Hamara Gaon Portal ke liye bana kar diya gaya</p>
+  </div>
+
+  <button class="fab" id="mainFab">+ Naya Jodein</button>
+  <div class="toast" id="toast"></div>
+
+  <!-- ===================== SAMASYA FORM SHEET ===================== -->
+  <div class="overlay" id="overlaySamasya">
+    <div class="sheet">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlaySamasya">✕</button>
+        <h2>Nayi Samasya Darj Karein</h2>
+        <form id="formSamasya">
+          <div class="field">
+            <label>Category</label>
+            <select id="fCategory" required></select>
+          </div>
+          <div class="field">
+            <label>Samasya ka vivaran (description)</label>
+            <textarea id="fDesc" placeholder="Jaise: Ram Mandir wali gali me sadak 6 mahine se tooti hai..." required></textarea>
+          </div>
+          <div class="field">
+            <label>Photo (agar hai to)</label>
+            <label class="photo-input">
+              <span id="photoLabel">📷 Photo chunne ke liye tap karein</span>
+              <input type="file" accept="image/*" id="fPhoto">
+            </label>
+            <img class="photo-preview" id="photoPreview">
+          </div>
+          <div class="field">
+            <label>Aapka naam (optional)</label>
+            <input type="text" id="fName" placeholder="Naam likhein ya khali chodein">
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-outline" data-close="overlaySamasya">Radd Karein</button>
+            <button type="submit" class="btn btn-primary">Jama Karein</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SUCHNA FORM SHEET ===================== -->
+  <div class="overlay" id="overlaySuchna">
+    <div class="sheet">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlaySuchna">✕</button>
+        <h2>Nai Suchna Jodein</h2>
+        <form id="formSuchna">
+          <div class="field">
+            <label>Suchna ka title</label>
+            <input type="text" id="sTitle" placeholder="Jaise: Gram Sabha ki baithak" required>
+          </div>
+          <div class="field">
+            <label>Poora vivaran</label>
+            <textarea id="sText" placeholder="Tareekh, samay aur jagah likhein..." required></textarea>
+          </div>
+          <div class="field">
+            <label>Aapka naam (optional)</label>
+            <input type="text" id="sName" placeholder="Jaise: Pradhan ji">
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-outline" data-close="overlaySuchna">Radd Karein</button>
+            <button type="submit" class="btn btn-primary">Laga Dein</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== YOJANA FORM SHEET ===================== -->
+  <div class="overlay" id="overlayYojana">
+    <div class="sheet">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlayYojana">✕</button>
+        <h2>Nayi Yojana Jodein</h2>
+        <form id="formYojana">
+          <div class="field">
+            <label>Yojana ka naam</label>
+            <input type="text" id="yName" required>
+          </div>
+          <div class="field">
+            <label>Vivaran</label>
+            <textarea id="yDesc" required></textarea>
+          </div>
+          <div class="field">
+            <label>Apply kaise karein</label>
+            <input type="text" id="yApply" placeholder="Jaise: Block office me sampark karein">
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-outline" data-close="overlayYojana">Radd Karein</button>
+            <button type="submit" class="btn btn-primary">Jodein</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PRADHAN LOGIN SHEET ===================== -->
+  <div class="overlay" id="overlayAdmin">
+    <div class="sheet">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlayAdmin">✕</button>
+        <h2>🔐 Pradhan Login</h2>
+        <form id="formAdmin">
+          <div class="field">
+            <label>Password</label>
+            <input type="text" id="adminPassword" placeholder="Password daalein" autocomplete="off" required>
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-outline" data-close="overlayAdmin">Radd Karein</button>
+            <button type="submit" class="btn btn-primary">Login Karein</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PHOTO LIGHTBOX (full-size view) ===================== -->
+  <div class="photo-lightbox" id="photoLightbox">
+    <button class="photo-lightbox-close" id="photoLightboxClose">✕</button>
+    <img id="photoLightboxImg" src="" alt="Samasya photo">
+  </div>
+
+</div>
+
+<script>
+/* ============ Config ============ */
+const API = '/api';
+const CATEGORIES = [
+  {id:'sadak', name:'Sadak', icon:'🛣️'},
+  {id:'paani', name:'Paani', icon:'💧'},
+  {id:'bijli', name:'Bijli', icon:'💡'},
+  {id:'swasthya', name:'Swasthya', icon:'🏥'},
+  {id:'shiksha', name:'Shiksha', icon:'📚'},
+  {id:'safai', name:'Safai', icon:'🧹'},
+];
+const STATUS_CYCLE = ['nayi','progress','solved'];
+const STATUS_LABEL = {nayi:'Nayi', progress:'Progress me', solved:'Solve ho gayi'};
+
+let samasyaList = [];
+let suchnaList = [];
+let jaankari = null;
+let yojanaList = [];
+let activeCategory = null;
+let pendingPhotoBase64 = null;
+
+/* ============ Utilities ============ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function escapeHtml(str){
+  return (str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+function fmtDate(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('hi-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+
+/* ============ API helpers ============ */
+let adminKey = sessionStorage.getItem('adminKey') || null;
+
+async function apiGet(path, adminOnly){
+  try{
+    const opts = adminOnly ? { headers:{'x-admin-key': adminKey || ''} } : {};
+    const res = await fetch(API+path, opts);
+    if(res.status===401) return {unauthorized:true};
+    if(!res.ok) throw new Error('bad response');
+    return await res.json();
+  }catch(e){
+    console.error('GET failed', path, e);
+    toast('Server se data nahi mil paya ⚠️');
+    return null;
+  }
+}
+async function apiSend(method, path, body, adminOnly){
+  try{
+    const headers = {'Content-Type':'application/json'};
+    if(adminOnly) headers['x-admin-key'] = adminKey || '';
+    const res = await fetch(API+path, { method, headers, body: JSON.stringify(body) });
+    if(res.status===401) return {unauthorized:true};
+    if(!res.ok) throw new Error('bad response');
+    return await res.json();
+  }catch(e){
+    console.error(method+' failed', path, e);
+    toast('Server se connect nahi ho paaya ⚠️');
+    return null;
+  }
+}
+
+/* ============ Tabs ============ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    updateFab(btn.dataset.tab);
+  });
+});
+function updateFab(tab){
+  const fab = document.getElementById('mainFab');
+  if(tab==='samasya'){ fab.style.display='inline-flex'; fab.textContent='+ Samasya Jodein'; fab.onclick=()=>openSamasyaForm(); }
+  else if(tab==='suchna'){ fab.style.display='inline-flex'; fab.textContent='+ Suchna Jodein'; fab.onclick=()=>openOverlay('overlaySuchna'); }
+  else { fab.style.display='none'; }
+}
+updateFab('samasya');
+
+/* ============ Overlay helpers ============ */
+function openOverlay(id){ document.getElementById(id).classList.add('open'); }
+function closeOverlay(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(el=>{
+  el.addEventListener('click', ()=>closeOverlay(el.dataset.close));
+});
+document.querySelectorAll('.overlay').forEach(ov=>{
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) closeOverlay(ov.id); });
+});
+
+/* ============ SAMASYA (Problem reporting) ============ */
+function renderCatGrid(){
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = CATEGORIES.map(c=>{
+    const count = samasyaList.filter(s=>s.category===c.id).length;
+    return `<button type="button" class="cat-card ${activeCategory===c.id?'active':''}" data-cat="${c.id}">
+      ${(adminKey && count)?`<span class="count">${count}</span>`:''}
+      <span class="icon">${c.icon}</span>
+      <span class="name">${c.name}</span>
+    </button>`;
+  }).join('') + `<button type="button" class="cat-card ${activeCategory===null?'active':''}" data-cat="all">
+      <span class="icon">🗂️</span><span class="name">Sabhi</span>
+    </button>`;
+}
+// Event delegation: one listener on the grid itself, so clicks always work
+// even after renderCatGrid() rebuilds the buttons inside it.
+document.getElementById('catGrid').addEventListener('click', (e)=>{
+  const card = e.target.closest('.cat-card');
+  if(!card) return;
+  activeCategory = card.dataset.cat==='all' ? null : card.dataset.cat;
+  renderCatGrid();
+  renderSamasyaList();
+});
+
+function renderSamasyaList(){
+  const wrap = document.getElementById('samasyaListWrap');
+
+  if(!adminKey){
+    wrap.innerHTML = `<div class="locked-notice">
+      <span class="big">🔒</span>
+      <p>Aapki samasya safaltapoorvak darj ho jaayegi.</p>
+      <p class="small">Samasyaon ki list sirf Gaon ke Pradhan hi (login karke) dekh sakte hain.</p>
+    </div>`;
+    return;
+  }
+
+  let list = samasyaList.slice().sort((a,b)=>b.date-a.date);
+  if(activeCategory) list = list.filter(s=>s.category===activeCategory);
+
+  if(list.length===0){
+    wrap.innerHTML = `<div class="empty-state"><span class="big">🌾</span>Abhi is category me koi samasya darj nahi hai.</div>`;
+    return;
+  }
+
+  // group by category for a clear sectioned view when "Sabhi" selected
+  if(activeCategory===null){
+    wrap.innerHTML = CATEGORIES.map(c=>{
+      const items = list.filter(s=>s.category===c.id);
+      if(items.length===0) return '';
+      return `<div class="section-divider"><span class="line"></span><span class="label">${c.icon} ${c.name}</span><span class="line"></span></div>`
+        + items.map(renderItemCard).join('');
+    }).join('');
+  } else {
+    wrap.innerHTML = list.map(renderItemCard).join('');
+  }
+}
+// Event delegation: one listener on the list container, works even after
+// renderSamasyaList() rebuilds the cards inside it.
+document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>{
+  const photoEl = e.target.closest('.item-photo.has-photo');
+  if(photoEl){
+    const item = samasyaList.find(s=>s.id===photoEl.dataset.photoId);
+    if(item && item.photo){
+      document.getElementById('photoLightboxImg').src = item.photo;
+      document.getElementById('photoLightbox').classList.add('open');
+    }
+    return;
+  }
+  const btn = e.target.closest('.status-cycle');
+  if(!btn) return;
+  const id = btn.dataset.id;
+  const item = samasyaList.find(s=>s.id===id);
+  if(!item) return;
+  const idx = STATUS_CYCLE.indexOf(item.status);
+  const newStatus = STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+  const updated = await apiSend('PATCH', '/samasya/'+id, {status:newStatus}, true);
+  if(updated && updated.unauthorized){ adminLogout(); return; }
+  if(updated) item.status = updated.status;
+  renderCatGrid();
+  renderSamasyaList();
+});
+
+function closeLightbox(){
+  document.getElementById('photoLightbox').classList.remove('open');
+  document.getElementById('photoLightboxImg').src = '';
+}
+document.getElementById('photoLightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('photoLightbox').addEventListener('click', (e)=>{
+  if(e.target.id==='photoLightbox') closeLightbox();
+});
+
+function renderItemCard(s){
+  const cat = CATEGORIES.find(c=>c.id===s.category);
+  const photoStyle = s.photo ? `background-image:url('${s.photo}')` : '';
+  return `<div class="item-card">
+    <div class="item-photo ${s.photo?'has-photo':''}" style="${photoStyle}" ${s.photo?`data-photo-id="${s.id}"`:''}>${s.photo?'':(cat?cat.icon:'📷')}</div>
+    <div class="item-body">
+      <div class="item-top">
+        <span class="item-cat">${cat?cat.icon+' '+cat.name:''}</span>
+        <button class="status-pill status-cycle status-${s.status}" data-id="${s.id}">${STATUS_LABEL[s.status]}</button>
+      </div>
+      <p class="item-desc">${escapeHtml(s.desc)}</p>
+      <div class="item-meta">
+        <span class="item-by">${escapeHtml(s.name||'Gaon wasi')} · ${fmtDate(s.date)}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openSamasyaForm(){
+  const sel = document.getElementById('fCategory');
+  sel.innerHTML = CATEGORIES.map(c=>`<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+  if(activeCategory) sel.value = activeCategory;
+  document.getElementById('fDesc').value='';
+  document.getElementById('fName').value='';
+  document.getElementById('fPhoto').value='';
+  document.getElementById('photoLabel').textContent='📷 Photo chunne ke liye tap karein';
+  document.getElementById('photoPreview').style.display='none';
+  pendingPhotoBase64 = null;
+  openOverlay('overlaySamasya');
+}
+document.getElementById('fPhoto').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    // compress via canvas
+    const img = new Image();
+    img.onload = ()=>{
+      const maxW = 640;
+      const scale = Math.min(1, maxW/img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width*scale;
+      canvas.height = img.height*scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      pendingPhotoBase64 = canvas.toDataURL('image/jpeg',0.7);
+      document.getElementById('photoPreview').src = pendingPhotoBase64;
+      document.getElementById('photoPreview').style.display='block';
+      document.getElementById('photoLabel').textContent='✅ Photo chun li gayi';
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+document.getElementById('formSamasya').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = {
+    category: document.getElementById('fCategory').value,
+    desc: document.getElementById('fDesc').value.trim(),
+    name: document.getElementById('fName').value.trim(),
+    photo: pendingPhotoBase64
+  };
+  const result = await apiSend('POST', '/samasya', payload);
+  if(!result || !result.ok) return;
+  closeOverlay('overlaySamasya');
+  // agar Pradhan hi login hoke bhar rahe hain, to list turant refresh kar dein
+  if(adminKey) await loadSamasyaList();
+  toast('Samasya darj ho gayi ✅ Pradhan tak pahunch jaayegi');
+});
+
+/* ============ SUCHNA (Announcements) ============ */
+function renderSuchna(){
+  const board = document.getElementById('suchnaBoard');
+  if(suchnaList.length===0){
+    board.innerHTML = `<div class="empty-state" style="background:#FFF9E8;">📌 Abhi koi suchna nahi hai.<br>Pehli suchna aap lagayein.</div>`;
+    return;
+  }
+  const sorted = suchnaList.slice().sort((a,b)=>b.date-a.date);
+  board.innerHTML = sorted.map(s=>`
+    <div class="pin-note">
+      <h3>${escapeHtml(s.title)}</h3>
+      <p>${escapeHtml(s.text)}</p>
+      <div class="meta">
+        <span>${escapeHtml(s.name||'Gaon prashasan')} · ${fmtDate(s.date)}</span>
+        ${adminKey ? `<span class="pin-note-actions">
+          <button type="button" data-edit="${s.id}">✏️ Edit</button>
+          <button type="button" data-delete="${s.id}">🗑️ Hataayein</button>
+        </span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+document.getElementById('suchnaBoard').addEventListener('click', async (e)=>{
+  const editBtn = e.target.closest('[data-edit]');
+  if(editBtn){
+    const item = suchnaList.find(s=>s.id===editBtn.dataset.edit);
+    if(!item) return;
+    const title = prompt('Suchna ka title:', item.title);
+    if(title===null) return;
+    const text = prompt('Poora vivaran:', item.text);
+    if(text===null) return;
+    const updated = await apiSend('PUT', '/suchna/'+item.id, {title, text}, true);
+    if(updated && updated.unauthorized){ adminLogout(); return; }
+    if(!updated) return;
+    item.title = updated.title; item.text = updated.text;
+    renderSuchna();
+    toast('Suchna update ho gayi ✅');
+    return;
+  }
+  const delBtn = e.target.closest('[data-delete]');
+  if(delBtn){
+    if(!confirm('Kya aap sach me ye suchna hataana chahte hain?')) return;
+    const result = await apiSend('DELETE', '/suchna/'+delBtn.dataset.delete, {}, true);
+    if(result && result.unauthorized){ adminLogout(); return; }
+    if(!result) return;
+    suchnaList = suchnaList.filter(s=>s.id!==delBtn.dataset.delete);
+    renderSuchna();
+    toast('Suchna hata di gayi ✅');
+  }
+});
+document.getElementById('formSuchna').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = {
+    title: document.getElementById('sTitle').value.trim(),
+    text: document.getElementById('sText').value.trim(),
+    name: document.getElementById('sName').value.trim()
+  };
+  const item = await apiSend('POST', '/suchna', payload);
+  if(!item) return;
+  suchnaList.push(item);
+  document.getElementById('formSuchna').reset();
+  closeOverlay('overlaySuchna');
+  renderSuchna();
+  toast('Suchna board par laga di gayi ✅');
+});
+
+/* ============ GAON KI JAANKARI ============ */
+const DEFAULT_JAANKARI = {
+  history: "Yahan gaon ka itihaas likhein — gaon kab basa, kya khaasiyat hai, kaunse tyohar manaye jaate hain.",
+  population: "Jansankhya yahan darj karein.",
+  contacts: [
+    {who:'Pradhan / Sarpanch', num:'—'},
+    {who:'Doctor / Swasthya Kendra', num:'—'},
+    {who:'Police Station', num:'100'},
+    {who:'Bijli Vibhag', num:'—'},
+    {who:'School', num:'—'},
+  ]
+};
+function renderJaankari(){
+  const wrap = document.getElementById('jaankariWrap');
+  const j = jaankari || DEFAULT_JAANKARI;
+  wrap.innerHTML = `
+    <div class="info-card">
+      <h3>📖 Gaon ka Itihaas</h3>
+      <p>${escapeHtml(j.history)}</p>
+    </div>
+    <div class="info-card">
+      <h3>👥 Jansankhya</h3>
+      <p>${escapeHtml(j.population)}</p>
+    </div>
+    <div class="info-card">
+      <h3>☎️ Zaruri Contacts</h3>
+      ${j.contacts.map(c=>`<div class="contact-row"><span class="who">${escapeHtml(c.who)}</span><span class="num">${escapeHtml(c.num)}</span></div>`).join('')}
+    </div>
+    <button class="btn btn-outline btn-block" id="editJaankariBtn">✏️ Jaankari Edit Karein</button>
+  `;
+  document.getElementById('editJaankariBtn').addEventListener('click', editJaankari);
+}
+async function editJaankari(){
+  const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
+  const history = prompt('Gaon ka itihaas:', j.history);
+  if(history===null) return;
+  const population = prompt('Jansankhya:', j.population);
+  if(population===null) return;
+  const updated = await apiSend('PUT', '/jaankari', {history, population});
+  if(!updated) return;
+  jaankari = updated;
+  renderJaankari();
+  toast('Jaankari update ho gayi ✅');
+}
+
+/* ============ SARKARI YOJANAEIN ============ */
+const DEFAULT_YOJANA = [
+  {id:'y1', name:'PM Awas Yojana', desc:'Gareeb parivaron ke liye pakka ghar banane ke liye sarkari sahayata.', apply:'Gram Panchayat ya CSC center me sampark karein.'},
+  {id:'y2', name:'Ration Card', desc:'Sasti dar par anaaj paane ke liye ration card banwayein.', apply:'Block ke khadya vibhag karyalay me aavedan karein.'},
+];
+function renderYojana(){
+  const wrap = document.getElementById('yojanaWrap');
+  const list = yojanaList.length ? yojanaList : DEFAULT_YOJANA;
+  wrap.innerHTML = list.map(y=>`
+    <div class="yojana-card">
+      <h3>${escapeHtml(y.name)}</h3>
+      <p>${escapeHtml(y.desc)}</p>
+      <div class="apply">📍 Apply: ${escapeHtml(y.apply)}</div>
+    </div>
+  `).join('');
+}
+document.getElementById('addYojanaBtn').addEventListener('click', ()=>openOverlay('overlayYojana'));
+document.getElementById('formYojana').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = {
+    name: document.getElementById('yName').value.trim(),
+    desc: document.getElementById('yDesc').value.trim(),
+    apply: document.getElementById('yApply').value.trim() || 'Panchayat karyalay me sampark karein.'
+  };
+  const item = await apiSend('POST', '/yojana', payload);
+  if(!item) return;
+  yojanaList.push(item);
+  document.getElementById('formYojana').reset();
+  closeOverlay('overlayYojana');
+  renderYojana();
+  toast('Yojana jud gayi ✅');
+});
+
+/* ============ PRADHAN LOGIN / LOGOUT ============ */
+function updateAdminButton(){
+  const btn = document.getElementById('adminLoginBtn');
+  if(adminKey){
+    btn.textContent = '🔓 Pradhan Mode — Logout';
+    btn.classList.add('logged-in');
+  } else {
+    btn.textContent = '🔐 Pradhan Login';
+    btn.classList.remove('logged-in');
+  }
+}
+function adminLogout(){
+  adminKey = null;
+  sessionStorage.removeItem('adminKey');
+  samasyaList = [];
+  activeCategory = null;
+  updateAdminButton();
+  renderCatGrid();
+  renderSamasyaList();
+  toast('Logout ho gaya');
+}
+async function loadSamasyaList(){
+  const res = await apiGet('/samasya', true);
+  if(res && res.unauthorized){ adminLogout(); return; }
+  samasyaList = res || [];
+  renderCatGrid();
+  renderSamasyaList();
+}
+document.getElementById('adminLoginBtn').addEventListener('click', ()=>{
+  if(adminKey){ adminLogout(); }
+  else { document.getElementById('adminPassword').value=''; openOverlay('overlayAdmin'); }
+});
+document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const password = document.getElementById('adminPassword').value;
+  const result = await apiSend('POST', '/admin/login', {password});
+  if(result && result.ok){
+    adminKey = password;
+    sessionStorage.setItem('adminKey', password);
+    closeOverlay('overlayAdmin');
+    updateAdminButton();
+    await loadSamasyaList();
+    toast('Pradhan ke roop me login ho gaya ✅');
+  } else {
+    toast('Galat password ⚠️');
+  }
+});
+
+/* ============ Init ============ */
+async function init(){
+  updateAdminButton();
+  const [su, j, y] = await Promise.all([
+    apiGet('/suchna'),
+    apiGet('/jaankari'),
+    apiGet('/yojana')
+  ]);
+  suchnaList = su || [];
+  jaankari = j || null;
+  yojanaList = y || [];
+
+  renderCatGrid();
+  renderSamasyaList();
+  renderSuchna();
+  renderJaankari();
+  renderYojana();
+
+  if(adminKey) await loadSamasyaList();
+}
+init();
+
+/* ============ PWA: Service worker + Install prompt ============ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.error('SW register failed', err));
+  });
+}
+
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  installBtn.classList.add('show');
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === 'accepted') toast('App install ho rahi hai ✅');
+  deferredInstallPrompt = null;
+  installBtn.classList.remove('show');
+});
+
+window.addEventListener('appinstalled', () => {
+  installBtn.classList.remove('show');
+  toast('App install ho gayi! 🎉');
+});
+</script>
+</body>
+</html>
