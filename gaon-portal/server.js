@@ -70,6 +70,17 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Database readiness check middleware
+app.use('/api', (req, res, next) => {
+    if (req.path === '/admin/login') return next();
+    if (!db) {
+        return res.status(503).json({
+            error: 'Database se connection ban raha hai, kripya 5 second baad dobara koshish karein.'
+        });
+    }
+    next();
+});
+
 // ===== DEFAULT DATA =====
 
 const DEFAULT_JAANKARI = {
@@ -461,8 +472,16 @@ app.post('/api/admin/login', (req, res) => {
 // START SERVER + CONNECT MONGODB
 // =====================================================
 
-async function startServer() {
+// Pehle web server start karein taaki Render port detect kar sake aur deploy turant pass ho
+app.listen(PORT, () => {
+    console.log(
+        `✅ Hamara Gaon Portal chal raha hai: http://localhost:${PORT}`
+    );
+});
+
+async function connectDB() {
     try {
+        console.log('🔄 Connecting to MongoDB Atlas...');
         await client.connect();
 
         db = client.db('gaonportal');
@@ -473,17 +492,12 @@ async function startServer() {
         yojanaCollection = db.collection('yojana');
 
         console.log('✅ MongoDB connected successfully');
-
-        app.listen(PORT, () => {
-            console.log(
-                `✅ Hamara Gaon Portal chal raha hai: http://localhost:${PORT}`
-            );
-        });
     } catch (error) {
-        console.error('❌ MongoDB connection failed:');
-        console.error(error);
-        process.exit(1);
+        console.error('❌ MongoDB connection failed:', error.message || error);
+        console.log('⚠️ Kripya check karein ki MongoDB Atlas Network Access me 0.0.0.0/0 allowed hai ya nahi.');
+        // 5 second baad dobara koshish karein
+        setTimeout(connectDB, 5000);
     }
 }
 
-startServer();
+connectDB();
