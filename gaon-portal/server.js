@@ -11,12 +11,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ===== MONGODB =====
-const MONGODB_URI = process.env.MONGODB_URI;
+let MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
     console.error('❌ MONGODB_URI .env file me nahi mila');
     process.exit(1);
 }
+
+// Clean up: agar galti se MONGODB_URI= ya quotes ya spaces paste ho gaye hon
+MONGODB_URI = MONGODB_URI.trim();
+if (MONGODB_URI.startsWith('MONGODB_URI=')) {
+    MONGODB_URI = MONGODB_URI.slice('MONGODB_URI='.length).trim();
+}
+MONGODB_URI = MONGODB_URI.replace(/^["']|["']$/g, '').trim();
 
 const client = new MongoClient(MONGODB_URI);
 
