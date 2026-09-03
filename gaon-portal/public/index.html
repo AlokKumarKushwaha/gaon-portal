@@ -248,6 +248,14 @@
   .item-desc{margin:4px 0 6px;font-size:.92rem;line-height:1.4;color:var(--ink);word-break:break-word;}
   .item-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
   .item-by{font-size:.76rem;color:var(--ink-soft);}
+  .btn-delete-samasya{
+    background:none;border:none;cursor:pointer;font-size:.78rem;font-weight:600;
+    color:var(--terracotta);padding:2px 8px;border-radius:6px;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+    display:inline-flex;align-items:center;gap:4px;
+    transition:background .15s, color .15s;
+  }
+  .btn-delete-samasya:hover{background:#FCE7D6;}
   .status-pill{
     font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;
     font-family:'Baloo 2',sans-serif;flex:none;
@@ -784,6 +792,20 @@ document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>
     }
     return;
   }
+  const delBtn = e.target.closest('[data-delete-samasya]');
+  if(delBtn){
+    const id = delBtn.dataset.deleteSamasya;
+    if(!confirm('Kya aap sach me is samasya ko delete karna chahte hain?')) return;
+    const res = await apiSend('DELETE', '/samasya/'+id, {}, true);
+    if(res && res.unauthorized){ adminLogout(); return; }
+    if(res && res.ok){
+      samasyaList = samasyaList.filter(s=>s.id!==id);
+      renderCatGrid();
+      renderSamasyaList();
+      toast('Samasya hata di gayi ✅');
+    }
+    return;
+  }
   const btn = e.target.closest('.status-cycle');
   if(!btn) return;
   const id = btn.dataset.id;
@@ -820,6 +842,7 @@ function renderItemCard(s){
       <p class="item-desc">${escapeHtml(s.desc)}</p>
       <div class="item-meta">
         <span class="item-by">${escapeHtml(s.name||'Gaon wasi')} · ${fmtDate(s.date)}</span>
+        <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="Ye samasya hataayein">🗑️ Hataayein</button>
       </div>
     </div>
   </div>`;
