@@ -634,6 +634,36 @@
     </div>
   </div>
 
+  <!-- ===================== DELETE CHAUPAL MODAL (Delete for me / Delete for everyone) ===================== -->
+  <div class="overlay" id="overlayDeleteChaupal">
+    <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlayDeleteChaupal">✕</button>
+        <div style="font-size:2.2rem; margin-bottom:6px;">🗑️</div>
+        <h2 style="margin:0 0 6px; font-size:1.15rem; color:var(--indigo-dark);">पोस्ट हटाएं (Delete Post)</h2>
+        <p style="color:var(--ink-soft); font-size:.88rem; margin:0 0 18px; line-height:1.4;">
+          आप इस पोस्ट को कैसे हटाना चाहते हैं?
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button type="button" class="btn btn-primary btn-block" id="btnDeleteEveryone" style="background:var(--terracotta); border:none; padding:12px 14px; font-size:.9rem;">
+            🌐 सभी के लिए हटाएं (Delete for Everyone)
+          </button>
+          <button type="button" class="btn btn-outline btn-block" id="btnDeleteForMe" style="padding:12px 14px; font-size:.9rem;">
+            📱 सिर्फ मेरे लिए हटाएं (Delete for Me)
+          </button>
+          <button type="button" class="btn btn-outline btn-block" data-close="overlayDeleteChaupal" style="border:none; color:var(--ink-soft); padding:8px; font-size:.85rem;">
+            रद्द करें (Cancel)
+          </button>
+        </div>
+
+        <p id="deleteEveryoneNote" style="font-size:.76rem; color:var(--ink-soft); margin-top:14px; margin-bottom:0; display:none; background:#FAF3E3; padding:8px; border-radius:8px;">
+          ℹ️ <em>"सभी के लिए हटाएं" सिर्फ अपनी पोस्ट या प्रधान जी के लिए उपलब्ध है।</em>
+        </p>
+      </div>
+    </div>
+  </div>
+
   <!-- ===================== SAMASYA FORM SHEET ===================== -->
   <div class="overlay" id="overlaySamasya">
     <div class="sheet">
@@ -820,12 +850,18 @@ async function apiGet(path, adminOnly){
     return null;
   }
 }
-async function apiSend(method, path, body, adminOnly){
+async function apiSend(method, path, body, adminOnly, extraHeaders){
   try{
     const headers = {'Content-Type':'application/json'};
     if(adminOnly) headers['x-admin-key'] = adminKey || '';
+    if(extraHeaders) Object.assign(headers, extraHeaders);
     const res = await fetch(API+path, { method, headers, body: JSON.stringify(body) });
     if(res.status===401) return {unauthorized:true};
+    if(res.status===403){
+      const err = await res.json().catch(()=>({}));
+      toast(err.error || 'Ise karne ki anumati nahi hai ⚠️');
+      return null;
+    }
     if(!res.ok) throw new Error('bad response');
     return await res.json();
   }catch(e){
@@ -1133,11 +1169,13 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   submitBtn.disabled = true;
   submitBtn.textContent = 'Post ho raha hai...';
 
+  const myAuthorKey = uid();
   const payload = {
     name: name || 'Gaon wasi',
     text,
     media: pendingChaupalMedia,
-    mediaType: pendingChaupalMediaType
+    mediaType: pendingChaupalMediaType,
+    authorKey: myAuthorKey
   };
 
   const item = await apiSend('POST', '/chaupal', payload);
@@ -1146,6 +1184,7 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
 
   if(!item) return;
 
+  saveMyChaupalPost(item.id, myAuthorKey);
   chaupalList.unshift(item);
   closeOverlay('overlayChaupal');
   resetChaupalMedia();
@@ -1153,9 +1192,39 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
 });
 
+function getMyChaupalPosts(){
+  try{
+    return JSON.parse(localStorage.getItem('my_chaupal_posts') || '{}');
+  }catch(e){ return {}; }
+}
+function saveMyChaupalPost(id, authorKey){
+  const posts = getMyChaupalPosts();
+  posts[id] = authorKey;
+  localStorage.setItem('my_chaupal_posts', JSON.stringify(posts));
+}
+function getHiddenChaupalPosts(){
+  try{
+    return JSON.parse(localStorage.getItem('hidden_chaupal_posts') || '[]');
+  }catch(e){ return []; }
+}
+function hideChaupalPostForMe(id){
+  const hidden = getHiddenChaupalPosts();
+  if(!hidden.includes(id)){
+    hidden.push(id);
+    localStorage.setItem('hidden_chaupal_posts', JSON.stringify(hidden));
+  }
+  renderChaupal();
+  toast('Post सिर्फ आपके स्क्रीन से हटा दी गई ✅');
+}
+
+let activeDeletePostId = null;
+
 function renderChaupal(){
   const feed = document.getElementById('chaupalFeed');
-  if(!chaupalList || chaupalList.length === 0){
+  const hiddenPosts = getHiddenChaupalPosts();
+  const visibleList = (chaupalList || []).filter(p => !hiddenPosts.includes(p.id));
+
+  if(visibleList.length === 0){
     feed.innerHTML = `<div class="empty-state">
       <span class="big">🗣️</span>
       चौपाल पर अभी कोई पोस्ट नहीं है.<br>गाँव के लिए पहला संदेश, फ़ोटो या वीडियो आप साझा करें!
@@ -1163,7 +1232,7 @@ function renderChaupal(){
     return;
   }
 
-  feed.innerHTML = chaupalList.map(p=>{
+  feed.innerHTML = visibleList.map(p=>{
     const initial = (p.name && p.name.trim()[0]) ? p.name.trim()[0].toUpperCase() : 'G';
     const isLiked = localStorage.getItem('liked_chaupal_'+p.id);
 
@@ -1194,9 +1263,9 @@ function renderChaupal(){
         <button type="button" class="chaupal-action-btn share-btn" data-share-chaupal="${p.id}">
           <span>📲</span> WhatsApp Share
         </button>
-        ${adminKey ? `<button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="Ye post hataayein">
+        <button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="Ye post hataayein">
           <span>🗑️</span> Hataayein
-        </button>` : ''}
+        </button>
       </div>
     </div>`;
   }).join('');
@@ -1245,15 +1314,54 @@ document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
   const delBtn = e.target.closest('[data-delete-chaupal]');
   if(delBtn){
     const id = delBtn.dataset.deleteChaupal;
-    if(!confirm('Kya aap sach me is chaupal post ko delete karna chahte hain?')) return;
-    const res = await apiSend('DELETE', '/chaupal/'+id, {}, true);
-    if(res && res.unauthorized){ adminLogout(); return; }
-    if(res && res.ok){
-      chaupalList = chaupalList.filter(p=>p.id!==id);
-      renderChaupal();
-      toast('Post hata di gayi ✅');
+    activeDeletePostId = id;
+    const myPosts = getMyChaupalPosts();
+    const isMyPost = Boolean(myPosts[id]);
+    const isAdmin = Boolean(adminKey);
+
+    const btnEveryone = document.getElementById('btnDeleteEveryone');
+    const noteEveryone = document.getElementById('deleteEveryoneNote');
+
+    if(isMyPost || isAdmin){
+      btnEveryone.style.display = 'block';
+      noteEveryone.style.display = 'none';
+    } else {
+      btnEveryone.style.display = 'none';
+      noteEveryone.style.display = 'block';
     }
+
+    openOverlay('overlayDeleteChaupal');
   }
+});
+
+// Delete for Everyone button
+document.getElementById('btnDeleteEveryone').addEventListener('click', async ()=>{
+  if(!activeDeletePostId) return;
+  const id = activeDeletePostId;
+  const myPosts = getMyChaupalPosts();
+  const authorKey = myPosts[id] || '';
+
+  closeOverlay('overlayDeleteChaupal');
+
+  const extraHeaders = authorKey ? { 'x-author-key': authorKey } : {};
+  const res = await apiSend('DELETE', '/chaupal/'+id, {}, Boolean(adminKey), extraHeaders);
+
+  if(res && res.unauthorized){ adminLogout(); return; }
+  if(res && res.ok){
+    chaupalList = chaupalList.filter(p=>p.id!==id);
+    delete myPosts[id];
+    localStorage.setItem('my_chaupal_posts', JSON.stringify(myPosts));
+    renderChaupal();
+    toast('Post सभी के लिए हटा दी गई ✅');
+  }
+});
+
+// Delete for Me button
+document.getElementById('btnDeleteForMe').addEventListener('click', ()=>{
+  if(!activeDeletePostId) return;
+  const id = activeDeletePostId;
+  closeOverlay('overlayDeleteChaupal');
+  hideChaupalPostForMe(id);
 });
 
 /* ============ SUCHNA (Announcements) ============ */

@@ -486,12 +486,14 @@ app.post('/api/chaupal', async(req, res) => {
             });
         }
 
+        const authorKey = req.body.authorKey || uid();
         const item = {
             id: uid(),
             name: (name && name.trim()) || 'Gaon wasi',
             text: (text && text.trim()) || '',
             media: media || null,
             mediaType: mediaType || (media ? 'photo' : null),
+            authorKey,
             likes: 0,
             date: Date.now()
         };
@@ -530,12 +532,28 @@ app.post('/api/chaupal/:id/like', async(req, res) => {
     }
 });
 
-// Sirf Pradhan post delete kar sakte hain
-app.delete('/api/chaupal/:id', requireAdmin, async(req, res) => {
+// Post delete karein: Pradhan ya Post karne wala vyakti (author)
+app.delete('/api/chaupal/:id', async(req, res) => {
     try {
-        await chaupalCollection.deleteOne({
-            id: req.params.id
-        });
+        const id = req.params.id;
+        const post = await chaupalCollection.findOne({ id });
+        if (!post) {
+            return res.status(404).json({ error: 'Post nahi mili' });
+        }
+
+        const adminKey = req.headers['x-admin-key'];
+        const authorKey = req.headers['x-author-key'];
+
+        const isAdmin = adminKey && adminKey === ADMIN_PASSWORD;
+        const isAuthor = authorKey && (post.authorKey === authorKey);
+
+        if (!isAdmin && !isAuthor) {
+            return res.status(403).json({
+                error: 'Sirf post karne wale ya Pradhan ji hi sabhi ke liye delete kar sakte hain'
+            });
+        }
+
+        await chaupalCollection.deleteOne({ id });
 
         res.json({ ok: true });
     } catch (error) {
