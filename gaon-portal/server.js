@@ -51,7 +51,8 @@ function requireAdmin(req, res, next) {
 }
 
 app.use(cors());
-app.use(express.json({ limit: '15mb' }));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ limit: '25mb', extended: true }));
 
 // Browser cache control
 app.use((req, res, next) => {

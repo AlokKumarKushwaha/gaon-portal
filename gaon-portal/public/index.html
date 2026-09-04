@@ -837,6 +837,9 @@ function fmtTimeAgo(ts){
   if(days < 7) return `${days} din pehle`;
   return fmtDate(ts);
 }
+function uid(){
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
 
 /* ============ API helpers ============ */
 let adminKey = sessionStorage.getItem('adminKey') || null;
@@ -1189,29 +1192,34 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   submitBtn.disabled = true;
   submitBtn.textContent = 'Post ho raha hai...';
 
-  const myAuthorKey = uid();
-  const payload = {
-    name: name || 'Gaon wasi',
-    text,
-    link: link || null,
-    media: pendingChaupalMedia,
-    mediaType: pendingChaupalMediaType,
-    authorKey: myAuthorKey
-  };
+  try {
+    const myAuthorKey = uid();
+    const payload = {
+      name: name || 'Gaon wasi',
+      text,
+      link: link || null,
+      media: pendingChaupalMedia,
+      mediaType: pendingChaupalMediaType,
+      authorKey: myAuthorKey
+    };
 
-  const item = await apiSend('POST', '/chaupal', payload);
-  submitBtn.disabled = false;
-  submitBtn.textContent = 'Post Karein';
-
-  if(!item) return;
-
-  saveMyChaupalPost(item.id, myAuthorKey);
-  chaupalList.unshift(item);
-  closeOverlay('overlayChaupal');
-  resetChaupalMedia();
-  document.getElementById('cLink').value = '';
-  renderChaupal();
-  toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
+    const item = await apiSend('POST', '/chaupal', payload);
+    if(item){
+      saveMyChaupalPost(item.id, myAuthorKey);
+      chaupalList.unshift(item);
+      closeOverlay('overlayChaupal');
+      resetChaupalMedia();
+      document.getElementById('cLink').value = '';
+      renderChaupal();
+      toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
+    }
+  } catch(err) {
+    console.error('Post failed', err);
+    toast('Post nahi ho paaya, kripya dobara koshish karein ⚠️');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Post Karein';
+  }
 });
 
 function getMyChaupalPosts(){
