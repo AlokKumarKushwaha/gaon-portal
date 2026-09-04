@@ -32,6 +32,7 @@ let samasyaCollection;
 let suchnaCollection;
 let jaankariCollection;
 let yojanaCollection;
+let chaupalCollection;
 
 // ===== PRADHAN (ADMIN) LOGIN =====
 const ADMIN_PASSWORD =
@@ -453,6 +454,99 @@ app.delete('/api/yojana/:id', async(req, res) => {
 });
 
 // =====================================================
+// CHAUPAL (Community Social Feed)
+// =====================================================
+
+// Sabhi chaupal posts laayein (date ke hisaab se descending)
+app.get('/api/chaupal', async(req, res) => {
+    try {
+        const data = await chaupalCollection
+            .find({})
+            .sort({ date: -1 })
+            .limit(100)
+            .toArray();
+
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Chaupal posts load nahi ho paaye'
+        });
+    }
+});
+
+// Naya post jodein (koi bhi gaon wasi post kar sakta hai)
+app.post('/api/chaupal', async(req, res) => {
+    try {
+        const { name, text, media, mediaType } = req.body;
+
+        if (!text && !media) {
+            return res.status(400).json({
+                error: 'Kripya sandesh likhein ya photo/video chunein'
+            });
+        }
+
+        const item = {
+            id: uid(),
+            name: (name && name.trim()) || 'Gaon wasi',
+            text: (text && text.trim()) || '',
+            media: media || null,
+            mediaType: mediaType || (media ? 'photo' : null),
+            likes: 0,
+            date: Date.now()
+        };
+
+        await chaupalCollection.insertOne(item);
+
+        res.json(item);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Chaupal post save nahi ho paayi'
+        });
+    }
+});
+
+// Post par Like badhayein
+app.post('/api/chaupal/:id/like', async(req, res) => {
+    try {
+        const result = await chaupalCollection.findOneAndUpdate(
+            { id: req.params.id },
+            { $inc: { likes: 1 } },
+            { returnDocument: 'after' }
+        );
+
+        if (!result) {
+            return res.status(404).json({ error: 'Post nahi mili' });
+        }
+
+        const likesCount = result.value ? result.value.likes : result.likes;
+        res.json({ ok: true, likes: likesCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Like nahi ho paaya'
+        });
+    }
+});
+
+// Sirf Pradhan post delete kar sakte hain
+app.delete('/api/chaupal/:id', requireAdmin, async(req, res) => {
+    try {
+        await chaupalCollection.deleteOne({
+            id: req.params.id
+        });
+
+        res.json({ ok: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Chaupal post delete nahi ho paayi'
+        });
+    }
+});
+
+// =====================================================
 // PRADHAN LOGIN
 // =====================================================
 
@@ -490,6 +584,7 @@ async function connectDB() {
         suchnaCollection = db.collection('suchna');
         jaankariCollection = db.collection('jaankari');
         yojanaCollection = db.collection('yojana');
+        chaupalCollection = db.collection('chaupal');
 
         console.log('✅ MongoDB connected successfully');
     } catch (error) {

@@ -329,6 +329,78 @@
   .yojana-card p{margin:0 0 6px;font-size:.88rem;line-height:1.5;color:var(--ink);}
   .yojana-card .apply{font-size:.78rem;color:var(--ink-soft);}
 
+  /* ---- Chaupal (Community Social Feed) ---- */
+  .chaupal-create-prompt{
+    background:var(--card);
+    border:1.5px dashed var(--line);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+    cursor:pointer;
+    transition:background .15s, border-color .15s;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .chaupal-create-prompt:hover{background:#FAF3E3;border-color:var(--turmeric);}
+  .prompt-avatar{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg,var(--turmeric),var(--terracotta));
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;flex:none;color:#fff;
+  }
+  .prompt-text{flex:1;font-size:.88rem;color:var(--ink-soft);font-weight:500;}
+  .chaupal-feed{display:flex;flex-direction:column;gap:14px;}
+  .chaupal-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    box-shadow:0 2px 6px rgba(0,0,0,.04);
+  }
+  .chaupal-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .chaupal-author-avatar{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--indigo);color:#F3ECDD;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .chaupal-author-info{flex:1;min-width:0;}
+  .chaupal-author-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.96rem;color:var(--indigo-dark);margin:0;line-height:1.2;}
+  .chaupal-post-time{font-size:.74rem;color:var(--ink-soft);margin:2px 0 0;}
+  .chaupal-card-text{
+    font-size:.94rem;line-height:1.55;color:var(--ink);
+    margin:0 0 10px;white-space:pre-wrap;word-break:break-word;
+  }
+  .chaupal-media-container{
+    margin-bottom:12px;border-radius:10px;overflow:hidden;
+    background:#111;max-height:360px;display:flex;align-items:center;justify-content:center;
+  }
+  .chaupal-media-img{
+    width:100%;max-height:360px;object-fit:cover;cursor:pointer;
+    transition:opacity .15s;
+  }
+  .chaupal-media-img:hover{opacity:.95;}
+  .chaupal-media-video{width:100%;max-height:360px;border-radius:10px;background:#000;}
+  .chaupal-card-actions{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:10px;border-top:1px solid var(--line);gap:8px;flex-wrap:wrap;
+  }
+  .chaupal-action-btn{
+    background:none;border:none;cursor:pointer;
+    font-family:'Baloo 2',sans-serif;font-size:.84rem;font-weight:600;
+    color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px;
+    padding:5px 10px;border-radius:8px;transition:background .15s, color .15s;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .chaupal-action-btn:hover{background:#FAF3E3;}
+  .chaupal-action-btn.liked{color:#D32F2F;}
+  .chaupal-action-btn.share-btn{color:#128C7E;}
+  .chaupal-action-btn.delete-btn{color:var(--terracotta);margin-left:auto;}
+  .chaupal-action-btn.delete-btn:hover{background:#FCE7D6;}
+
   /* ---- Modal / form ---- */
   .overlay{
     position:fixed;inset:0;background:rgba(20,15,10,.55);
@@ -442,12 +514,31 @@
 
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>Samasya</button>
+    <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>चौपाल</button>
     <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>Suchna Board</button>
     <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>Gaon ki Jaankari</button>
     <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>Sarkari Yojanaein</button>
   </nav>
 
   <main>
+
+    <!-- ===================== CHAUPAL PANEL ===================== -->
+    <section class="panel" id="panel-chaupal">
+      <div class="panel-head">
+        <h2>Gaon ki Chaupal (चौपाल)</h2>
+        <p>Gaon walo ke liye khula manch — apna sandesh, suchna, photo ya video share karein!</p>
+      </div>
+
+      <div class="chaupal-create-prompt" id="chaupalPromptBtn">
+        <div class="prompt-avatar">✍️</div>
+        <div class="prompt-text">Gaon ke saath koi sandesh, photo ya video share karein...</div>
+        <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:.82rem;">+ Post Karein</button>
+      </div>
+
+      <div id="chaupalFeed" class="chaupal-feed">
+        <div class="loading-row">चौपाल लोड हो रही है...</div>
+      </div>
+    </section>
 
     <!-- ===================== SAMASYA PANEL ===================== -->
     <section class="panel active" id="panel-samasya">
@@ -508,6 +599,40 @@
 
   <button class="fab" id="mainFab">+ Naya Jodein</button>
   <div class="toast" id="toast"></div>
+
+  <!-- ===================== CHAUPAL FORM SHEET ===================== -->
+  <div class="overlay" id="overlayChaupal">
+    <div class="sheet">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlayChaupal">✕</button>
+        <h2>चौपाल पर नया पोस्ट करें</h2>
+        <form id="formChaupal">
+          <div class="field">
+            <label>Aapka Naam</label>
+            <input type="text" id="cName" placeholder="Aapka naam (jaise: Ramesh Yadav)" required>
+          </div>
+          <div class="field">
+            <label>Sandesh / Jaankari</label>
+            <textarea id="cText" placeholder="Gaon ke liye koi sandesh, suchna ya vichar likhein..."></textarea>
+          </div>
+          <div class="field">
+            <label>Photo ya Chhota Video (Optional)</label>
+            <label class="photo-input" id="cMediaBox">
+              <span id="cMediaLabel">📷 🎥 Photo ya Video chunne ke liye tap karein</span>
+              <input type="file" accept="image/*,video/*" id="cMedia">
+            </label>
+            <img class="photo-preview" id="cPhotoPreview" style="display:none; max-height:220px; width:100%; object-fit:cover; border-radius:10px; margin-top:8px;">
+            <video class="photo-preview" id="cVideoPreview" controls style="display:none; max-height:220px; width:100%; border-radius:10px; margin-top:8px;"></video>
+            <button type="button" class="btn btn-outline" id="cRemoveMediaBtn" style="display:none; margin-top:8px; padding:4px 10px; font-size:.8rem;">❌ Media Hataayein</button>
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-outline" data-close="overlayChaupal">Radd Karein</button>
+            <button type="submit" class="btn btn-primary" id="cSubmitBtn">Post Karein</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- ===================== SAMASYA FORM SHEET ===================== -->
   <div class="overlay" id="overlaySamasya">
@@ -644,11 +769,14 @@ const STATUS_CYCLE = ['nayi','progress','solved'];
 const STATUS_LABEL = {nayi:'Nayi', progress:'Progress me', solved:'Solve ho gayi'};
 
 let samasyaList = [];
+let chaupalList = [];
 let suchnaList = [];
 let jaankari = null;
 let yojanaList = [];
 let activeCategory = null;
 let pendingPhotoBase64 = null;
+let pendingChaupalMedia = null;
+let pendingChaupalMediaType = null;
 
 /* ============ Utilities ============ */
 function toast(msg){
@@ -663,6 +791,17 @@ function escapeHtml(str){
 function fmtDate(ts){
   const d = new Date(ts);
   return d.toLocaleDateString('hi-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function fmtTimeAgo(ts){
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if(mins < 1) return 'Abhi-abhi';
+  if(mins < 60) return `${mins} min pehle`;
+  const hours = Math.floor(mins / 60);
+  if(hours < 24) return `${hours} ghante pehle`;
+  const days = Math.floor(hours / 24);
+  if(days < 7) return `${days} din pehle`;
+  return fmtDate(ts);
 }
 
 /* ============ API helpers ============ */
@@ -709,6 +848,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 function updateFab(tab){
   const fab = document.getElementById('mainFab');
   if(tab==='samasya'){ fab.style.display='inline-flex'; fab.textContent='+ Samasya Jodein'; fab.onclick=()=>openSamasyaForm(); }
+  else if(tab==='chaupal'){ fab.style.display='inline-flex'; fab.textContent='+ चौपाल पर लिखें'; fab.onclick=()=>openChaupalForm(); }
   else if(tab==='suchna'){ fab.style.display='inline-flex'; fab.textContent='+ Suchna Jodein'; fab.onclick=()=>openOverlay('overlaySuchna'); }
   else { fab.style.display='none'; }
 }
@@ -900,6 +1040,222 @@ document.getElementById('formSamasya').addEventListener('submit', async (e)=>{
   toast('Samasya darj ho gayi ✅ Pradhan tak pahunch jaayegi');
 });
 
+/* ============ CHAUPAL (Community Social Feed) ============ */
+function openChaupalForm(){
+  document.getElementById('formChaupal').reset();
+  resetChaupalMedia();
+  openOverlay('overlayChaupal');
+}
+
+function resetChaupalMedia(){
+  pendingChaupalMedia = null;
+  pendingChaupalMediaType = null;
+  document.getElementById('cMedia').value = '';
+  document.getElementById('cMediaLabel').textContent = '📷 🎥 Photo ya Video chunne ke liye tap karein';
+  document.getElementById('cPhotoPreview').style.display = 'none';
+  document.getElementById('cPhotoPreview').src = '';
+  document.getElementById('cVideoPreview').style.display = 'none';
+  document.getElementById('cVideoPreview').src = '';
+  document.getElementById('cRemoveMediaBtn').style.display = 'none';
+}
+
+document.getElementById('cRemoveMediaBtn').addEventListener('click', resetChaupalMedia);
+document.getElementById('chaupalPromptBtn').addEventListener('click', openChaupalForm);
+
+document.getElementById('cMedia').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+
+  if(file.size > 12 * 1024 * 1024){
+    toast('File bohot badi hai (Max 12MB allowed) ⚠️');
+    resetChaupalMedia();
+    return;
+  }
+
+  const isVideo = file.type.startsWith('video');
+  const isImage = file.type.startsWith('image');
+
+  if(!isVideo && !isImage){
+    toast('Sirf Photo ya Video chunein ⚠️');
+    resetChaupalMedia();
+    return;
+  }
+
+  if(isImage){
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const maxW = 900;
+        const scale = Math.min(1, maxW/img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        pendingChaupalMedia = canvas.toDataURL('image/jpeg', 0.75);
+        pendingChaupalMediaType = 'photo';
+        document.getElementById('cPhotoPreview').src = pendingChaupalMedia;
+        document.getElementById('cPhotoPreview').style.display = 'block';
+        document.getElementById('cVideoPreview').style.display = 'none';
+        document.getElementById('cRemoveMediaBtn').style.display = 'inline-flex';
+        document.getElementById('cMediaLabel').textContent = '✅ Photo chun li gayi';
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  } else if(isVideo){
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      pendingChaupalMedia = reader.result;
+      pendingChaupalMediaType = 'video';
+      document.getElementById('cVideoPreview').src = pendingChaupalMedia;
+      document.getElementById('cVideoPreview').style.display = 'block';
+      document.getElementById('cPhotoPreview').style.display = 'none';
+      document.getElementById('cRemoveMediaBtn').style.display = 'inline-flex';
+      document.getElementById('cMediaLabel').textContent = '✅ Video chun liya gaya';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('cName').value.trim();
+  const text = document.getElementById('cText').value.trim();
+
+  if(!text && !pendingChaupalMedia){
+    toast('Kripya sandesh likhein ya photo/video chunein ⚠️');
+    return;
+  }
+
+  const submitBtn = document.getElementById('cSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Post ho raha hai...';
+
+  const payload = {
+    name: name || 'Gaon wasi',
+    text,
+    media: pendingChaupalMedia,
+    mediaType: pendingChaupalMediaType
+  };
+
+  const item = await apiSend('POST', '/chaupal', payload);
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Post Karein';
+
+  if(!item) return;
+
+  chaupalList.unshift(item);
+  closeOverlay('overlayChaupal');
+  resetChaupalMedia();
+  renderChaupal();
+  toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
+});
+
+function renderChaupal(){
+  const feed = document.getElementById('chaupalFeed');
+  if(!chaupalList || chaupalList.length === 0){
+    feed.innerHTML = `<div class="empty-state">
+      <span class="big">🗣️</span>
+      चौपाल पर अभी कोई पोस्ट नहीं है.<br>गाँव के लिए पहला संदेश, फ़ोटो या वीडियो आप साझा करें!
+    </div>`;
+    return;
+  }
+
+  feed.innerHTML = chaupalList.map(p=>{
+    const initial = (p.name && p.name.trim()[0]) ? p.name.trim()[0].toUpperCase() : 'G';
+    const isLiked = localStorage.getItem('liked_chaupal_'+p.id);
+
+    let mediaHtml = '';
+    if(p.media){
+      if(p.mediaType === 'video'){
+        mediaHtml = `<div class="chaupal-media-container"><video class="chaupal-media-video" src="${p.media}" controls playsinline preload="metadata"></video></div>`;
+      } else {
+        mediaHtml = `<div class="chaupal-media-container"><img class="chaupal-media-img" src="${p.media}" alt="Chaupal Photo" data-chaupal-img="${p.id}"></div>`;
+      }
+    }
+
+    return `<div class="chaupal-card" id="chaupal-card-${p.id}">
+      <div class="chaupal-card-head">
+        <div class="chaupal-author-avatar">${initial}</div>
+        <div class="chaupal-author-info">
+          <h4 class="chaupal-author-name">${escapeHtml(p.name || 'Gaon wasi')}</h4>
+          <p class="chaupal-post-time">${fmtTimeAgo(p.date)}</p>
+        </div>
+      </div>
+      ${p.text ? `<div class="chaupal-card-text">${escapeHtml(p.text)}</div>` : ''}
+      ${mediaHtml}
+      <div class="chaupal-card-actions">
+        <button type="button" class="chaupal-action-btn ${isLiked ? 'liked' : ''}" data-like-chaupal="${p.id}">
+          <span>${isLiked ? '❤️' : '🤍'}</span>
+          <span class="chaupal-like-count">${p.likes || 0}</span> Like
+        </button>
+        <button type="button" class="chaupal-action-btn share-btn" data-share-chaupal="${p.id}">
+          <span>📲</span> WhatsApp Share
+        </button>
+        ${adminKey ? `<button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="Ye post hataayein">
+          <span>🗑️</span> Hataayein
+        </button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
+  const imgEl = e.target.closest('[data-chaupal-img]');
+  if(imgEl){
+    const item = chaupalList.find(p=>p.id===imgEl.dataset.chaupalImg);
+    if(item && item.media){
+      document.getElementById('photoLightboxImg').src = item.media;
+      document.getElementById('photoLightbox').classList.add('open');
+    }
+    return;
+  }
+
+  const likeBtn = e.target.closest('[data-like-chaupal]');
+  if(likeBtn){
+    const id = likeBtn.dataset.likeChaupal;
+    const post = chaupalList.find(p=>p.id===id);
+    if(!post) return;
+    if(localStorage.getItem('liked_chaupal_'+id)){
+      toast('Aap pehle hi like kar chuke hain ❤️');
+      return;
+    }
+    const res = await apiSend('POST', '/chaupal/'+id+'/like', {});
+    if(res && res.ok){
+      post.likes = res.likes;
+      localStorage.setItem('liked_chaupal_'+id, 'true');
+      renderChaupal();
+    }
+    return;
+  }
+
+  const shareBtn = e.target.closest('[data-share-chaupal]');
+  if(shareBtn){
+    const id = shareBtn.dataset.shareChaupal;
+    const post = chaupalList.find(p=>p.id===id);
+    if(!post) return;
+    const shareText = `*🏡 Jagdishpur Gaon Portal - चौपाल*\n\n👤 *${post.name || 'Gaon wasi'}:*\n"${post.text || 'Photo/Video साझा किया गया'}"\n\n👉 *Poora dekhne ke liye yahan kholein:*\n${window.location.origin}`;
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+    window.open(waUrl, '_blank');
+    return;
+  }
+
+  const delBtn = e.target.closest('[data-delete-chaupal]');
+  if(delBtn){
+    const id = delBtn.dataset.deleteChaupal;
+    if(!confirm('Kya aap sach me is chaupal post ko delete karna chahte hain?')) return;
+    const res = await apiSend('DELETE', '/chaupal/'+id, {}, true);
+    if(res && res.unauthorized){ adminLogout(); return; }
+    if(res && res.ok){
+      chaupalList = chaupalList.filter(p=>p.id!==id);
+      renderChaupal();
+      toast('Post hata di gayi ✅');
+    }
+  }
+});
+
 /* ============ SUCHNA (Announcements) ============ */
 function renderSuchna(){
   const board = document.getElementById('suchnaBoard');
@@ -1063,6 +1419,8 @@ function adminLogout(){
   updateAdminButton();
   renderCatGrid();
   renderSamasyaList();
+  renderChaupal();
+  renderSuchna();
   toast('Logout ho gaya');
 }
 async function loadSamasyaList(){
@@ -1086,6 +1444,8 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
     closeOverlay('overlayAdmin');
     updateAdminButton();
     await loadSamasyaList();
+    renderChaupal();
+    renderSuchna();
     toast('Pradhan ke roop me login ho gaya ✅');
   } else {
     toast('Galat password ⚠️');
@@ -1095,17 +1455,20 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
 /* ============ Init ============ */
 async function init(){
   updateAdminButton();
-  const [su, j, y] = await Promise.all([
+  const [su, j, y, ch] = await Promise.all([
     apiGet('/suchna'),
     apiGet('/jaankari'),
-    apiGet('/yojana')
+    apiGet('/yojana'),
+    apiGet('/chaupal')
   ]);
   suchnaList = su || [];
   jaankari = j || null;
   yojanaList = y || [];
+  chaupalList = ch || [];
 
   renderCatGrid();
   renderSamasyaList();
+  renderChaupal();
   renderSuchna();
   renderJaankari();
   renderYojana();
