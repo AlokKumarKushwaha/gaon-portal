@@ -478,11 +478,11 @@ app.get('/api/chaupal', async(req, res) => {
 // Naya post jodein (koi bhi gaon wasi post kar sakta hai)
 app.post('/api/chaupal', async(req, res) => {
     try {
-        const { name, text, media, mediaType } = req.body;
+        const { name, text, media, mediaType, link } = req.body;
 
-        if (!text && !media) {
+        if (!text && !media && !link) {
             return res.status(400).json({
-                error: 'Kripya sandesh likhein ya photo/video chunein'
+                error: 'Kripya sandesh likhein, photo/video chunein ya link daalein'
             });
         }
 
@@ -493,6 +493,7 @@ app.post('/api/chaupal', async(req, res) => {
             text: (text && text.trim()) || '',
             media: media || null,
             mediaType: mediaType || (media ? 'photo' : null),
+            link: (link && link.trim()) || null,
             authorKey,
             likes: 0,
             date: Date.now()

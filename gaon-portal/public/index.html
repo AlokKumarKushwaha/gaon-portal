@@ -625,6 +625,10 @@
             <video class="photo-preview" id="cVideoPreview" controls style="display:none; max-height:220px; width:100%; border-radius:10px; margin-top:8px;"></video>
             <button type="button" class="btn btn-outline" id="cRemoveMediaBtn" style="display:none; margin-top:8px; padding:4px 10px; font-size:.8rem;">❌ Media Hataayein</button>
           </div>
+          <div class="field">
+            <label>🔗 YouTube Link ya Website Link (Optional)</label>
+            <input type="url" id="cLink" placeholder="https://youtube.com/watch?v=... ya koi bhi link">
+          </div>
           <div class="sheet-actions">
             <button type="button" class="btn btn-outline" data-close="overlayChaupal">Radd Karein</button>
             <button type="submit" class="btn btn-primary" id="cSubmitBtn">Post Karein</button>
@@ -1079,6 +1083,8 @@ document.getElementById('formSamasya').addEventListener('submit', async (e)=>{
 /* ============ CHAUPAL (Community Social Feed) ============ */
 function openChaupalForm(){
   document.getElementById('formChaupal').reset();
+  const linkInput = document.getElementById('cLink');
+  if(linkInput) linkInput.value = '';
   resetChaupalMedia();
   openOverlay('overlayChaupal');
 }
@@ -1093,6 +1099,19 @@ function resetChaupalMedia(){
   document.getElementById('cVideoPreview').style.display = 'none';
   document.getElementById('cVideoPreview').src = '';
   document.getElementById('cRemoveMediaBtn').style.display = 'none';
+}
+
+function getYouTubeId(url){
+  if(!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  return match ? match[1] : null;
+}
+
+function linkify(text){
+  if(!text) return '';
+  const escaped = escapeHtml(text);
+  const urlRegex = /(https?:\/\/[^\s<]+)/g;
+  return escaped.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:var(--indigo); font-weight:600; text-decoration:underline; word-break:break-all;">$1</a>');
 }
 
 document.getElementById('cRemoveMediaBtn').addEventListener('click', resetChaupalMedia);
@@ -1159,9 +1178,10 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const name = document.getElementById('cName').value.trim();
   const text = document.getElementById('cText').value.trim();
+  const link = document.getElementById('cLink').value.trim();
 
-  if(!text && !pendingChaupalMedia){
-    toast('Kripya sandesh likhein ya photo/video chunein ⚠️');
+  if(!text && !pendingChaupalMedia && !link){
+    toast('Kripya sandesh, photo/video ya link daalein ⚠️');
     return;
   }
 
@@ -1173,6 +1193,7 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   const payload = {
     name: name || 'Gaon wasi',
     text,
+    link: link || null,
     media: pendingChaupalMedia,
     mediaType: pendingChaupalMediaType,
     authorKey: myAuthorKey
@@ -1188,6 +1209,7 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
   chaupalList.unshift(item);
   closeOverlay('overlayChaupal');
   resetChaupalMedia();
+  document.getElementById('cLink').value = '';
   renderChaupal();
   toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
 });
@@ -1227,7 +1249,7 @@ function renderChaupal(){
   if(visibleList.length === 0){
     feed.innerHTML = `<div class="empty-state">
       <span class="big">🗣️</span>
-      चौपाल पर अभी कोई पोस्ट नहीं है.<br>गाँव के लिए पहला संदेश, फ़ोटो या वीडियो आप साझा करें!
+      चौपाल पर अभी कोई पोस्ट नहीं है.<br>गाँव के लिए पहला संदेश, फ़ोटो, वीडियो या लिंक आप साझा करें!
     </div>`;
     return;
   }
@@ -1245,6 +1267,21 @@ function renderChaupal(){
       }
     }
 
+    let linkHtml = '';
+    if(p.link){
+      const ytId = getYouTubeId(p.link);
+      if(ytId){
+        linkHtml = `<div class="chaupal-youtube-wrap" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:10px; margin-bottom:12px; background:#000;">
+          <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/${ytId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>`;
+      } else {
+        linkHtml = `<a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="chaupal-link-card" style="display:flex; align-items:center; gap:8px; background:#F4EBD9; padding:10px 14px; border-radius:10px; text-decoration:none; color:var(--indigo-dark); font-weight:600; font-size:.85rem; margin-bottom:12px; border:1px solid var(--line); word-break:break-all;">
+          <span style="font-size:1.1rem;">🔗</span>
+          <span style="text-decoration:underline;">${escapeHtml(p.link)}</span>
+        </a>`;
+      }
+    }
+
     return `<div class="chaupal-card" id="chaupal-card-${p.id}">
       <div class="chaupal-card-head">
         <div class="chaupal-author-avatar">${initial}</div>
@@ -1253,8 +1290,9 @@ function renderChaupal(){
           <p class="chaupal-post-time">${fmtTimeAgo(p.date)}</p>
         </div>
       </div>
-      ${p.text ? `<div class="chaupal-card-text">${escapeHtml(p.text)}</div>` : ''}
+      ${p.text ? `<div class="chaupal-card-text">${linkify(p.text)}</div>` : ''}
       ${mediaHtml}
+      ${linkHtml}
       <div class="chaupal-card-actions">
         <button type="button" class="chaupal-action-btn ${isLiked ? 'liked' : ''}" data-like-chaupal="${p.id}">
           <span>${isLiked ? '❤️' : '🤍'}</span>
@@ -1305,7 +1343,9 @@ document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
     const id = shareBtn.dataset.shareChaupal;
     const post = chaupalList.find(p=>p.id===id);
     if(!post) return;
-    const shareText = `*🏡 Jagdishpur Gaon Portal - चौपाल*\n\n👤 *${post.name || 'Gaon wasi'}:*\n"${post.text || 'Photo/Video साझा किया गया'}"\n\n👉 *Poora dekhne ke liye yahan kholein:*\n${window.location.origin}`;
+    let extra = '';
+    if(post.link) extra += `\n🔗 Link: ${post.link}`;
+    const shareText = `*🏡 Jagdishpur Gaon Portal - चौपाल*\n\n👤 *${post.name || 'Gaon wasi'}:*\n"${post.text || 'Photo/Video/Link साझा किया गया'}"${extra}\n\n👉 *Poora dekhne ke liye yahan kholein:*\n${window.location.origin}`;
     const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
     window.open(waUrl, '_blank');
     return;
