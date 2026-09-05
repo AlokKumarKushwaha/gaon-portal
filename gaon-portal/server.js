@@ -119,7 +119,7 @@ const DEFAULT_KRISHI = [
     icon: '🌾',
     season: 'kharif',
     seasonLabel: 'खरीफ (गर्मी/बरसात)',
-    image: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?auto=format&fit=crop&w=600&q=80',
+    image: '/images/crops/dhan.jpg',
     sowing: 'जून से जुलाई (पौधशाला: मई-जून, रोपाई: 21-25 दिन पर)',
     harvest: 'अक्टूबर से नवंबर',
     production: '20 से 25 कुंतल प्रति बीघा (उन्नत किस्मों में)',
@@ -175,7 +175,7 @@ const DEFAULT_KRISHI = [
     icon: '🎋',
     season: 'cash',
     seasonLabel: 'नगदी फसल (वार्षिक)',
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80',
+    image: '/images/crops/ganna.jpg',
     sowing: 'शरदकालीन: अक्टूबर-नवंबर / बसंतकालीन: फरवरी-मार्च',
     harvest: 'नवंबर से मार्च (10-12 महीने बाद)',
     production: '250 से 350 कुंतल प्रति बीघा',
@@ -203,7 +203,7 @@ const DEFAULT_KRISHI = [
     icon: '🌱',
     season: 'rabi',
     seasonLabel: 'रबी (सर्दियां)',
-    image: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80',
+    image: '/images/crops/chana.jpg',
     sowing: '15 अक्टूबर से 15 नवंबर (उचित नमी में)',
     harvest: 'फरवरी अंत से मार्च',
     production: '8 से 12 कुंतल प्रति बीघा',
@@ -230,7 +230,7 @@ const DEFAULT_KRISHI = [
     icon: '🌼',
     season: 'rabi',
     seasonLabel: 'रबी (सर्दियां)',
-    image: 'https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=600&q=80',
+    image: '/images/crops/sarson.jpg',
     sowing: '25 सितंबर से 25 अक्टूबर (तापमान 30-32 डिग्री से कम होने पर)',
     harvest: 'फरवरी से मार्च',
     production: '8 से 10 कुंतल प्रति बीघा',
@@ -834,6 +834,15 @@ async function connectDB() {
         yojanaCollection = db.collection('yojana');
         chaupalCollection = db.collection('chaupal');
         krishiCollection = db.collection('krishi');
+
+        // Sync crop images in database if they were previously stored with older image URLs
+        try {
+            for (const crop of DEFAULT_KRISHI) {
+                await krishiCollection.updateOne({ id: crop.id }, { $set: { image: crop.image } });
+            }
+        } catch (syncErr) {
+            console.warn('Krishi image sync warning:', syncErr.message);
+        }
 
         console.log('✅ MongoDB connected successfully');
     } catch (error) {
