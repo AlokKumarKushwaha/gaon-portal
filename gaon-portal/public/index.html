@@ -401,6 +401,113 @@
   .chaupal-action-btn.delete-btn{color:var(--terracotta);margin-left:auto;}
   .chaupal-action-btn.delete-btn:hover{background:#FCE7D6;}
 
+  /* ---- Krishi / Kheti-Baadi Guide ---- */
+  .krishi-season-filters{
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px;padding-bottom:4px;
+  }
+  .krishi-season-filters::-webkit-scrollbar{display:none;}
+  .krishi-filter-btn{
+    flex:none;background:var(--card);border:1.5px solid var(--line);border-radius:20px;
+    padding:7px 14px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;
+    color:var(--ink-soft);cursor:pointer;transition:.15s;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .krishi-filter-btn:hover{border-color:var(--neem);color:var(--neem);}
+  .krishi-filter-btn.active{background:var(--neem);color:#fff;border-color:var(--neem);box-shadow:0 2px 6px rgba(79,107,58,.3);}
+
+  .krishi-crop-picker{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px;margin-bottom:20px;
+  }
+  .crop-btn{
+    background:var(--card);border:1.5px solid var(--line);border-radius:12px;
+    padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .crop-btn:hover{transform:translateY(-2px);border-color:var(--neem);}
+  .crop-btn.active{border-color:var(--neem);background:#EBF2E6;box-shadow:0 3px 10px rgba(79,107,58,.25);}
+  .crop-btn .crop-icon{font-size:1.8rem;line-height:1;}
+  .crop-btn .crop-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;color:var(--ink);line-height:1.2;}
+
+  .krishi-hero-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;margin-bottom:16px;box-shadow:0 3px 10px rgba(0,0,0,.04);
+  }
+  .krishi-hero-img-wrap{
+    height:180px;position:relative;background:#333;overflow:hidden;
+  }
+  .krishi-hero-img{
+    width:100%;height:100%;object-fit:cover;
+  }
+  .krishi-hero-badge{
+    position:absolute;top:12px;left:12px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
+    color:#fff;padding:4px 10px;border-radius:20px;font-family:'Baloo 2',sans-serif;font-size:.76rem;font-weight:600;
+  }
+  .krishi-hero-content{padding:16px;}
+  .krishi-hero-title{margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-size:1.35rem;color:var(--indigo-dark);display:flex;align-items:center;gap:8px;}
+  .krishi-stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+  .krishi-stat-box{background:#FAF3E3;padding:8px 12px;border-radius:10px;}
+  .krishi-stat-label{font-size:.72rem;color:var(--ink-soft);margin-bottom:2px;}
+  .krishi-stat-val{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);}
+
+  .krishi-section-title{
+    margin:20px 0 10px;font-family:'Baloo 2',sans-serif;font-size:1.1rem;
+    color:var(--indigo-dark);display:flex;align-items:center;gap:8px;
+  }
+
+  /* Khad Cards */
+  .khad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:16px;}
+  .khad-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;position:relative;border-left:5px solid var(--neem);
+  }
+  .khad-card.badge-dap{border-left-color:#2E7D32;}
+  .khad-card.badge-urea{border-left-color:#E65100;}
+  .khad-card.badge-potash{border-left-color:#7B1FA2;}
+  .khad-card.badge-zinc, .khad-card.badge-sulfur{border-left-color:#0277BD;}
+  .khad-card.badge-gobar{border-left-color:#795548;}
+  .khad-card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+  .khad-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;color:var(--indigo-dark);}
+  .khad-dose{
+    background:#FAF3E3;color:var(--terracotta);font-family:'Baloo 2',sans-serif;
+    font-weight:800;font-size:.82rem;padding:3px 8px;border-radius:6px;
+  }
+  .khad-timing{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:0;}
+
+  /* Irrigation & Disease */
+  .irrigation-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;margin-bottom:16px;
+  }
+  .irrigation-step{
+    display:flex;gap:10px;margin-bottom:10px;font-size:.88rem;line-height:1.45;color:var(--ink);
+  }
+  .irrigation-step:last-child{margin-bottom:0;}
+  .irrigation-icon{color:#0288D1;flex:none;font-size:1.1rem;}
+
+  .disease-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+  .disease-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;border-left:5px solid var(--terracotta);
+  }
+  .disease-head{margin-bottom:6px;}
+  .disease-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;color:var(--terracotta);}
+  .disease-symptoms{font-size:.82rem;color:var(--ink-soft);margin:2px 0 8px;}
+  .disease-rx{
+    background:#FFF6F0;border:1px dashed #F5C6A5;border-radius:8px;padding:9px 12px;
+  }
+  .disease-rx-title{font-size:.74rem;font-weight:700;color:var(--terracotta);text-transform:uppercase;margin-bottom:3px;}
+  .disease-rx-med{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);}
+  .disease-rx-dose{font-size:.8rem;color:var(--ink);margin-top:2px;}
+
+  .kisan-tips-card{
+    background:#FFF9E6;border:1.5px dashed var(--turmeric);border-radius:var(--radius);
+    padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-top:10px;
+  }
+  .kisan-tips-icon{font-size:1.5rem;flex:none;}
+  .kisan-tips-text h4{margin:0 0 4px;font-family:'Baloo 2',sans-serif;font-size:.92rem;color:var(--indigo-dark);}
+  .kisan-tips-text p{margin:0;font-size:.84rem;line-height:1.45;color:var(--ink-soft);}
+
   /* ---- Modal / form ---- */
   .overlay{
     position:fixed;inset:0;background:rgba(20,15,10,.55);
@@ -515,12 +622,37 @@
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>Samasya</button>
     <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>चौपाल</button>
+    <button class="tab-btn" data-tab="krishi"><span class="emoji">🌾</span>खेती-बाड़ी</button>
     <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>Suchna Board</button>
     <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>Gaon ki Jaankari</button>
     <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>Sarkari Yojanaein</button>
   </nav>
 
   <main>
+
+    <!-- ===================== KRISHI (KHETI-BAADI) PANEL ===================== -->
+    <section class="panel" id="panel-krishi">
+      <div class="panel-head">
+        <h2>🌾 उन्नत खेती-बाड़ी (Krishi Guide)</h2>
+        <p>गाँव की मुख्य फसलों की बुवाई, खाद (यूरिया/DAP) का सही गणित, सिंचाई व कीटनाशक दवा की पूरी जानकारी।</p>
+      </div>
+
+      <!-- Season Filter Pills -->
+      <div class="krishi-season-filters" id="krishiSeasonFilters">
+        <button type="button" class="krishi-filter-btn active" data-season="all">🌾 सभी फसलें</button>
+        <button type="button" class="krishi-filter-btn" data-season="kharif">☀️ खरीफ (धान, मक्का)</button>
+        <button type="button" class="krishi-filter-btn" data-season="rabi">❄️ रबी (गेहूं, चना, सरसों, आलू)</button>
+        <button type="button" class="krishi-filter-btn" data-season="cash">🎋 नगदी फसल (गन्ना)</button>
+      </div>
+
+      <!-- Crop Quick Picker Grid -->
+      <div class="krishi-crop-picker" id="krishiCropPicker"></div>
+
+      <!-- Active Crop Detailed View -->
+      <div id="krishiCropDetail" class="krishi-detail-wrap">
+        <div class="loading-row">फसलों की जानकारी लोड हो रही है...</div>
+      </div>
+    </section>
 
     <!-- ===================== CHAUPAL PANEL ===================== -->
     <section class="panel" id="panel-chaupal">
@@ -811,6 +943,9 @@ let activeCategory = null;
 let pendingPhotoBase64 = null;
 let pendingChaupalMedia = null;
 let pendingChaupalMediaType = null;
+let krishiList = [];
+let activeKrishiCrop = 'dhan';
+let activeKrishiSeason = 'all';
 
 /* ============ Utilities ============ */
 function toast(msg){
@@ -1556,6 +1691,350 @@ document.getElementById('formYojana').addEventListener('submit', async (e)=>{
   toast('Yojana jud gayi ✅');
 });
 
+/* ============ KHETI-BAADI (KRISHI GUIDE) ============ */
+const DEFAULT_KRISHI = [
+  {
+    id: 'dhan',
+    name: 'धान (Dhan / Paddy)',
+    icon: '🌾',
+    season: 'kharif',
+    seasonLabel: 'खरीफ (गर्मी/बरसात)',
+    image: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?auto=format&fit=crop&w=600&q=80',
+    sowing: 'जून से जुलाई (पौधशाला: मई-जून, रोपाई: 21-25 दिन पर)',
+    harvest: 'अक्टूबर से नवंबर',
+    production: '20 से 25 कुंतल प्रति बीघा (उन्नत किस्मों में)',
+    khadSchedule: [
+      { name: 'DAP (फास्फोरस)', dose: '20 से 25 किलो प्रति बीघा', timing: 'अंतिम जुताई या रोपाई के समय (शुरुआत में ही पूरा डालें)', badge: 'dap' },
+      { name: 'पोटाश (MOP)', dose: '12 से 15 किलो प्रति बीघा', timing: 'रोपाई के समय (इससे दाना चमकदार, भारी और रोगमुक्त बनता है)', badge: 'potash' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '30 से 35 किलो प्रति बीघा (3 बार में बांटकर)', timing: '1/3 रोपाई के 10 दिन बाद, 1/3 कल्ले फूटते समय (30 दिन), 1/3 बालियां निकलने से ठीक पहले', badge: 'urea' },
+      { name: 'जिंक सल्फेट (21%)', dose: '5 किलो प्रति बीघा', timing: 'खैरा रोग से बचाव के लिए (यूरिया के साथ दें, DAP के साथ कभी न मिलाएं)', badge: 'zinc' }
+    ],
+    irrigation: [
+      'रोपाई के बाद शुरुआती 15-20 दिनों तक खेत में 2-3 इंच पानी भरा रहना चाहिए ताकि पौधे अच्छे से जड़ पकड़ सकें।',
+      'कल्ले फूटने (Tillering) और बालियां निकलने व दाना भरने के समय खेत में नमी होना बहुत ज़रूरी है।'
+    ],
+    diseases: [
+      { name: 'खैरा रोग', symptoms: 'पत्तियां नीचे से पीली पड़कर कत्थई/भूरे धब्बे बनने लगते हैं।', medicine: 'जिंक सल्फेट 5 ग्राम + बुझा चूना 2.5 ग्राम', sprayDose: 'प्रति 1 लीटर पानी में घोलकर स्प्रे करें (15 लीटर की टंकी में 75g जिंक + 35g चूना)।' },
+      { name: 'तना छेदक व पत्ती लपेटक सुंडी', symptoms: 'मुख्य तना सूख जाता है (डेड हार्ट) या पत्तियां मुड़कर सफेद हो जाती हैं।', medicine: 'कोराजन (Coragen) या कार्टाप (Cartap 4G)', sprayDose: 'कोराजन 6ml प्रति 15 लीटर टंकी स्प्रे करें या कार्टाप 4G (4 किलो/बीघा) खेत में डालें।' },
+      { name: 'शीथ ब्लाइट (झुलसा रोग)', symptoms: 'तने व पत्तियों पर सांप की खाल जैसे भूरे धब्बे।', medicine: 'हेक्साकोनाजोल (Hexaconazole 5% EC)', sprayDose: '30ml प्रति 15 लीटर पानी की टंकी में मिलाकर छिड़काव करें।' }
+    ],
+    kisanTips: 'यूरिया और DAP को कभी भी मिलाकर ज्यादा देर तक न रखें। जिंक को हमेशा यूरिया के साथ अलग से छिड़कें। बालियां निकलते समय पानी की कमी न होने दें।'
+  },
+  {
+    id: 'gehun',
+    name: 'गेहूं (Gehun / Wheat)',
+    icon: '🌾',
+    season: 'rabi',
+    seasonLabel: 'रबी (सर्दियां)',
+    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80',
+    sowing: '15 नवंबर से 30 नवंबर (अगेती) / दिसंबर प्रथम सप्ताह (पछेती)',
+    harvest: 'मार्च से अप्रैल',
+    production: '20 से 25 कुंतल प्रति बीघा',
+    khadSchedule: [
+      { name: 'DAP (फास्फोरस)', dose: '25 से 30 किलो प्रति बीघा', timing: 'बुवाई के समय कतारों में बीज से 2-3 सेमी नीचे', badge: 'dap' },
+      { name: 'पोटाश (MOP)', dose: '15 किलो प्रति बीघा', timing: 'बुवाई के समय (दाना मोटा व चमकदार बनेगा, पौधा गिरेगा नहीं)', badge: 'potash' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '35 से 40 किलो प्रति बीघा (2 बार में)', timing: 'आधा हिस्सा पहली सिंचाई (21 दिन - क्राउन रूट) पर, आधा हिस्सा दूसरी सिंचाई (गाभा अवस्था) पर', badge: 'urea' },
+      { name: 'जिंक सल्फेट (33%)', dose: '3 किलो प्रति बीघा', timing: 'पहली सिंचाई के समय यूरिया के साथ मिलाकर', badge: 'zinc' }
+    ],
+    irrigation: [
+      'पहली सिंचाई: बुवाई के 20-22 दिन बाद (CRI स्टेज - शिखर जड़ निकलते समय) — यह सबसे महत्वपूर्ण सिंचाई है।',
+      'दूसरी सिंचाई: कल्ले फूटते समय (40-45 दिन)।',
+      'तीसरी व चौथी: गाभा व बालियां निकलते समय (65-70 दिन) और दाना दूधिया अवस्था में (85-90 दिन)।'
+    ],
+    diseases: [
+      { name: 'पीला रतुआ (Yellow Rust)', symptoms: 'पत्तियों पर पीले रंग की कतारों में हल्दी जैसा पाउडर निकलता है जो उंगली लगाने पर छूटता है।', medicine: 'टिल्ट (Tilt 25% EC - Propiconazole)', sprayDose: '15ml दवा 15 लीटर पानी की टंकी में मिलाकर छिड़कें।' },
+      { name: 'दीमक (Termite)', symptoms: 'पौधे सूखने लगते हैं और खींचने पर आसानी से उखड़ जाते हैं।', medicine: 'क्लोरपायरीफास (Chlorpyrifos 20% EC)', sprayDose: '1 लीटर प्रति बीघा सिंचाई के पानी के साथ बहाएं।' }
+    ],
+    kisanTips: 'गेहूं में पहली सिंचाई कभी भी 21-25 दिन से ज्यादा लेट न करें, नहीं तो कल्ले कम फूटेंगे और पैदावार घट जाएगी।'
+  },
+  {
+    id: 'ganna',
+    name: 'गन्ना (Ganna / Sugarcane)',
+    icon: '🎋',
+    season: 'cash',
+    seasonLabel: 'नगदी फसल (सालाना)',
+    image: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=600&q=80',
+    sowing: 'शरदकालीन: अक्टूबर-नवंबर / बसंतकालीन: फरवरी-मार्च',
+    harvest: '10 से 12 महीने बाद (नवंबर से अप्रैल)',
+    production: '400 से 600 कुंतल प्रति बीघा (ट्रेंच विधि में 800+ कुंतल)',
+    khadSchedule: [
+      { name: 'गोबर की सड़ी खाद / प्रेसमड', dose: '2 से 3 ट्रॉली प्रति बीघा', timing: 'खेत की अंतिम जुताई के समय', badge: 'gobar' },
+      { name: 'DAP (फास्फोरस)', dose: '35 से 40 किलो प्रति बीघा', timing: 'गन्ना बोते समय नालियों में गूल के नीचे', badge: 'dap' },
+      { name: 'पोटाश (MOP)', dose: '25 किलो प्रति बीघा', timing: 'बुवाई के समय (सूखा सहन करने की शक्ति व मिठास बढ़ाता है)', badge: 'potash' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '60 किलो प्रति बीघा (3-4 किस्तों में)', timing: 'पहला पानी, दूसरा पानी और मिट्टी चढ़ाते समय (जून अंत तक यूरिया पूरा कर लें)', badge: 'urea' },
+      { name: 'सल्फर (दानेदार)', dose: '5 किलो प्रति बीघा', timing: 'बुवाई के समय (गन्ने में शर्करा बढ़ाता है)', badge: 'sulfur' }
+    ],
+    irrigation: [
+      'गर्मियों (अप्रैल-जून) में हर 8-10 दिन के अंतराल पर सिंचाई अनिवार्य है।',
+      'बरसात में जलभराव न होने दें, खेत में नालियां बनाकर निकासी रखें।'
+    ],
+    diseases: [
+      { name: 'लाल सड़न रोग (Red Rot / कैंसर)', symptoms: 'तीसरी-चौथी पत्ती पीली पड़कर सूखती है, गन्ने को चीरने पर अंदर से लाल और सफेद चकत्ते व शराब जैसी बदबू आती है।', medicine: 'ट्राइकोडर्मा (Trichoderma) + बीज शोधन', sprayDose: 'बुवाई से पहले बाविस्टिन (Bavistin) 2 ग्राम/लीटर पानी में टुकड़े 15 मिनट भिगोएं।' },
+      { name: 'कंसुआ / तना छेदक (Shoot Borer)', symptoms: 'शुरुआती गन्ने की गोब सूख जाती है जिसे खींचने पर बदबू आती है।', medicine: 'कोराजन (Coragen 18.5% SC)', sprayDose: 'बुवाई के समय या 45 दिन पर 60ml प्रति बीघा 200 लीटर पानी में जड़ों के पास ड्रेन्चिंग करें।' }
+    ],
+    kisanTips: 'जून के महीने में गन्ने पर मिट्टी ज़रूर चढ़ाएं और जुलाई-अगस्त में 2-3 गन्नों को आपस में बांधें ताकि तेज हवा में गन्ना गिरे नहीं।'
+  },
+  {
+    id: 'chana',
+    name: 'चना (Chana / Gram)',
+    icon: '🌱',
+    season: 'rabi',
+    seasonLabel: 'रबी (सर्दियां)',
+    image: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80',
+    sowing: '15 अक्टूबर से 15 नवंबर',
+    harvest: 'मार्च से अप्रैल (120-130 दिन)',
+    production: '8 से 12 कुंतल प्रति बीघा',
+    khadSchedule: [
+      { name: 'DAP (फास्फोरस)', dose: '15 से 20 किलो प्रति बीघा', timing: 'बुवाई के समय कतारों में (चना दलहन है, इसे ज्यादा यूरिया नहीं चाहिए)', badge: 'dap' },
+      { name: 'सल्फर (Sulfur 90%)', dose: '3 किलो प्रति बीघा', timing: 'बुवाई के समय (दाने में प्रोटीन और चमक बढ़ती है)', badge: 'sulfur' },
+      { name: 'राइजोबियम कल्चर', dose: '1 पैकेट प्रति एकड़ बीज', timing: 'बुवाई से पहले बीजोपचार करें (जड़ों में गांठें बनेंगी और हवा से खाद बनेगी)', badge: 'gobar' }
+    ],
+    irrigation: [
+      'चना कम पानी की फसल है। ज्यादा पानी देने से पौधा सिर्फ बढ़ता है और फलियां नहीं आतीं।',
+      'पहली सिंचाई: फूल आने से ठीक पहले (45-50 दिन)।',
+      'फूल खिलते समय पानी कभी न दें (फूल झड़ जाते हैं)। फलियां बनते समय दूसरी सिंचाई करें।'
+    ],
+    diseases: [
+      { name: 'उकठा रोग (Wilt)', symptoms: 'पौधे ऊपर से अचानक सूखने लगते हैं, जड़ें काली पड़ जाती हैं।', medicine: 'ट्राइकोडर्मा वीरिडी (Trichoderma)', sprayDose: 'बुवाई से पहले 5-10 ग्राम ट्राइकोडर्मा प्रति किलो बीज मिलाकर उपचारित करें।' },
+      { name: 'फली छेदक सुंडी (Pod Borer)', symptoms: 'सुंडी फलियों में छेद करके दाने खा जाती है।', medicine: 'इमामेक्टिन बेंजोएट (Proclaim / Emamectin 5% SG)', sprayDose: '8 से 10 ग्राम दवा प्रति 15 लीटर टंकी स्प्रे करें।' }
+    ],
+    kisanTips: 'बुवाई के 30-35 दिन बाद जब पौधे 6-8 इंच के हों, तो ऊपर की कोमल टहनियां तोड़ दें (निपलिंग)। इससे शाखाएं 3 गुना ज्यादा फूटती हैं और फलियां बढ़ जाती हैं।'
+  },
+  {
+    id: 'sarson',
+    name: 'सरसों (Sarson / Mustard)',
+    icon: '🌼',
+    season: 'rabi',
+    seasonLabel: 'रबी (सर्दियां)',
+    image: 'https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=600&q=80',
+    sowing: '25 सितंबर से 25 अक्टूबर (तापमान ठंडा होते ही)',
+    harvest: 'फरवरी से मार्च (110-125 दिन)',
+    production: '8 से 12 कुंतल प्रति बीघा',
+    khadSchedule: [
+      { name: 'DAP (फास्फोरस)', dose: '15 से 20 किलो प्रति बीघा', timing: 'बुवाई के समय', badge: 'dap' },
+      { name: 'सल्फर (Sulfur Bentone 90%)', dose: '5 किलो प्रति बीघा', timing: 'बुवाई के समय — सरसों में सल्फर से तेल की मात्रा 3 से 5% तक बढ़ जाती है', badge: 'sulfur' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '20 से 25 किलो प्रति बीघा', timing: 'पहली सिंचाई (बुवाई के 25-30 दिन बाद)', badge: 'urea' },
+      { name: 'पोटाश (MOP)', dose: '10 किलो प्रति बीघा', timing: 'बुवाई के समय', badge: 'potash' }
+    ],
+    irrigation: [
+      'पहली सिंचाई: बुवाई के 25 से 30 दिन बाद (फूल निकलने से पहले)।',
+      'दूसरी सिंचाई: फलियां (सिलिकुआ) बनते समय (60-70 दिन बाद)।'
+    ],
+    diseases: [
+      { name: 'माहू / चेपा (Aphids कीट)', symptoms: 'काले/हरे रंग के छोटे-छोटे कीड़े फलियों व कोमल शाखाओं का रस चूसते हैं।', medicine: 'रोगोर (Dimethoate 30% EC) या इमिडाक्लोप्रिड (Confidor)', sprayDose: 'इमिडाक्लोप्रिड 5ml प्रति 15 लीटर टंकी में मिलाकर दोपहर बाद छिड़कें।' },
+      { name: 'सफेद रतुआ (White Rust)', symptoms: 'पत्तियों की निचली सतह पर सफेद उभरे हुए चकत्ते।', medicine: 'रिडोमिल गोल्ड (Ridomil Gold)', sprayDose: '30 ग्राम प्रति 15 लीटर टंकी में मिलाकर छिड़कें।' }
+    ],
+    kisanTips: 'सरसों में सल्फर खाद डालना कभी न भूलें—यह सरसों का मुख्य भोजन है। माहू कीड़े से बचाव के लिए खेत में पीला चिपचिपा ट्रैप (Yellow Sticky Trap) लगाएं।'
+  },
+  {
+    id: 'makka',
+    name: 'मक्का (Makka / Maize)',
+    icon: '🌽',
+    season: 'kharif',
+    seasonLabel: 'खरीफ / जायद',
+    image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80',
+    sowing: 'खरीफ: जून-जुलाई / जायद: फरवरी-मार्च',
+    harvest: '80 से 100 दिन बाद',
+    production: '20 से 28 कुंतल प्रति बीघा',
+    khadSchedule: [
+      { name: 'DAP (फास्फोरस)', dose: '25 किलो प्रति बीघा', timing: 'बुवाई के समय कतारों में', badge: 'dap' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '35 किलो प्रति बीघा (3 बार में)', timing: '1/3 बुवाई पर, 1/3 घुटने की ऊंचाई पर (30 दिन), 1/3 नर मंजरी आने पर', badge: 'urea' },
+      { name: 'पोटाश (MOP)', dose: '12 किलो प्रति बीघा', timing: 'बुवाई के समय', badge: 'potash' },
+      { name: 'जिंक सल्फेट', dose: '5 किलो प्रति बीघा', timing: 'बुवाई के समय (सफेद कली रोग से बचाव)', badge: 'zinc' }
+    ],
+    irrigation: [
+      'मक्का में जलभराव बिल्कुल नहीं होना चाहिए, खेत से पानी तुरंत निकलने की व्यवस्था हो।',
+      'नर मंजरी (Tasseling) व भुट्टे में दाना भरते समय नमी बहुत ज़रूरी है।'
+    ],
+    diseases: [
+      { name: 'फॉल आर्मीवर्म (सुंडी)', symptoms: 'पत्तियों में बड़े-बड़े छेद और भुट्टे की गोब में कीड़े का मल दिखता है।', medicine: 'कोराजन (Coragen) या डेलीगेट (Delegate)', sprayDose: 'कोराजन 6ml प्रति 15 लीटर टंकी गोब के अंदर तक स्प्रे करें।' }
+    ],
+    kisanTips: 'मक्का में जब पौधे घुटने तक ऊंचे हो जाएं तब मिट्टी ज़रूर चढ़ाएं ताकि पौधे आंधी-तूफान में न गिरें।'
+  },
+  {
+    id: 'aloo',
+    name: 'आलू (Aloo / Potato)',
+    icon: '🥔',
+    season: 'rabi',
+    seasonLabel: 'रबी (सर्दियां)',
+    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80',
+    sowing: '15 अक्टूबर से 10 नवंबर (अगेती: सितंबर अंत)',
+    harvest: 'दिसंबर से फरवरी (75-90 दिन बाद)',
+    production: '80 से 120 कुंतल प्रति बीघा',
+    khadSchedule: [
+      { name: 'सड़ी गोबर की खाद', dose: '3 ट्रॉली प्रति बीघा', timing: 'खेत की तैयारी के समय', badge: 'gobar' },
+      { name: 'DAP (फास्फोरस)', dose: '35 से 40 किलो प्रति बीघा', timing: 'बुवाई के समय मेड़ों में', badge: 'dap' },
+      { name: 'पोटाश (MOP)', dose: '30 से 35 किलो प्रति बीघा', timing: 'बुवाई पर (आलू का आकार बड़ा, छिलका मजबूत और चमकदार बनता है)', badge: 'potash' },
+      { name: 'यूरिया (नाइट्रोजन)', dose: '35 किलो प्रति बीघा', timing: 'आधी बुवाई पर, आधी मिट्टी चढ़ाते समय (25-30 दिन बाद)', badge: 'urea' }
+    ],
+    irrigation: [
+      'पहली सिंचाई: बुवाई के 7-10 दिन बाद हल्की सिंचाई करें (मेड़ 2/3 ही डूबे, ऊपर तक पानी न चढ़े)।',
+      'बाद में 10-12 दिन के अंतराल पर नमी बनाए रखें।'
+    ],
+    diseases: [
+      { name: 'पछेती झुलसा रोग (Late Blight)', symptoms: 'कोहरे व ठंड में पत्तियों के किनारों पर काले-भूरे गीले धब्बे और पत्तियों के नीचे सफेद फफूंद।', medicine: 'रिडोमिल गोल्ड (Ridomil Gold) या मैन्कोजेब (Mancozeb 75% WP)', sprayDose: 'मैन्कोजेब 35 ग्राम प्रति 15 लीटर टंकी कोहरे के मौसम में हर 10 दिन पर छिड़कें।' }
+    ],
+    kisanTips: 'बुवाई के 25-30 दिन बाद आलू पर अच्छी तरह मिट्टी चढ़ाएं ताकि कंद धूप के संपर्क में न आएं (धूप लगने से आलू हरा व जहरीला हो जाता है)।'
+  }
+];
+
+function renderKrishi(){
+  renderKrishiPicker();
+  renderKrishiDetail();
+}
+
+function renderKrishiPicker(){
+  const picker = document.getElementById('krishiCropPicker');
+  if(!picker) return;
+  const list = (krishiList && krishiList.length) ? krishiList : DEFAULT_KRISHI;
+  const filtered = activeKrishiSeason === 'all'
+    ? list
+    : list.filter(c => c.season === activeKrishiSeason);
+
+  if(!filtered || filtered.length === 0){
+    picker.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--ink-soft);font-size:.85rem;padding:8px;">इस मौसम की कोई फसल नहीं मिली</p>';
+    return;
+  }
+
+  if(!filtered.some(c => c.id === activeKrishiCrop)){
+    activeKrishiCrop = filtered[0].id;
+  }
+
+  picker.innerHTML = filtered.map(c => {
+    const isAct = c.id === activeKrishiCrop;
+    const shortName = c.name.split('(')[0].trim() || c.name;
+    return `<button type="button" class="crop-btn ${isAct ? 'active' : ''}" data-crop="${c.id}" aria-label="${escapeHtml(c.name)}">
+      <span class="crop-icon">${c.icon || '🌾'}</span>
+      <span class="crop-name">${escapeHtml(shortName)}</span>
+    </button>`;
+  }).join('');
+}
+
+function renderKrishiDetail(){
+  const wrap = document.getElementById('krishiCropDetail');
+  if(!wrap) return;
+
+  const list = (krishiList && krishiList.length) ? krishiList : DEFAULT_KRISHI;
+  if(!list || list.length === 0){
+    wrap.innerHTML = `<div class="empty-state" style="background:#FAF3E3;">🌾 फसलों की जानकारी उपलब्ध नहीं है।</div>`;
+    return;
+  }
+
+  const crop = list.find(c => c.id === activeKrishiCrop) || list[0];
+  if(!crop){
+    wrap.innerHTML = `<div class="empty-state">🌾 कोई फसल चुनी नहीं गई है।</div>`;
+    return;
+  }
+
+  const khadHtml = (crop.khadSchedule && crop.khadSchedule.length > 0) ? `
+    <h4 class="krishi-section-title">🧪 खाद और उर्वरक का सही गणित (प्रति बीघा)</h4>
+    <div class="khad-grid">
+      ${crop.khadSchedule.map(k => `
+        <div class="khad-card badge-${k.badge || 'urea'}">
+          <div class="khad-card-head">
+            <span class="khad-name">${escapeHtml(k.name)}</span>
+            <span class="khad-dose">${escapeHtml(k.dose)}</span>
+          </div>
+          <p class="khad-timing">⏱️ <strong>कब और कैसे डालें:</strong> ${escapeHtml(k.timing)}</p>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const irrHtml = (crop.irrigation && crop.irrigation.length > 0) ? `
+    <h4 class="krishi-section-title">💧 सिंचाई का सही समय व नियम</h4>
+    <div class="irrigation-card">
+      ${crop.irrigation.map((step, idx) => `
+        <div class="irrigation-step">
+          <span class="irrigation-icon">💧</span>
+          <div><strong>सिंचाई ${idx + 1}:</strong> ${escapeHtml(step)}</div>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const diseaseHtml = (crop.diseases && crop.diseases.length > 0) ? `
+    <h4 class="krishi-section-title">🛡️ प्रमुख रोग, कीड़े और असरदार दवा (छिड़काव)</h4>
+    <div class="disease-grid">
+      ${crop.diseases.map(d => `
+        <div class="disease-card">
+          <div class="disease-head">
+            <div class="disease-name">⚠️ ${escapeHtml(d.name)}</div>
+            <div class="disease-symptoms"><strong>पहचान / लक्षण:</strong> ${escapeHtml(d.symptoms)}</div>
+          </div>
+          <div class="disease-rx">
+            <div class="disease-rx-title">दवा और छिड़काव की मात्रा (15 लीटर स्प्रे टंकी)</div>
+            <div class="disease-rx-med">💊 ${escapeHtml(d.medicine)}</div>
+            <div class="disease-rx-dose">💦 <strong>मात्रा:</strong> ${escapeHtml(d.sprayDose)}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const tipsHtml = crop.kisanTips ? `
+    <div class="kisan-tips-card">
+      <span class="kisan-tips-icon">💡</span>
+      <div class="kisan-tips-text">
+        <h4>किसान भाई ध्यान दें (ज़रूरी सलाह):</h4>
+        <p>${escapeHtml(crop.kisanTips)}</p>
+      </div>
+    </div>
+  ` : '';
+
+  wrap.innerHTML = `
+    <div class="krishi-hero-card">
+      <div class="krishi-hero-img-wrap">
+        <img class="krishi-hero-img" src="${crop.image}" alt="${escapeHtml(crop.name)}" loading="lazy" onerror="this.style.display='none'">
+        <div class="krishi-hero-badge">${escapeHtml(crop.seasonLabel || '')}</div>
+      </div>
+      <div class="krishi-hero-content">
+        <h3 class="krishi-hero-title">${crop.icon || '🌾'} ${escapeHtml(crop.name)}</h3>
+        <div class="krishi-stats-row">
+          <div class="krishi-stat-box">
+            <div class="krishi-stat-label">📅 बुवाई का समय</div>
+            <div class="krishi-stat-val">${escapeHtml(crop.sowing || '—')}</div>
+          </div>
+          <div class="krishi-stat-box">
+            <div class="krishi-stat-label">🌾 पकने की अवधि / कटाई</div>
+            <div class="krishi-stat-val">${escapeHtml(crop.harvest || '—')}</div>
+          </div>
+          <div class="krishi-stat-box" style="grid-column: span 2;">
+            <div class="krishi-stat-label">⚖️ अनुमानित पैदावार</div>
+            <div class="krishi-stat-val">${escapeHtml(crop.production || '—')}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${khadHtml}
+    ${irrHtml}
+    ${diseaseHtml}
+    ${tipsHtml}
+  `;
+}
+
+document.getElementById('krishiSeasonFilters').addEventListener('click', (e) => {
+  const btn = e.target.closest('.krishi-filter-btn');
+  if(!btn) return;
+  document.querySelectorAll('.krishi-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeKrishiSeason = btn.dataset.season;
+  renderKrishiPicker();
+  renderKrishiDetail();
+});
+
+document.getElementById('krishiCropPicker').addEventListener('click', (e) => {
+  const btn = e.target.closest('.crop-btn');
+  if(!btn) return;
+  const cropId = btn.dataset.crop;
+  if(cropId && cropId !== activeKrishiCrop){
+    activeKrishiCrop = cropId;
+    document.querySelectorAll('.crop-btn').forEach(b => b.classList.toggle('active', b.dataset.crop === cropId));
+    renderKrishiDetail();
+  }
+});
+
 /* ============ PRADHAN LOGIN / LOGOUT ============ */
 function updateAdminButton(){
   const btn = document.getElementById('adminLoginBtn');
@@ -1611,16 +2090,21 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
 /* ============ Init ============ */
 async function init(){
   updateAdminButton();
-  const [su, j, y, ch] = await Promise.all([
+  const [su, j, y, ch, kr] = await Promise.all([
     apiGet('/suchna'),
     apiGet('/jaankari'),
     apiGet('/yojana'),
-    apiGet('/chaupal')
+    apiGet('/chaupal'),
+    apiGet('/krishi')
   ]);
   suchnaList = su || [];
   jaankari = j || null;
   yojanaList = y || [];
   chaupalList = ch || [];
+  krishiList = (kr && Array.isArray(kr) && kr.length > 0) ? kr : DEFAULT_KRISHI;
+  if(krishiList.length > 0 && !activeKrishiCrop){
+    activeKrishiCrop = krishiList[0].id;
+  }
 
   renderCatGrid();
   renderSamasyaList();
@@ -1628,6 +2112,7 @@ async function init(){
   renderSuchna();
   renderJaankari();
   renderYojana();
+  renderKrishi();
 
   if(adminKey) await loadSamasyaList();
 }
