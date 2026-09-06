@@ -2298,12 +2298,18 @@ function renderJaankari(){
       <p>${escapeHtml(j.population)}</p>
     </div>
     <div class="info-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
         <h3 style="margin-bottom:0;">☎️ ज़रूरी संपर्क व डायरेक्ट कॉल डायरेक्टरी</h3>
-        <span style="font-size:.78rem; color:var(--ink-soft); font-weight:700;">1-Tap Direct Call</span>
+        ${adminKey ? `
+          <span style="background:#FEF3C7; color:#92400E; border:1px solid #F59E0B; padding:3px 10px; border-radius:14px; font-size:.74rem; font-weight:700;">
+            👑 प्रधान मोड: केवल आप नंबर बदल सकते हैं
+          </span>
+        ` : `
+          <span style="font-size:.78rem; color:var(--ink-soft); font-weight:700;">1-Tap Direct Call</span>
+        `}
       </div>
       <div class="contact-card-grid">
-        ${contacts.map(c => {
+        ${contacts.map((c, idx) => {
           const catClass = c.category || 'utility';
           const cleanNum = (c.num || '').replace(/[^0-9+]/g, '');
           const hasNum = cleanNum && cleanNum !== '—';
@@ -2313,35 +2319,121 @@ function renderJaankari(){
                 <span class="who">${escapeHtml(c.who)}</span>
                 <span class="num">${escapeHtml(c.num)}</span>
               </div>
-              ${hasNum ? `
-                <a href="tel:${cleanNum}" class="call-btn" title="${escapeHtml(c.who)} को कॉल लगाएं">
-                  📞 कॉल करें
-                </a>
-              ` : `
-                <span style="font-size:.72rem; color:var(--ink-soft); font-style:italic;">नंबर जल्द</span>
-              `}
+              <div style="display:flex; align-items:center; gap:6px;">
+                ${hasNum ? `
+                  <a href="tel:${cleanNum}" class="call-btn" title="${escapeHtml(c.who)} को कॉल लगाएं">
+                    📞 कॉल करें
+                  </a>
+                ` : `
+                  <span style="font-size:.72rem; color:var(--ink-soft); font-style:italic;">नंबर जल्द</span>
+                `}
+                ${adminKey ? `
+                  <button type="button" class="btn-edit-contact" data-contact-idx="${idx}" title="फ़ोन नंबर बदलें" style="background:#FAF3E3; border:1.5px solid var(--turmeric); border-radius:18px; padding:5px 10px; font-size:.76rem; font-weight:700; color:var(--indigo-dark); cursor:pointer; display:inline-flex; align-items:center; gap:3px; white-space:nowrap;">
+                    ✏️ बदलें
+                  </button>
+                ` : ''}
+              </div>
             </div>
           `;
         }).join('')}
       </div>
+
+      ${adminKey ? `
+        <button type="button" class="btn btn-outline btn-block" id="btnAddContactBtn" style="margin-top:14px;">
+          ➕ नया संपर्क नंबर जोड़ें
+        </button>
+      ` : ''}
     </div>
-    <button class="btn btn-outline btn-block" id="editJaankariBtn">✏️ Jaankari Edit Karein</button>
+
+    ${adminKey ? `
+      <button class="btn btn-outline btn-block" id="editJaankariBtn">✏️ गाँव का इतिहास व विवरण बदलें</button>
+    ` : ''}
   `;
-  document.getElementById('editJaankariBtn').addEventListener('click', editJaankari);
 }
 
-async function editJaankari(){
-  const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
-  const history = prompt('Gaon ka itihaas:', j.history);
-  if(history===null) return;
-  const population = prompt('Jansankhya:', j.population);
-  if(population===null) return;
-  const updated = await apiSend('PUT', '/jaankari', {history, population});
-  if(!updated) return;
-  jaankari = updated;
-  renderJaankari();
-  toast('Jaankari update ho gayi ✅');
-}
+// Event delegation for Jaankari actions (Edit numbers, add contacts, edit history)
+document.getElementById('jaankariWrap').addEventListener('click', async (e) => {
+  // 1. Edit individual contact number (Pradhan only)
+  const editContactBtn = e.target.closest('.btn-edit-contact');
+  if(editContactBtn){
+    if(!adminKey){
+      toast('नंबर बदलने के लिए प्रधान लॉगिन आवश्यक है 🔐');
+      return;
+    }
+    const idx = parseInt(editContactBtn.dataset.contactIdx, 10);
+    const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
+    const contacts = (j.contacts && j.contacts.length) ? j.contacts : JSON.parse(JSON.stringify(DEFAULT_JAANKARI.contacts));
+    const item = contacts[idx];
+    if(!item) return;
+
+    const curNum = (item.num && item.num !== '—') ? item.num : '';
+    const newNum = prompt(`"${item.who}" का नया फ़ोन नंबर दर्ज करें:\n(यदि नंबर नहीं है तो खाली छोड़ें)`, curNum);
+    if(newNum === null) return;
+
+    item.num = newNum.trim() || '—';
+    const updated = await apiSend('PUT', '/jaankari', { contacts }, true);
+    if(updated && updated.unauthorized){ adminLogout(); return; }
+    if(updated){
+      jaankari = updated;
+      renderJaankari();
+      toast('फ़ोन नंबर अपडेट हो गया ✅');
+    }
+    return;
+  }
+
+  // 2. Add new contact (Pradhan only)
+  const addBtn = e.target.closest('#btnAddContactBtn');
+  if(addBtn){
+    if(!adminKey){
+      toast('नया संपर्क जोड़ने के लिए प्रधान लॉगिन आवश्यक है 🔐');
+      return;
+    }
+    const who = prompt('किस पद / व्यक्ति का नंबर जोड़ना है?\n(उदा. पशु डॉक्टर / पानी टंकी ऑपरेटर):');
+    if(!who || !who.trim()) return;
+
+    const num = prompt(`"${who.trim()}" का फ़ोन नंबर दर्ज करें:`);
+    if(num === null) return;
+
+    const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
+    const contacts = (j.contacts && j.contacts.length) ? j.contacts : JSON.parse(JSON.stringify(DEFAULT_JAANKARI.contacts));
+    contacts.push({
+      who: who.trim(),
+      num: num.trim() || '—',
+      category: 'utility'
+    });
+
+    const updated = await apiSend('PUT', '/jaankari', { contacts }, true);
+    if(updated && updated.unauthorized){ adminLogout(); return; }
+    if(updated){
+      jaankari = updated;
+      renderJaankari();
+      toast('नया संपर्क नंबर जुड़ गया ✅');
+    }
+    return;
+  }
+
+  // 3. Edit Village history & population (Pradhan only)
+  const editJBtn = e.target.closest('#editJaankariBtn');
+  if(editJBtn){
+    if(!adminKey){
+      toast('गाँव की जानकारी बदलने के लिए प्रधान लॉगिन आवश्यक है 🔐');
+      return;
+    }
+    const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
+    const history = prompt('गाँव का इतिहास:', j.history);
+    if(history === null) return;
+    const population = prompt('जनसंख्या व परिवार संख्या:', j.population);
+    if(population === null) return;
+
+    const updated = await apiSend('PUT', '/jaankari', { history, population }, true);
+    if(updated && updated.unauthorized){ adminLogout(); return; }
+    if(!updated) return;
+    jaankari = updated;
+    renderJaankari();
+    toast('गाँव की जानकारी अपडेट हो गई ✅');
+    return;
+  }
+});
 
 /* ============ SARKARI YOJANAEIN ============ */
 const DEFAULT_YOJANA = [
@@ -2845,6 +2937,7 @@ function adminLogout(){
   renderSamasyaList();
   renderChaupal();
   renderSuchna();
+  renderJaankari();
   toast('Logout ho gaya');
 }
 async function loadSamasyaList(){
@@ -2870,6 +2963,7 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
     await loadSamasyaList();
     renderChaupal();
     renderSuchna();
+    renderJaankari();
     toast('Pradhan ke roop me login ho gaya ✅');
   } else {
     toast('Galat password ⚠️');

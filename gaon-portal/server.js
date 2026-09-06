@@ -650,7 +650,7 @@ app.get('/api/jaankari', async(req, res) => {
     }
 });
 
-app.put('/api/jaankari', async(req, res) => {
+app.put('/api/jaankari', requireAdmin, async(req, res) => {
     try {
         let data = await jaankariCollection.findOne({
             type: 'main'
