@@ -87,28 +87,75 @@ app.use('/api', (req, res, next) => {
 // ===== DEFAULT DATA =====
 
 const DEFAULT_JAANKARI = {
-    history: 'Yahan gaon ka itihaas likhein — gaon kab basa, kya khaasiyat hai, kaunse tyohar manaye jaate hain.',
-    population: 'Jansankhya yahan darj karein.',
+    history: 'जगदीशपुर एक समृद्ध और ऐतिहासिक गाँव है, जहाँ कृषि, भाईचारा और शांति का माहौल है। यहाँ के किसान मेहनती हैं और विभिन्न फसलों की उन्नत खेती करते हैं।',
+    population: 'लगभग 3,500 (परिवार: 450+)',
     contacts: [
-        { who: 'Pradhan / Sarpanch', num: '—' },
-        { who: 'Doctor / Swasthya Kendra', num: '—' },
-        { who: 'Police Station', num: '100' },
-        { who: 'Bijli Vibhag', num: '—' },
-        { who: 'School', num: '—' }
+        { who: '🚑 एम्बुलेंस आपातकालीन सेवा', num: '108', category: 'emergency' },
+        { who: '🚔 पुलिस सहायता (डायल 112)', num: '112', category: 'emergency' },
+        { who: '👩‍⚕️ आशा बहू / ANM (गाँव स्वास्थ्य)', num: '9876543210', category: 'health' },
+        { who: '🏥 PHC डॉक्टर / प्राथमिक स्वास्थ्य केंद्र', num: '0522-234567', category: 'health' },
+        { who: '⚡ बिजली विभाग (लाइनमैन / JE)', num: '9415000000', category: 'utility' },
+        { who: '🌾 कोटेदार (सरकारी राशन दुकान)', num: '9839000000', category: 'ration' },
+        { who: '🏛️ पंचायत सचिव (सेक्रेटरी) / लेखपाल', num: '9450000000', category: 'admin' },
+        { who: '🚰 सरकारी हैंडपंप मरम्मत मिस्त्री', num: '9125000000', category: 'utility' },
+        { who: '👑 ग्राम प्रधान / सरपंच', num: '9919000000', category: 'admin' }
     ]
 };
 
-const DEFAULT_YOJANA = [{
+const DEFAULT_YOJANA = [
+    {
         id: 'y1',
-        name: 'PM Awas Yojana',
-        desc: 'Gareeb parivaron ke liye pakka ghar banane ke liye sarkari sahayata.',
-        apply: 'Gram Panchayat ya CSC center me sampark karein.'
+        name: 'प्रधानमंत्री आवास योजना (ग्रामीण)',
+        desc: 'बेघर एवं कच्चे या जर्जर मकान में रहने वाले परिवारों को पक्का मकान निर्माण हेतु ₹1,20,000 की सरकारी आर्थिक सहायता।',
+        eligibility: 'SECC 2011 सूची में शामिल, बेघर या कच्चे मकान वाले बीपीएल / गरीब परिवार जिनके पास पक्का मकान नहीं है।',
+        documents: ['आधार कार्ड (परिवार के सभी सदस्य)', 'बैंक पासबुक (आधार से लिंक)', 'मनरेगा जॉब कार्ड', 'राशन कार्ड', 'आय प्रमाण पत्र / शपथ पत्र'],
+        apply: 'ग्राम पंचायत सेक्रेटरी / ब्लॉक कार्यालय या ऑनलाइन csc केंद्र से।',
+        applyUrl: 'https://pmayg.nic.in'
     },
     {
         id: 'y2',
-        name: 'Ration Card',
-        desc: 'Sasti dar par anaaj paane ke liye ration card banwayein.',
-        apply: 'Block ke khadya vibhag karyalay me aavedan karein.'
+        name: 'राशन कार्ड (पात्र गृहस्थी / अंत्योदय)',
+        desc: 'गरीब परिवारों को राष्ट्रीय खाद्य सुरक्षा (NFSA) के तहत मुफ्त/सस्ती दर पर चावल, गेहूं और राशन का वितरण।',
+        eligibility: 'ग्रामीण क्षेत्र के पात्र गरीब एवं अंत्योदय परिवार जिनकी वार्षिक आय निर्धारित सीमा में हो।',
+        documents: ['परिवार के सभी सदस्यों का आधार कार्ड', 'मुखिया महिला की पासपोर्ट फ़ोटो', 'आय प्रमाण पत्र', 'बैंक पासबुक', 'निवास प्रमाण / बिजली बिल'],
+        apply: 'ब्लॉक खाद्य आपूर्ति कार्यालय या जनसेवा केंद्र (CSC) से ऑनलाइन।',
+        applyUrl: 'https://fcs.up.gov.in'
+    },
+    {
+        id: 'y3',
+        name: 'पीएम किसान सम्मान निधि (₹6,000 सालाना)',
+        desc: 'किसानों को प्रति वर्ष ₹2,000 की 3 समान किस्तों में कुल ₹6,000 सीधे बैंक खाते (DBT) में दिए जाते हैं।',
+        eligibility: 'सभी भू-स्वामी किसान परिवार जिनके नाम पर कृषि योग्य भूमि की खतौनी दर्ज है।',
+        documents: ['खतौनी (भूलेख नकल)', 'आधार कार्ड', 'बैंक पासबुक (NPCI / DBT चालू होना अनिवार्य)', 'मोबाइल नंबर'],
+        apply: 'PM-Kisan पोर्टल पर ऑनलाइन स्वयं या CSC / कृषि विभाग कार्यालय से।',
+        applyUrl: 'https://pmkisan.gov.in'
+    },
+    {
+        id: 'y4',
+        name: 'आयुष्मान भारत - जन आरोग्य योजना (₹5 लाख कार्ड)',
+        desc: 'गरीब परिवारों को प्रति वर्ष ₹5 लाख तक का सरकारी व प्राइवेट सूचीबद्ध अस्पतालों में मुफ़्त इलाज।',
+        eligibility: 'SECC 2011 डेटाबेस या अंत्योदय राशन कार्ड धारक एवं पात्रता सूची में दर्ज परिवार।',
+        documents: ['आधार कार्ड', 'राशन कार्ड', 'मोबाइल नंबर'],
+        apply: 'गाँव की आशा बहू, प्राथमिक स्वास्थ्य केंद्र (PHC) या नजदीकी CSC केंद्र पर।',
+        applyUrl: 'https://beneficiary.nha.gov.in'
+    },
+    {
+        id: 'y5',
+        name: 'वृद्धावस्था / विधवा / दिव्यांग पेंशन योजना',
+        desc: '60 वर्ष से अधिक उम्र के बुजुर्गों, निराश्रित महिलाओं एवं दिव्यांगजनों को ₹1,000 प्रति माह सीधे खाते में।',
+        eligibility: '60+ वर्ष के वृद्धजन, निराश्रित विधवा महिलाएं या 40% से अधिक दिव्यांग व्यक्ति (गरीबी रेखा के नीचे)।',
+        documents: ['आधार कार्ड', 'आयु प्रमाण पत्र (वोटर कार्ड/स्कूल सर्टिफिकेट)', 'बैंक पासबुक', 'आय प्रमाण पत्र', 'दिव्यांगता सर्टिफिकेट (दिव्यांग पेंशन हेतु)'],
+        apply: 'समाज कल्याण विभाग की आधिकारिक वेबसाइट (SSPY) या जनसेवा केंद्र से।',
+        applyUrl: 'https://sspy-up.gov.in'
+    },
+    {
+        id: 'y6',
+        name: 'मुख्यमंत्री कन्या सुमंगला योजना',
+        desc: 'बालिका के जन्म से लेकर उच्च शिक्षा (ग्रेजुएशन) तक 6 अलग-अलग चरणों में कुल ₹25,000 की सरकारी सहायता।',
+        eligibility: 'परिवार की वार्षिक आय ₹3 लाख से कम हो एवं परिवार में अधिकतम 2 बालिकाएं हों।',
+        documents: ['बालिका का जन्म प्रमाण पत्र', 'माता-पिता का आधार कार्ड', 'बैंक पासबुक', 'निवास प्रमाण पत्र', 'आय प्रमाण पत्र'],
+        apply: 'महिला कल्याण विभाग की वेबसाइट (mksy) या ब्लॉक/तहसील कार्यालय से।',
+        applyUrl: 'https://mksy.up.gov.in'
     }
 ];
 
@@ -331,7 +378,7 @@ app.get('/api/samasya', requireAdmin, async(req, res) => {
 // Koi bhi gaon wala complaint kar sakta hai
 app.post('/api/samasya', async(req, res) => {
     try {
-        const { category, desc, name, photo } = req.body;
+        const { category, desc, name, phone, photo } = req.body;
 
         if (!category || !desc) {
             return res.status(400).json({
@@ -339,19 +386,31 @@ app.post('/api/samasya', async(req, res) => {
             });
         }
 
+        // Clean sequential token (GP-101, GP-102...)
+        let count = 0;
+        if (samasyaCollection) {
+            count = await samasyaCollection.countDocuments().catch(() => 0);
+        }
+        const token = 'GP-' + (101 + count);
+
         const item = {
             id: uid(),
+            token,
             category,
             desc,
             name: name || '',
+            phone: phone ? String(phone).trim() : '',
             photo: photo || null,
             status: 'nayi',
+            adminRemark: '',
             date: Date.now()
         };
 
-        await samasyaCollection.insertOne(item);
+        if (samasyaCollection) {
+            await samasyaCollection.insertOne(item);
+        }
 
-        res.json({ ok: true });
+        res.json({ ok: true, token, id: item.id });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -360,7 +419,53 @@ app.post('/api/samasya', async(req, res) => {
     }
 });
 
-// Sirf Pradhan status badal sakte hain
+// Koi bhi gaon wala apna Token No. ya Mobile No. daal kar apni shikayat track kar sakta hai
+app.get('/api/samasya/track/:query', async(req, res) => {
+    try {
+        const query = String(req.params.query || '').trim();
+        if (!query) {
+            return res.status(400).json({ error: 'Token ya Mobile No. likhna zaruri hai' });
+        }
+
+        if (!samasyaCollection) {
+            return res.status(503).json({ error: 'Database connect ho raha hai, kripya thodi der baad dekhein' });
+        }
+
+        const upper = query.toUpperCase();
+        const matches = await samasyaCollection
+            .find({
+                $or: [
+                    { token: upper },
+                    { token: query },
+                    { phone: query },
+                    { id: query }
+                ]
+            })
+            .sort({ date: -1 })
+            .toArray();
+
+        // Safe tracking result
+        const results = matches.map(m => ({
+            id: m.id,
+            token: m.token || ('GP-' + m.id.slice(-4)),
+            category: m.category,
+            desc: m.desc,
+            name: m.name,
+            phone: m.phone || '',
+            status: m.status || 'nayi',
+            date: m.date,
+            adminRemark: m.adminRemark || '',
+            photo: m.photo || null
+        }));
+
+        res.json({ ok: true, items: results });
+    } catch (error) {
+        console.error('Tracking error:', error);
+        res.status(500).json({ error: 'Shikayat track nahi ho paayi' });
+    }
+});
+
+// Sirf Pradhan status aur remark badal sakte hain
 app.patch('/api/samasya/:id', requireAdmin, async(req, res) => {
     try {
         const item = await samasyaCollection.findOne({
@@ -373,13 +478,15 @@ app.patch('/api/samasya/:id', requireAdmin, async(req, res) => {
             });
         }
 
+        const update = {};
         if (req.body.status) {
-            await samasyaCollection.updateOne({ id: req.params.id }, {
-                $set: {
-                    status: req.body.status
-                }
-            });
+            update.status = req.body.status;
         }
+        if (typeof req.body.adminRemark === 'string') {
+            update.adminRemark = req.body.adminRemark;
+        }
+
+        await samasyaCollection.updateOne({ id: req.params.id }, { $set: update });
 
         const updated = await samasyaCollection.findOne({
             id: req.params.id
@@ -842,6 +949,31 @@ async function connectDB() {
             }
         } catch (syncErr) {
             console.warn('Krishi image sync warning:', syncErr.message);
+        }
+
+        // Sync yojana in database to ensure eligibility, documents, and applyUrl are populated
+        try {
+            for (const y of DEFAULT_YOJANA) {
+                await yojanaCollection.updateOne(
+                    { id: y.id },
+                    { $set: { name: y.name, desc: y.desc, eligibility: y.eligibility, documents: y.documents, apply: y.apply, applyUrl: y.applyUrl } },
+                    { upsert: true }
+                );
+            }
+        } catch (yErr) {
+            console.warn('Yojana sync warning:', yErr.message);
+        }
+
+        // Seed default jaankari if not present or missing contacts
+        try {
+            const jDoc = await jaankariCollection.findOne({});
+            if (!jDoc) {
+                await jaankariCollection.insertOne(DEFAULT_JAANKARI);
+            } else if (!jDoc.contacts || jDoc.contacts.length < DEFAULT_JAANKARI.contacts.length) {
+                await jaankariCollection.updateOne({}, { $set: { contacts: DEFAULT_JAANKARI.contacts } });
+            }
+        } catch (jErr) {
+            console.warn('Jaankari sync warning:', jErr.message);
         }
 
         console.log('✅ MongoDB connected successfully');

@@ -600,6 +600,198 @@
     color:#9FB0BE;
     margin:4px 0 0;
   }
+
+  /* ============ EMERGENCY QUICK STRIP ============ */
+  .emergency-strip{
+    background:linear-gradient(90deg, #7F1D1D 0%, #991B1B 100%);
+    padding:8px 12px;color:#fff;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  }
+  .emergency-strip::-webkit-scrollbar{display:none;}
+  .emergency-strip-inner{
+    display:flex;align-items:center;gap:8px;max-width:900px;margin:0 auto;white-space:nowrap;
+  }
+  .emergency-label{
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;color:#FEE2E2;display:flex;align-items:center;gap:4px;
+  }
+  .emergency-pill{
+    display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);
+    color:#fff;padding:4px 10px;border-radius:16px;text-decoration:none;font-size:.78rem;font-weight:600;
+    border:1px solid rgba(255,255,255,.3);transition:.15s;
+  }
+  .emergency-pill:hover, .emergency-pill:active{
+    background:#fff;color:#991B1B;
+  }
+  .emergency-more-btn{
+    background:var(--turmeric);color:var(--indigo-dark);border:none;border-radius:16px;
+    padding:4px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;margin-left:auto;
+  }
+
+  /* ============ CONTACT DIRECTORY (JAANKARI) ============ */
+  .contact-card-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px;
+  }
+  .contact-box{
+    background:var(--card);border:1.5px solid var(--line);border-radius:12px;
+    padding:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;
+    transition:.15s;
+  }
+  .contact-box:hover{border-color:var(--neem);}
+  .contact-box.emergency{border-left:4px solid #DC2626;}
+  .contact-box.health{border-left:4px solid #0288D1;}
+  .contact-box.utility{border-left:4px solid #F59E0B;}
+  .contact-box.ration{border-left:4px solid #10B981;}
+  .contact-box.admin{border-left:4px solid var(--terracotta);}
+  .contact-box .who{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);display:block;}
+  .contact-box .num{font-size:.82rem;color:var(--ink-soft);display:block;margin-top:2px;}
+  .call-btn{
+    background:#2E7D32;color:#fff;border-radius:20px;padding:6px 12px;font-size:.78rem;font-weight:700;
+    text-decoration:none;display:inline-flex;align-items:center;gap:4px;box-shadow:0 2px 6px rgba(46,125,50,.3);
+    white-space:nowrap;touch-action:manipulation;
+  }
+  .call-btn:hover{background:#1B5E20;}
+
+  /* ============ WHATSAPP SHARE BUTTON ============ */
+  .btn-wa-share{
+    display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;
+    border:none;border-radius:8px;padding:6px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;
+    font-size:.82rem;cursor:pointer;text-decoration:none;transition:.15s;margin-top:8px;
+  }
+  .btn-wa-share:hover{background:#1EBE5D;transform:translateY(-1px);}
+
+  /* ============ VOICE INPUT MIC ============ */
+  .voice-btn{
+    background:#FAF3E3;border:1.5px solid var(--turmeric);border-radius:20px;
+    padding:4px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.8rem;
+    color:var(--terracotta);cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+    transition:.15s;
+  }
+  .voice-btn:hover{background:#F3ECDD;}
+  .voice-btn.recording{
+    background:#FEE2E2;border-color:#DC2626;color:#DC2626;animation:voicePulse 1.2s infinite;
+  }
+  @keyframes voicePulse{
+    0%{box-shadow:0 0 0 0 rgba(220,38,38,.4);}
+    70%{box-shadow:0 0 0 8px rgba(220,38,38,0);}
+    100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}
+  }
+
+  /* ============ SAMASYA TRACKER CARD ============ */
+  .samasya-tracker-card{
+    background:linear-gradient(180deg,#FAF3E3 0%,#F3ECDD 100%);
+    border:1.5px solid var(--turmeric);border-radius:var(--radius);padding:14px 16px;
+    margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  .tracker-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .tracker-icon{font-size:1.6rem;}
+  .tracker-card-head h3{margin:0;font-family:'Baloo 2',sans-serif;font-size:1.05rem;color:var(--indigo-dark);}
+  .tracker-card-head p{margin:2px 0 0;font-size:.8rem;color:var(--ink-soft);}
+  .tracker-search-row{display:flex;gap:8px;}
+  .tracker-search-row input{
+    flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:.88rem;background:#fff;color:var(--ink);
+  }
+  .track-result-card{
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;
+    margin-top:12px;box-shadow:0 2px 6px rgba(0,0,0,.03);
+  }
+  .track-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .track-token-badge{
+    background:var(--indigo-dark);color:#fff;font-family:'Baloo 2',sans-serif;
+    font-weight:800;font-size:.84rem;padding:3px 10px;border-radius:6px;letter-spacing:.5px;
+  }
+  .track-status-badge{font-family:'Baloo 2',sans-serif;font-size:.8rem;font-weight:700;padding:3px 8px;border-radius:6px;}
+
+  /* Stepper */
+  .tracker-stepper{display:flex;align-items:center;justify-content:space-between;margin:16px 0;position:relative;}
+  .step{text-align:center;position:relative;z-index:2;flex:1;}
+  .step-circle{
+    width:28px;height:28px;border-radius:50%;background:#E2E8F0;color:#64748B;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 4px;
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:.8rem;transition:.2s;
+  }
+  .step.active .step-circle{background:#D35400;color:#fff;box-shadow:0 0 0 3px rgba(211,84,0,.2);}
+  .step.done .step-circle{background:#2E7D32;color:#fff;}
+  .step-lbl{font-size:.72rem;font-weight:700;color:var(--ink-soft);}
+  .step.active .step-lbl{color:var(--terracotta);}
+  .step.done .step-lbl{color:#2E7D32;}
+  .step-line{flex:1;height:3px;background:#E2E8F0;margin:0 -10px 18px;position:relative;z-index:1;}
+  .step-line.done{background:#2E7D32;}
+
+  .track-details p{margin:4px 0;font-size:.84rem;line-height:1.4;}
+  .track-admin-remark{
+    background:#EBF2E6;border:1.5px dashed var(--neem);border-radius:10px;
+    padding:10px 12px;margin-top:10px;display:flex;gap:8px;align-items:flex-start;
+  }
+  .track-admin-remark p{margin:2px 0 0;font-size:.84rem;color:var(--ink);}
+  .track-admin-pending{
+    background:#FAF3E3;border:1px dashed var(--line);border-radius:8px;
+    padding:8px 12px;margin-top:10px;font-size:.8rem;color:var(--ink-soft);
+  }
+
+  /* Token Modal */
+  .token-display-box{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.8rem;
+    letter-spacing:1px;color:var(--indigo-dark);background:#FAF3E3;
+    border:2px dashed var(--turmeric);border-radius:12px;padding:12px;margin:10px 0;
+  }
+
+  /* ============ YOJANA EXPANDED STYLING ============ */
+  .yojana-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;margin-bottom:16px;box-shadow:0 2px 6px rgba(0,0,0,.03);
+  }
+  .yojana-card h3{margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-size:1.15rem;color:var(--indigo-dark);}
+  .yojana-card p{margin:0 0 10px;font-size:.86rem;line-height:1.45;color:var(--ink);}
+  .yojana-eligibility{
+    background:#FFF9E6;border-left:3px solid var(--turmeric);padding:6px 10px;
+    border-radius:4px;font-size:.82rem;margin-bottom:10px;line-height:1.4;
+  }
+  .yojana-docs-box{
+    background:#FAF3E3;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:.82rem;
+  }
+  .yojana-docs-list{margin:6px 0 0;padding-left:18px;list-style:none;}
+  .yojana-docs-list li{margin-bottom:3px;position:relative;padding-left:4px;}
+  .yojana-actions-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;}
+  .btn-yojana-link{
+    display:inline-flex;align-items:center;gap:6px;background:var(--indigo-dark);color:#fff;
+    padding:6px 12px;border-radius:8px;font-size:.82rem;font-weight:700;text-decoration:none;
+    transition:.15s;
+  }
+  .btn-yojana-link:hover{background:var(--indigo);}
+
+  /* ============ ADMIN STATS & PRINT ============ */
+  .admin-dashboard-bar{
+    background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);
+    padding:14px;margin-bottom:16px;box-shadow:0 3px 10px rgba(0,0,0,.04);
+  }
+  .admin-stats-header{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;
+  }
+  .admin-stats-header h3{margin:0;font-family:'Baloo 2',sans-serif;font-size:1.05rem;color:var(--indigo-dark);}
+  .btn-print-report{
+    background:#1E3A8A;color:#fff;border:none;border-radius:8px;padding:6px 14px;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:.15s;
+  }
+  .btn-print-report:hover{background:#172554;}
+  .admin-stats-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;
+  }
+  .admin-stat-card{
+    background:#FAF3E3;border-left:4px solid var(--indigo);border-radius:8px;padding:8px 10px;text-align:center;
+  }
+  .admin-stat-card .stat-num{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.25rem;line-height:1.1;color:var(--indigo-dark);}
+  .admin-stat-card .stat-lbl{font-size:.7rem;color:var(--ink-soft);margin-top:2px;font-weight:600;}
+  .token-pill{background:#E0E7FF;color:#3730A3;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.74rem;padding:2px 6px;border-radius:4px;}
+  .btn-remark{
+    background:none;border:1px dashed var(--line);border-radius:6px;padding:3px 8px;
+    font-size:.75rem;color:var(--indigo-dark);cursor:pointer;margin-left:auto;
+  }
+  .btn-remark:hover{border-color:var(--indigo);background:#fff;}
+  .card-admin-remark{
+    background:#FFF6F0;border-left:3px solid var(--terracotta);padding:6px 10px;
+    border-radius:4px;font-size:.8rem;margin-top:6px;line-height:1.4;
+  }
 </style>
 </head>
 <body>
@@ -618,6 +810,17 @@
       <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
     </div>
   </header>
+
+  <!-- ===================== EMERGENCY QUICK CALL STRIP ===================== -->
+  <div class="emergency-strip" id="emergencyStrip">
+    <div class="emergency-strip-inner">
+      <span class="emergency-label">🚨 आपातकालीन:</span>
+      <a href="tel:108" class="emergency-pill">🚑 108 एम्बुलेंस</a>
+      <a href="tel:112" class="emergency-pill">🚓 112 पुलिस</a>
+      <a href="tel:1912" class="emergency-pill">⚡ 1912 बिजली फॉल्ट</a>
+      <button type="button" class="emergency-more-btn" id="btnEmergencyAll">सभी संपर्क 📞</button>
+    </div>
+  </div>
 
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>Samasya</button>
@@ -677,6 +880,31 @@
       <div class="panel-head">
         <h2>Apni Samasya Batayein</h2>
         <p>Category chunein aur photo ke saath samasya darj karein — sirf Gaon ke Pradhan hi ise dekh payenge.</p>
+      </div>
+
+      <!-- Pradhan Stats Dashboard (visible if admin) -->
+      <div class="admin-dashboard-bar" id="adminDashboardBar" style="display:none;">
+        <div class="admin-stats-header">
+          <h3>📊 ग्राम पंचायत समस्या रिपोर्ट (Admin Dashboard)</h3>
+          <button type="button" class="btn-print-report" id="btnPrintReport">🖨️ रिपोर्ट प्रिंट / PDF</button>
+        </div>
+        <div class="admin-stats-grid" id="adminStatsGrid"></div>
+      </div>
+
+      <!-- Samasya Public Tracker Card -->
+      <div class="samasya-tracker-card" id="samasyaTrackerCard">
+        <div class="tracker-card-head">
+          <div class="tracker-icon">🔍</div>
+          <div>
+            <h3>शिकायत ट्रैक करें (Track Complaint)</h3>
+            <p>टोकन नंबर (उदा. GP-101) या 10-अंक मोबाइल नंबर दर्ज करें और वर्तमान स्थिति देखें</p>
+          </div>
+        </div>
+        <div class="tracker-search-row">
+          <input type="text" id="trackInput" placeholder="टोकन नंबर (उदा. GP-101) या मोबाइल नं.">
+          <button type="button" class="btn btn-primary" id="btnTrackSearch" style="white-space:nowrap; padding:8px 16px;">ट्रैक करें</button>
+        </div>
+        <div id="trackResultWrap" style="display:none;"></div>
       </div>
 
       <div class="cat-grid" id="catGrid"></div>
@@ -812,8 +1040,13 @@
             <select id="fCategory" required></select>
           </div>
           <div class="field">
-            <label>Samasya ka vivaran (description)</label>
-            <textarea id="fDesc" placeholder="Jaise: Ram Mandir wali gali me sadak 6 mahine se tooti hai..." required></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+              <label style="margin-bottom:0;">Samasya ka vivaran (description) *</label>
+              <button type="button" class="voice-btn" id="voiceBtnDesc" title="बोल कर लिखें">
+                <span id="voiceMicIcon">🎤</span> <span id="voiceBtnText">बोल कर लिखें</span>
+              </button>
+            </div>
+            <textarea id="fDesc" placeholder="Jaise: Ram Mandir wali gali me sadak 6 mahine se tooti hai... (ya mic dabakar bolein)" required></textarea>
           </div>
           <div class="field">
             <label>Photo (agar hai to)</label>
@@ -827,11 +1060,38 @@
             <label>Aapka naam (optional)</label>
             <input type="text" id="fName" placeholder="Naam likhein ya khali chodein">
           </div>
+          <div class="field">
+            <label>📱 Mobile Number (Token & Status track karne ke liye)</label>
+            <input type="tel" id="fPhone" placeholder="Jaise: 9876543210 (Optional)">
+          </div>
           <div class="sheet-actions">
             <button type="button" class="btn btn-outline" data-close="overlaySamasya">Radd Karein</button>
             <button type="submit" class="btn btn-primary">Jama Karein</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TOKEN SUCCESS MODAL ===================== -->
+  <div class="overlay" id="overlayTokenSuccess">
+    <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
+      <div class="sheet-wrap">
+        <button class="close-x" data-close="overlayTokenSuccess">✕</button>
+        <div style="font-size:2.4rem; margin-bottom:4px;">✅</div>
+        <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--indigo-dark);">समस्या सफलतापूर्वक दर्ज हुई!</h2>
+        <p style="color:var(--ink-soft); font-size:.85rem; margin:0 0 12px; line-height:1.4;">
+          आपकी शिकायत प्रधान जी तक पहुँच गई है। स्थिति ट्रैक करने के लिए अपना टोकन नंबर संभाल कर रखें:
+        </p>
+        <div class="token-display-box" id="modalTokenVal">GP-101</div>
+        <p id="modalPhoneNote" style="font-size:.8rem; color:var(--ink-soft); margin-bottom:14px;"></p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button type="button" class="btn btn-primary btn-block" id="btnCopyToken">📋 टोकन कॉपी करें</button>
+          <button type="button" class="btn btn-outline btn-block" id="btnShareTokenWa" style="background:#25D366; color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-weight:700;">
+            💬 WhatsApp पर सेव करें
+          </button>
+          <button type="button" class="btn btn-outline btn-block" data-close="overlayTokenSuccess">ठीक है (Close)</button>
+        </div>
       </div>
     </div>
   </div>
@@ -872,16 +1132,28 @@
         <h2>Nayi Yojana Jodein</h2>
         <form id="formYojana">
           <div class="field">
-            <label>Yojana ka naam</label>
-            <input type="text" id="yName" required>
+            <label>Yojana ka naam *</label>
+            <input type="text" id="yName" placeholder="Jaise: PM Kisan Samman Nidhi" required>
           </div>
           <div class="field">
-            <label>Vivaran</label>
-            <textarea id="yDesc" required></textarea>
+            <label>Vivaran *</label>
+            <textarea id="yDesc" placeholder="Yojana ka laabh aur details..." required></textarea>
+          </div>
+          <div class="field">
+            <label>पात्रता (Eligibility)</label>
+            <input type="text" id="yEligibility" placeholder="Kaun aavedan kar sakta hai (e.g. Sabhi kisan)">
+          </div>
+          <div class="field">
+            <label>जरूरी दस्तावेज (कॉमा से अलग करें)</label>
+            <input type="text" id="yDocs" placeholder="Aadhar Card, Bank Passbook, Khatoni">
           </div>
           <div class="field">
             <label>Apply kaise karein</label>
-            <input type="text" id="yApply" placeholder="Jaise: Block office me sampark karein">
+            <input type="text" id="yApply" placeholder="Jaise: Block office me sampark karein ya online">
+          </div>
+          <div class="field">
+            <label>आधिकारिक वेबसाइट लिंक (Official Link)</label>
+            <input type="url" id="yApplyUrl" placeholder="https://pmkisan.gov.in">
           </div>
           <div class="sheet-actions">
             <button type="button" class="btn btn-outline" data-close="overlayYojana">Radd Karein</button>
@@ -1066,8 +1338,346 @@ document.getElementById('catGrid').addEventListener('click', (e)=>{
   renderSamasyaList();
 });
 
+/* ============ ADMIN STATS DASHBOARD & PRINT ============ */
+function renderAdminDashboard(){
+  const bar = document.getElementById('adminDashboardBar');
+  const grid = document.getElementById('adminStatsGrid');
+  if(!bar || !grid) return;
+  if(!adminKey){
+    bar.style.display = 'none';
+    return;
+  }
+  bar.style.display = 'block';
+
+  const total = samasyaList.length;
+  const nayi = samasyaList.filter(s=>s.status==='nayi').length;
+  const progress = samasyaList.filter(s=>s.status==='progress').length;
+  const solved = samasyaList.filter(s=>s.status==='solved').length;
+  const rate = total > 0 ? Math.round((solved / total) * 100) : 0;
+
+  grid.innerHTML = `
+    <div class="admin-stat-card" style="border-left-color:#3B82F6;">
+      <div class="stat-num">${total}</div>
+      <div class="stat-lbl">कुल समस्याएं</div>
+    </div>
+    <div class="admin-stat-card" style="border-left-color:#D35400;">
+      <div class="stat-num" style="color:#D35400;">${nayi}</div>
+      <div class="stat-lbl">लंबित (नई)</div>
+    </div>
+    <div class="admin-stat-card" style="border-left-color:#F59E0B;">
+      <div class="stat-num" style="color:#D97706;">${progress}</div>
+      <div class="stat-lbl">प्रगति पर</div>
+    </div>
+    <div class="admin-stat-card" style="border-left-color:#10B981;">
+      <div class="stat-num" style="color:#059669;">${solved}</div>
+      <div class="stat-lbl">हल हो चुकीं</div>
+    </div>
+    <div class="admin-stat-card" style="border-left-color:#8B5CF6;">
+      <div class="stat-num" style="color:#6D28D9;">${rate}%</div>
+      <div class="stat-lbl">समाधान दर</div>
+    </div>
+  `;
+}
+
+function printAdminReport(){
+  if(!adminKey || samasyaList.length === 0){
+    toast('प्रिंट करने के लिए कोई शिकायत उपलब्ध नहीं है ⚠️');
+    return;
+  }
+  const total = samasyaList.length;
+  const nayi = samasyaList.filter(s=>s.status==='nayi').length;
+  const progress = samasyaList.filter(s=>s.status==='progress').length;
+  const solved = samasyaList.filter(s=>s.status==='solved').length;
+  const rate = total > 0 ? Math.round((solved / total) * 100) : 0;
+
+  const rows = samasyaList.slice().sort((a,b)=>b.date-a.date).map((s, idx) => {
+    const cat = CATEGORIES.find(c=>c.id===s.category);
+    return `
+      <tr>
+        <td style="padding:8px; border:1px solid #ccc; text-align:center;">${idx+1}</td>
+        <td style="padding:8px; border:1px solid #ccc; font-weight:bold;">${escapeHtml(s.token || 'GP')}</td>
+        <td style="padding:8px; border:1px solid #ccc;">${cat ? cat.name : s.category}</td>
+        <td style="padding:8px; border:1px solid #ccc;">${escapeHtml(s.desc)}</td>
+        <td style="padding:8px; border:1px solid #ccc;">${escapeHtml(s.name||'ग्रामीण')} ${s.phone ? `(${escapeHtml(s.phone)})` : ''}</td>
+        <td style="padding:8px; border:1px solid #ccc; text-align:center;">
+          <span style="display:inline-block; padding:3px 8px; border-radius:4px; font-weight:bold; font-size:12px; background:${s.status==='solved'?'#DEF7EC;color:#03543F':(s.status==='progress'?'#FEF08A;color:#713F12':'#FEE2E2;color:#991B1B')};">
+            ${STATUS_LABEL[s.status] || s.status}
+          </span>
+        </td>
+        <td style="padding:8px; border:1px solid #ccc; font-size:12px;">${escapeHtml(s.adminRemark || '—')}</td>
+        <td style="padding:8px; border:1px solid #ccc; text-align:center; font-size:12px;">${fmtDate(s.date)}</td>
+      </tr>
+    `;
+  }).join('');
+
+  const printHtml = `
+    <!DOCTYPE html>
+    <html lang="hi">
+    <head>
+      <meta charset="UTF-8">
+      <title>ग्राम पंचायत समस्या निवारण रिपोर्ट - जगदीशपुर</title>
+      <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; color: #111; }
+        .header { text-align: center; border-bottom: 3px double #333; padding-bottom: 12px; margin-bottom: 16px; }
+        .header h1 { margin: 0; font-size: 24px; color: #1E3A8A; }
+        .header p { margin: 4px 0 0; font-size: 13px; color: #555; }
+        .stats-summary { display: flex; gap: 12px; justify-content: space-around; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; margin-bottom: 20px; }
+        .stat-box { text-align: center; }
+        .stat-box .val { font-size: 20px; font-weight: bold; color: #1E3A8A; }
+        .stat-box .lbl { font-size: 11px; color: #64748B; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th { background: #1E3A8A; color: white; padding: 8px; border: 1px solid #1E3A8A; text-align: left; }
+        .footer { margin-top: 30px; display: flex; justify-content: space-between; font-size: 13px; padding-top: 20px; border-top: 1px solid #ccc; }
+        @media print {
+          @page { margin: 15mm; }
+          button { display: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>कार्यालय ग्राम पंचायत जगदीशपुर</h1>
+        <p>सामुदायिक समस्या निवारण एवं प्रगति रिपोर्ट | दिनांक: ${new Date().toLocaleDateString('hi-IN')}</p>
+      </div>
+
+      <div class="stats-summary">
+        <div class="stat-box"><div class="val">${total}</div><div class="lbl">कुल दर्ज समस्याएं</div></div>
+        <div class="stat-box"><div class="val" style="color:#D35400;">${nayi}</div><div class="lbl">लंबित (नई)</div></div>
+        <div class="stat-box"><div class="val" style="color:#D97706;">${progress}</div><div class="lbl">प्रगति पर</div></div>
+        <div class="stat-box"><div class="val" style="color:#059669;">${solved}</div><div class="lbl">समाधान हुआ</div></div>
+        <div class="stat-box"><div class="val" style="color:#6D28D9;">${rate}%</div><div class="lbl">समाधान दर</div></div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30px; text-align:center;">क्र.</th>
+            <th style="width:70px;">टोकन</th>
+            <th style="width:80px;">श्रेणी</th>
+            <th>समस्या विवरण</th>
+            <th style="width:120px;">शिकायतकर्ता</th>
+            <th style="width:80px; text-align:center;">स्थिति</th>
+            <th style="width:130px;">प्रधान जी की टिप्पणी</th>
+            <th style="width:80px; text-align:center;">दिनांक</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <div>हस्ताक्षर / मुहर ग्राम सेक्रेटरी</div>
+        <div>हस्ताक्षर / मुहर ग्राम प्रधान</div>
+      </div>
+      <script>
+        window.onload = function(){ window.print(); };
+      <\/script>
+    </body>
+    </html>
+  `;
+
+  const w = window.open('', '_blank');
+  if(w){
+    w.document.write(printHtml);
+    w.document.close();
+  } else {
+    toast('Popup blocker allow karein print report ke liye ⚠️');
+  }
+}
+document.getElementById('btnPrintReport').addEventListener('click', printAdminReport);
+
+/* ============ SAMASYA PUBLIC TRACKER ============ */
+async function searchTrackComplaint(){
+  const input = document.getElementById('trackInput');
+  const query = (input ? input.value : '').trim();
+  const wrap = document.getElementById('trackResultWrap');
+  if(!query){
+    toast('कृपया टोकन नंबर या मोबाइल नंबर दर्ज करें ⚠️');
+    return;
+  }
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div style="text-align:center; padding:16px; font-size:.85rem; color:var(--ink-soft);">🔍 स्थिति जांची जा रही है...</div>`;
+
+  const res = await apiGet('/samasya/track/' + encodeURIComponent(query));
+  if(!res || !res.ok || !res.items || res.items.length === 0){
+    wrap.innerHTML = `
+      <div class="track-result-card" style="text-align:center; padding:18px;">
+        <div style="font-size:1.8rem; margin-bottom:6px;">❌</div>
+        <p style="margin:0; font-weight:700; color:var(--terracotta);">कोई समस्या नहीं मिली</p>
+        <p style="margin:4px 0 0; font-size:.8rem; color:var(--ink-soft);">कृपया सही टोकन नंबर (उदा. GP-101) या 10 अंक मोबाइल नंबर जांचें।</p>
+      </div>`;
+    return;
+  }
+
+  const items = res.items;
+  wrap.innerHTML = items.map(item => {
+    const isDoneNayi = true;
+    const isDoneProg = item.status === 'progress' || item.status === 'solved';
+    const isDoneSolved = item.status === 'solved';
+    const cat = CATEGORIES.find(c => c.id === item.category);
+
+    return `
+      <div class="track-result-card">
+        <div class="track-card-head">
+          <span class="track-token-badge">🎫 ${escapeHtml(item.token || 'GP')}</span>
+          <span class="status-pill status-${item.status}">${STATUS_LABEL[item.status] || item.status}</span>
+        </div>
+
+        <div class="tracker-stepper">
+          <div class="step ${isDoneNayi ? 'done' : ''}">
+            <div class="step-circle">${isDoneProg ? '✓' : '1'}</div>
+            <div class="step-lbl">दर्ज हुई</div>
+          </div>
+          <div class="step-line ${isDoneProg ? 'done' : ''}"></div>
+          <div class="step ${isDoneProg ? (isDoneSolved ? 'done' : 'active') : ''}">
+            <div class="step-circle">${isDoneSolved ? '✓' : '2'}</div>
+            <div class="step-lbl">प्रगति पर</div>
+          </div>
+          <div class="step-line ${isDoneSolved ? 'done' : ''}"></div>
+          <div class="step ${isDoneSolved ? 'done active' : ''}">
+            <div class="step-circle">${isDoneSolved ? '✓' : '3'}</div>
+            <div class="step-lbl">समाधान हुआ</div>
+          </div>
+        </div>
+
+        <div class="track-details">
+          <p><strong>श्रेणी:</strong> ${cat ? cat.icon + ' ' + cat.name : item.category}</p>
+          <p><strong>विवरण:</strong> ${escapeHtml(item.desc)}</p>
+          <p><strong>दिनांक:</strong> ${fmtDate(item.date)}</p>
+        </div>
+
+        ${item.adminRemark ? `
+          <div class="track-admin-remark">
+            <span style="font-size:1.2rem;">👑</span>
+            <div>
+              <strong style="font-size:.82rem; color:var(--indigo-dark);">प्रधान जी का संदेश / कार्यवाही:</strong>
+              <p>${escapeHtml(item.adminRemark)}</p>
+            </div>
+          </div>
+        ` : `
+          <div class="track-admin-pending">
+            ⏳ <em>प्रधान जी द्वारा कार्यवाही जारी है। जल्द ही अपडेट दिया जाएगा।</em>
+          </div>
+        `}
+      </div>
+    `;
+  }).join('');
+}
+document.getElementById('btnTrackSearch').addEventListener('click', searchTrackComplaint);
+document.getElementById('trackInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    searchTrackComplaint();
+  }
+});
+
+/* ============ VOICE INPUT (MIC) ============ */
+let recognition = null;
+let isRecording = false;
+function initVoiceInput(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const voiceBtn = document.getElementById('voiceBtnDesc');
+  const micIcon = document.getElementById('voiceMicIcon');
+  const btnText = document.getElementById('voiceBtnText');
+  const descInput = document.getElementById('fDesc');
+
+  if(!SpeechRecognition){
+    if(voiceBtn) voiceBtn.style.display = 'none';
+    return;
+  }
+
+  try {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'hi-IN';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      isRecording = true;
+      voiceBtn.classList.add('recording');
+      micIcon.textContent = '🔴';
+      btnText.textContent = 'सुन रहा हूँ... बोलें';
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      if(transcript){
+        const cur = descInput.value.trim();
+        descInput.value = cur ? cur + ' ' + transcript : transcript;
+        toast('आवाज़ दर्ज हो गई 🎤');
+      }
+    };
+
+    recognition.onerror = (err) => {
+      console.warn('Voice error', err);
+      isRecording = false;
+      voiceBtn.classList.remove('recording');
+      micIcon.textContent = '🎤';
+      btnText.textContent = 'बोल कर लिखें';
+      toast('आवाज़ नहीं सुनी जा सकी, कृपया दोबारा बोलें ⚠️');
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      voiceBtn.classList.remove('recording');
+      micIcon.textContent = '🎤';
+      btnText.textContent = 'बोल कर लिखें';
+    };
+
+    voiceBtn.addEventListener('click', () => {
+      if(isRecording){
+        recognition.stop();
+      } else {
+        try {
+          recognition.start();
+        } catch(e) {
+          console.warn(e);
+        }
+      }
+    });
+  } catch(e) {
+    if(voiceBtn) voiceBtn.style.display = 'none';
+  }
+}
+
+/* ============ TOKEN MODAL & ACTIONS ============ */
+let currentSavedToken = '';
+let currentSavedDesc = '';
+
+function showTokenModal(token, phone, desc){
+  currentSavedToken = token || '';
+  currentSavedDesc = desc || '';
+  document.getElementById('modalTokenVal').textContent = token || '—';
+  const phoneNote = document.getElementById('modalPhoneNote');
+  if(phone){
+    phoneNote.textContent = `📲 मोबाइल नंबर: ${phone} (आप इस नंबर से भी कभी भी ट्रैक कर सकते हैं)`;
+  } else {
+    phoneNote.textContent = '💡 भविष्य में स्टेटस देखने के लिए यह टोकन नंबर लिख लें।';
+  }
+  openOverlay('overlayTokenSuccess');
+}
+
+document.getElementById('btnCopyToken').addEventListener('click', () => {
+  if(currentSavedToken){
+    navigator.clipboard.writeText(currentSavedToken).then(() => {
+      toast('टोकन नंबर कॉपी हो गया ✅');
+    }).catch(() => {
+      toast(`टोकन: ${currentSavedToken}`);
+    });
+  }
+});
+
+document.getElementById('btnShareTokenWa').addEventListener('click', () => {
+  if(!currentSavedToken) return;
+  const text = `*🏡 जगदीशपुर गाँव पोर्टल - समस्या रसीद*\n\n🎫 *टोकन नंबर:* ${currentSavedToken}\n📝 *समस्या:* "${currentSavedDesc}"\n\n👉 अपनी समस्या का समाधान व स्थिति देखने के लिए यहाँ जाएँ:\n${window.location.origin}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+});
+
 function renderSamasyaList(){
   const wrap = document.getElementById('samasyaListWrap');
+
+  renderAdminDashboard();
 
   if(!adminKey){
     wrap.innerHTML = `<div class="locked-notice">
@@ -1098,8 +1708,8 @@ function renderSamasyaList(){
     wrap.innerHTML = list.map(renderItemCard).join('');
   }
 }
-// Event delegation: one listener on the list container, works even after
-// renderSamasyaList() rebuilds the cards inside it.
+
+// Event delegation on samasya list container
 document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>{
   const photoEl = e.target.closest('.item-photo.has-photo');
   if(photoEl){
@@ -1110,6 +1720,25 @@ document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>
     }
     return;
   }
+
+  const remarkBtn = e.target.closest('[data-remark-id]');
+  if(remarkBtn){
+    const id = remarkBtn.dataset.remarkId;
+    const item = samasyaList.find(s=>s.id===id);
+    if(!item) return;
+    const currentRemark = item.adminRemark || '';
+    const newRemark = prompt('प्रधान जी की टिप्पणी / कार्यवाही दर्ज करें (Status & Action Remark):', currentRemark);
+    if(newRemark===null) return;
+    const res = await apiSend('PATCH', '/samasya/'+id, {adminRemark: newRemark.trim()}, true);
+    if(res && res.unauthorized){ adminLogout(); return; }
+    if(res){
+      item.adminRemark = res.adminRemark;
+      renderSamasyaList();
+      toast('टिप्पणी अपडेट हो गई ✅');
+    }
+    return;
+  }
+
   const delBtn = e.target.closest('[data-delete-samasya]');
   if(delBtn){
     const id = delBtn.dataset.deleteSamasya;
@@ -1124,6 +1753,7 @@ document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>
     }
     return;
   }
+
   const btn = e.target.closest('.status-cycle');
   if(!btn) return;
   const id = btn.dataset.id;
@@ -1154,13 +1784,21 @@ function renderItemCard(s){
     <div class="item-photo ${s.photo?'has-photo':''}" style="${photoStyle}" ${s.photo?`data-photo-id="${s.id}"`:''}>${s.photo?'':(cat?cat.icon:'📷')}</div>
     <div class="item-body">
       <div class="item-top">
-        <span class="item-cat">${cat?cat.icon+' '+cat.name:''}</span>
-        <button class="status-pill status-cycle status-${s.status}" data-id="${s.id}">${STATUS_LABEL[s.status]}</button>
+        <span class="item-cat">${cat?cat.icon+' '+cat.name:''} <span class="token-pill">🎫 ${escapeHtml(s.token || 'GP')}</span></span>
+        <button class="status-pill status-cycle status-${s.status}" data-id="${s.id}" title="स्थिति बदलने के लिए क्लिक करें">${STATUS_LABEL[s.status]}</button>
       </div>
       <p class="item-desc">${escapeHtml(s.desc)}</p>
+      ${s.adminRemark ? `
+        <div class="card-admin-remark">
+          <strong>👑 प्रधान जी की टिप्पणी:</strong> ${escapeHtml(s.adminRemark)}
+        </div>
+      ` : ''}
       <div class="item-meta">
-        <span class="item-by">${escapeHtml(s.name||'Gaon wasi')} · ${fmtDate(s.date)}</span>
-        <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="Ye samasya hataayein">🗑️ Hataayein</button>
+        <span class="item-by">${escapeHtml(s.name||'Gaon wasi')}${s.phone?` (${escapeHtml(s.phone)})`:''} · ${fmtDate(s.date)}</span>
+        <div style="display:flex; gap:6px; margin-left:auto;">
+          <button type="button" class="btn-remark" data-remark-id="${s.id}">💬 टिप्पणी</button>
+          <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="Ye samasya hataayein">🗑️ Hataayein</button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -1172,6 +1810,8 @@ function openSamasyaForm(){
   if(activeCategory) sel.value = activeCategory;
   document.getElementById('fDesc').value='';
   document.getElementById('fName').value='';
+  const phoneInput = document.getElementById('fPhone');
+  if(phoneInput) phoneInput.value = '';
   document.getElementById('fPhoto').value='';
   document.getElementById('photoLabel').textContent='📷 Photo chunne ke liye tap karein';
   document.getElementById('photoPreview').style.display='none';
@@ -1183,7 +1823,6 @@ document.getElementById('fPhoto').addEventListener('change', (e)=>{
   if(!file) return;
   const reader = new FileReader();
   reader.onload = ()=>{
-    // compress via canvas
     const img = new Image();
     img.onload = ()=>{
       const maxW = 640;
@@ -1208,14 +1847,14 @@ document.getElementById('formSamasya').addEventListener('submit', async (e)=>{
     category: document.getElementById('fCategory').value,
     desc: document.getElementById('fDesc').value.trim(),
     name: document.getElementById('fName').value.trim(),
+    phone: (document.getElementById('fPhone') ? document.getElementById('fPhone').value.trim() : ''),
     photo: pendingPhotoBase64
   };
   const result = await apiSend('POST', '/samasya', payload);
   if(!result || !result.ok) return;
   closeOverlay('overlaySamasya');
-  // agar Pradhan hi login hoke bhar rahe hain, to list turant refresh kar dein
   if(adminKey) await loadSamasyaList();
-  toast('Samasya darj ho gayi ✅ Pradhan tak pahunch jaayegi');
+  showTokenModal(result.token, payload.phone, payload.desc);
 });
 
 /* ============ CHAUPAL (Community Social Feed) ============ */
@@ -1559,17 +2198,31 @@ function renderSuchna(){
     <div class="pin-note">
       <h3>${escapeHtml(s.title)}</h3>
       <p>${escapeHtml(s.text)}</p>
-      <div class="meta">
+      <div class="meta" style="flex-wrap:wrap; gap:8px;">
         <span>${escapeHtml(s.name||'Gaon prashasan')} · ${fmtDate(s.date)}</span>
-        ${adminKey ? `<span class="pin-note-actions">
-          <button type="button" data-edit="${s.id}">✏️ Edit</button>
-          <button type="button" data-delete="${s.id}">🗑️ Hataayein</button>
-        </span>` : ''}
+        <div style="display:flex; align-items:center; gap:8px; margin-left:auto;">
+          <button type="button" class="btn-wa-share" data-share-suchna="${s.id}" style="margin-top:0;">
+            <span>📲</span> WhatsApp शेयर
+          </button>
+          ${adminKey ? `<span class="pin-note-actions">
+            <button type="button" data-edit="${s.id}">✏️ Edit</button>
+            <button type="button" data-delete="${s.id}">🗑️ Hataayein</button>
+          </span>` : ''}
+        </div>
       </div>
     </div>
   `).join('');
 }
 document.getElementById('suchnaBoard').addEventListener('click', async (e)=>{
+  const shareBtn = e.target.closest('[data-share-suchna]');
+  if(shareBtn){
+    const item = suchnaList.find(s=>s.id===shareBtn.dataset.shareSuchna);
+    if(!item) return;
+    const shareText = `*📢 ग्राम जगदीशपुर - आवश्यक सूचना*\n\n📌 *${item.title}*\n${item.text}\n\n👤 *जारीकर्ता:* ${item.name||'ग्राम प्रशासन'} (${fmtDate(item.date)})\n\n👉 गाँव पोर्टल पर देखें व अन्य जानकारी लें:\n${window.location.origin}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+    return;
+  }
+
   const editBtn = e.target.closest('[data-edit]');
   if(editBtn){
     const item = suchnaList.find(s=>s.id===editBtn.dataset.edit);
@@ -1613,38 +2266,70 @@ document.getElementById('formSuchna').addEventListener('submit', async (e)=>{
   toast('Suchna board par laga di gayi ✅');
 });
 
-/* ============ GAON KI JAANKARI ============ */
+/* ============ GAON KI JAANKARI & CALL DIRECTORY ============ */
 const DEFAULT_JAANKARI = {
-  history: "Yahan gaon ka itihaas likhein — gaon kab basa, kya khaasiyat hai, kaunse tyohar manaye jaate hain.",
-  population: "Jansankhya yahan darj karein.",
+  history: "जगदीशपुर एक समृद्ध और ऐतिहासिक गाँव है, जहाँ कृषि, भाईचारा और शांति का माहौल है। यहाँ के किसान मेहनती हैं और विभिन्न फसलों की उन्नत खेती करते हैं।",
+  population: "लगभग 3,500 (परिवार: 450+)",
   contacts: [
-    {who:'Pradhan / Sarpanch', num:'—'},
-    {who:'Doctor / Swasthya Kendra', num:'—'},
-    {who:'Police Station', num:'100'},
-    {who:'Bijli Vibhag', num:'—'},
-    {who:'School', num:'—'},
+    {who:'🚑 एम्बुलेंस आपातकालीन सेवा', num:'108', category:'emergency'},
+    {who:'🚔 पुलिस सहायता (डायल 112)', num:'112', category:'emergency'},
+    {who:'👩‍⚕️ आशा बहू / ANM (गाँव स्वास्थ्य)', num:'9876543210', category:'health'},
+    {who:'🏥 PHC डॉक्टर / प्राथमिक स्वास्थ्य केंद्र', num:'0522-234567', category:'health'},
+    {who:'⚡ बिजली विभाग (लाइनमैन / JE)', num:'9415000000', category:'utility'},
+    {who:'🌾 कोटेदार (सरकारी राशन दुकान)', num:'9839000000', category:'ration'},
+    {who:'🏛️ पंचायत सचिव (सेक्रेटरी) / लेखपाल', num:'9450000000', category:'admin'},
+    {who:'🚰 सरकारी हैंडपंप मरम्मत मिस्त्री', num:'9125000000', category:'utility'},
+    {who:'👑 ग्राम प्रधान / सरपंच', num:'9919000000', category:'admin'}
   ]
 };
+
 function renderJaankari(){
   const wrap = document.getElementById('jaankariWrap');
   const j = jaankari || DEFAULT_JAANKARI;
+  const contacts = (j.contacts && j.contacts.length) ? j.contacts : (DEFAULT_JAANKARI.contacts || []);
+
   wrap.innerHTML = `
     <div class="info-card">
-      <h3>📖 Gaon ka Itihaas</h3>
+      <h3>📖 गाँव का इतिहास</h3>
       <p>${escapeHtml(j.history)}</p>
     </div>
     <div class="info-card">
-      <h3>👥 Jansankhya</h3>
+      <h3>👥 जनसंख्या व परिवार</h3>
       <p>${escapeHtml(j.population)}</p>
     </div>
     <div class="info-card">
-      <h3>☎️ Zaruri Contacts</h3>
-      ${j.contacts.map(c=>`<div class="contact-row"><span class="who">${escapeHtml(c.who)}</span><span class="num">${escapeHtml(c.num)}</span></div>`).join('')}
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin-bottom:0;">☎️ ज़रूरी संपर्क व डायरेक्ट कॉल डायरेक्टरी</h3>
+        <span style="font-size:.78rem; color:var(--ink-soft); font-weight:700;">1-Tap Direct Call</span>
+      </div>
+      <div class="contact-card-grid">
+        ${contacts.map(c => {
+          const catClass = c.category || 'utility';
+          const cleanNum = (c.num || '').replace(/[^0-9+]/g, '');
+          const hasNum = cleanNum && cleanNum !== '—';
+          return `
+            <div class="contact-box ${catClass}">
+              <div style="flex:1;">
+                <span class="who">${escapeHtml(c.who)}</span>
+                <span class="num">${escapeHtml(c.num)}</span>
+              </div>
+              ${hasNum ? `
+                <a href="tel:${cleanNum}" class="call-btn" title="${escapeHtml(c.who)} को कॉल लगाएं">
+                  📞 कॉल करें
+                </a>
+              ` : `
+                <span style="font-size:.72rem; color:var(--ink-soft); font-style:italic;">नंबर जल्द</span>
+              `}
+            </div>
+          `;
+        }).join('')}
+      </div>
     </div>
     <button class="btn btn-outline btn-block" id="editJaankariBtn">✏️ Jaankari Edit Karein</button>
   `;
   document.getElementById('editJaankariBtn').addEventListener('click', editJaankari);
 }
+
 async function editJaankari(){
   const j = jaankari || JSON.parse(JSON.stringify(DEFAULT_JAANKARI));
   const history = prompt('Gaon ka itihaas:', j.history);
@@ -1660,27 +2345,131 @@ async function editJaankari(){
 
 /* ============ SARKARI YOJANAEIN ============ */
 const DEFAULT_YOJANA = [
-  {id:'y1', name:'PM Awas Yojana', desc:'Gareeb parivaron ke liye pakka ghar banane ke liye sarkari sahayata.', apply:'Gram Panchayat ya CSC center me sampark karein.'},
-  {id:'y2', name:'Ration Card', desc:'Sasti dar par anaaj paane ke liye ration card banwayein.', apply:'Block ke khadya vibhag karyalay me aavedan karein.'},
+  {
+    id: 'y1',
+    name: 'प्रधानमंत्री आवास योजना (ग्रामीण)',
+    desc: 'बेघर एवं कच्चे या जर्जर मकान में रहने वाले परिवारों को पक्का मकान निर्माण हेतु ₹1,20,000 की सरकारी आर्थिक सहायता।',
+    eligibility: 'SECC 2011 सूची में शामिल, बेघर या कच्चे मकान वाले बीपीएल / गरीब परिवार जिनके पास पक्का मकान नहीं है।',
+    documents: ['आधार कार्ड (परिवार के सभी सदस्य)', 'बैंक पासबुक (आधार से लिंक)', 'मनरेगा जॉब कार्ड', 'राशन कार्ड', 'आय प्रमाण पत्र / शपथ पत्र'],
+    apply: 'ग्राम पंचायत सेक्रेटरी / ब्लॉक कार्यालय या ऑनलाइन CSC केंद्र से।',
+    applyUrl: 'https://pmayg.nic.in'
+  },
+  {
+    id: 'y2',
+    name: 'राशन कार्ड (पात्र गृहस्थी / अंत्योदय)',
+    desc: 'गरीब परिवारों को राष्ट्रीय खाद्य सुरक्षा (NFSA) के तहत मुफ्त/सस्ती दर पर चावल, गेहूं और राशन का वितरण।',
+    eligibility: 'ग्रामीण क्षेत्र के पात्र गरीब एवं अंत्योदय परिवार जिनकी वार्षिक आय निर्धारित सीमा में हो।',
+    documents: ['परिवार के सभी सदस्यों का आधार कार्ड', 'मुखिया महिला की पासपोर्ट फ़ोटो', 'आय प्रमाण पत्र', 'बैंक पासबुक', 'निवास प्रमाण / बिजली बिल'],
+    apply: 'ब्लॉक खाद्य आपूर्ति कार्यालय या जनसेवा केंद्र (CSC) से ऑनलाइन।',
+    applyUrl: 'https://fcs.up.gov.in'
+  },
+  {
+    id: 'y3',
+    name: 'पीएम किसान सम्मान निधि (₹6,000 सालाना)',
+    desc: 'किसानों को प्रति वर्ष ₹2,000 की 3 समान किस्तों में कुल ₹6,000 सीधे बैंक खाते (DBT) में दिए जाते हैं।',
+    eligibility: 'सभी भू-स्वामी किसान परिवार जिनके नाम पर कृषि योग्य भूमि की खतौनी दर्ज है।',
+    documents: ['खतौनी (भूलेख नकल)', 'आधार कार्ड', 'बैंक पासबुक (NPCI / DBT चालू होना अनिवार्य)', 'मोबाइल नंबर'],
+    apply: 'PM-Kisan पोर्टल पर ऑनलाइन स्वयं या CSC / कृषि विभाग कार्यालय से।',
+    applyUrl: 'https://pmkisan.gov.in'
+  },
+  {
+    id: 'y4',
+    name: 'आयुष्मान भारत - जन आरोग्य योजना (₹5 लाख मुफ्त इलाज)',
+    desc: 'प्रति वर्ष परिवार को ₹5 लाख तक का कैशलेस और मुफ्त इलाज सरकारी व सूचीबद्ध प्राइवेट अस्पतालों में।',
+    eligibility: 'सामाजिक-आर्थिक जाति जनगणना (SECC) व अंत्योदय कार्ड धारक परिवार।',
+    documents: ['आधार कार्ड', 'राशन कार्ड (अंत्योदय / लाल कार्ड)', 'मोबाइल नंबर'],
+    apply: 'ग्राम पंचायत कैंप, CHC/PHC अस्पताल या नजदीकी CSC केंद्र से गोल्डन कार्ड बनवाएं।',
+    applyUrl: 'https://mera.pmjay.gov.in'
+  },
+  {
+    id: 'y5',
+    name: 'वृद्धावस्था / विधवा / दिव्यांग पेंशन योजना',
+    desc: '60 वर्ष से अधिक उम्र के बुजुर्गों, निराश्रित महिलाओं एवं दिव्यांग जनों को ₹1,000 प्रति माह सीधे खाते में पेंशन।',
+    eligibility: '60+ वर्ष के बुजुर्ग, पति की मृत्यु के बाद निराश्रित महिलाएं, 40%+ दिव्यांग (बीपीएल सीमा के अंतर्गत)।',
+    documents: ['आधार कार्ड', 'आयु प्रमाण पत्र', 'आय प्रमाण पत्र (ग्रामीण: वार्षिक ₹46,080 से कम)', 'बैंक पासबुक', 'दिव्यांग प्रमाण पत्र (दिव्यांगों के लिए) / पति का मृत्यु प्रमाण पत्र'],
+    apply: 'SSP पोर्टल पर ऑनलाइन आवेदन या ब्लॉक समाज कल्याण अधिकारी कार्यालय में।',
+    applyUrl: 'https://sspy-up.gov.in'
+  },
+  {
+    id: 'y6',
+    name: 'प्रधानमंत्री किसान मानधन योजना (वृद्धावस्था पेंशन)',
+    desc: '60 वर्ष की आयु पूरी होने पर लघु एवं सीमांत किसानों को ₹3,000 प्रति माह की निश्चित पेंशन।',
+    eligibility: '18 से 40 वर्ष की आयु के किसान जिनके पास 2 हेक्टेयर तक कृषि भूमि है।',
+    documents: ['आधार कार्ड', 'बचत बैंक खाता / जनधन खाता', 'खतौनी (जमीन का पर्चा)'],
+    apply: 'नजदीकी कॉमन सर्विस सेंटर (CSC) पर जाकर पंजीकरण कराएं।',
+    applyUrl: 'https://maandhan.in'
+  }
 ];
+
 function renderYojana(){
   const wrap = document.getElementById('yojanaWrap');
-  const list = yojanaList.length ? yojanaList : DEFAULT_YOJANA;
-  wrap.innerHTML = list.map(y=>`
-    <div class="yojana-card">
-      <h3>${escapeHtml(y.name)}</h3>
-      <p>${escapeHtml(y.desc)}</p>
-      <div class="apply">📍 Apply: ${escapeHtml(y.apply)}</div>
-    </div>
-  `).join('');
+  const list = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
+
+  wrap.innerHTML = list.map(y => {
+    const docs = Array.isArray(y.documents) ? y.documents : (y.documents ? String(y.documents).split(',') : []);
+    return `
+      <div class="yojana-card">
+        <h3>${escapeHtml(y.name)}</h3>
+        <p>${escapeHtml(y.desc)}</p>
+
+        ${y.eligibility ? `
+          <div class="yojana-eligibility">
+            <strong>🎯 पात्रता (कौन ले सकता है लाभ):</strong> ${escapeHtml(y.eligibility)}
+          </div>
+        ` : ''}
+
+        ${docs.length > 0 ? `
+          <div class="yojana-docs-box">
+            <strong>📋 जरूरी कागजात (दस्तावेज चेकलिस्ट):</strong>
+            <ul class="yojana-docs-list">
+              ${docs.map(d => `<li>☑️ ${escapeHtml(d.trim())}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+
+        <div class="apply">📍 <strong>आवेदन कैसे करें:</strong> ${escapeHtml(y.apply || 'पंचायत कार्यालय में संपर्क करें।')}</div>
+
+        <div class="yojana-actions-row">
+          ${y.applyUrl ? `
+            <a href="${escapeHtml(y.applyUrl)}" target="_blank" rel="noopener noreferrer" class="btn-yojana-link">
+              🌐 आधिकारिक पोर्टल ↗
+            </a>
+          ` : ''}
+          <button type="button" class="btn-wa-share" data-share-yojana="${y.id}" style="margin-top:0;">
+            <span>📲</span> WhatsApp पर शेयर
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
+
+document.getElementById('yojanaWrap').addEventListener('click', (e) => {
+  const shareBtn = e.target.closest('[data-share-yojana]');
+  if(!shareBtn) return;
+  const id = shareBtn.dataset.shareYojana;
+  const list = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
+  const y = list.find(item => item.id === id);
+  if(!y) return;
+  const docs = Array.isArray(y.documents) ? y.documents.join(', ') : (y.documents || 'आधार, बैंक पासबुक');
+  const shareText = `*🏛️ ग्राम जगदीशपुर - सरकारी योजना अलर्ट*\n\n📄 *${y.name}*\n${y.desc}\n\n🎯 *पात्रता:* ${y.eligibility || 'सभी ग्रामीण'}\n📋 *जरूरी दस्तावेज:* ${docs}\n📍 *आवेदन:* ${y.apply || 'पंचायत कार्यालय'}${y.applyUrl ? `\n🌐 लिंक: ${y.applyUrl}` : ''}\n\n👉 गाँव पोर्टल पर अन्य योजनाएं देखें:\n${window.location.origin}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+});
+
 document.getElementById('addYojanaBtn').addEventListener('click', ()=>openOverlay('overlayYojana'));
+
 document.getElementById('formYojana').addEventListener('submit', async (e)=>{
   e.preventDefault();
+  const docsRaw = (document.getElementById('yDocs') ? document.getElementById('yDocs').value.trim() : '');
+  const docs = docsRaw ? docsRaw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+
   const payload = {
     name: document.getElementById('yName').value.trim(),
     desc: document.getElementById('yDesc').value.trim(),
-    apply: document.getElementById('yApply').value.trim() || 'Panchayat karyalay me sampark karein.'
+    eligibility: (document.getElementById('yEligibility') ? document.getElementById('yEligibility').value.trim() : ''),
+    documents: docs,
+    apply: (document.getElementById('yApply') ? document.getElementById('yApply').value.trim() : '') || 'Panchayat karyalay me sampark karein.',
+    applyUrl: (document.getElementById('yApplyUrl') ? document.getElementById('yApplyUrl').value.trim() : '')
   };
   const item = await apiSend('POST', '/yojana', payload);
   if(!item) return;
@@ -2090,6 +2879,16 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
 /* ============ Init ============ */
 async function init(){
   updateAdminButton();
+  initVoiceInput();
+
+  const btnEmAll = document.getElementById('btnEmergencyAll');
+  if(btnEmAll){
+    btnEmAll.addEventListener('click', ()=>{
+      const jaankariTab = document.querySelector('.tab-btn[data-tab="jaankari"]');
+      if(jaankariTab) jaankariTab.click();
+    });
+  }
+
   const [su, j, y, ch, kr] = await Promise.all([
     apiGet('/suchna'),
     apiGet('/jaankari'),
