@@ -1,1331 +1,2747 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jagdishpur Gaon Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagdishpur Gaon Portal</title>
 
-<!-- PWA setup: isse "Add to Home Screen" karne par ye asli app jaisi chalti hai -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#1F3F5C">
-<link rel="icon" href="/icons/icon-192.png">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Gaon Portal">
+    <!-- PWA setup: isse "Add to Home Screen" karne par ye asli app jaisi chalti hai -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1F3F5C">
+    <link rel="icon" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gaon Portal">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --wall:#EFE6D3;
-    --wall-dark:#E4D6B8;
-    --indigo:#1F3F5C;
-    --indigo-dark:#152C41;
-    --turmeric:#D99A2B;
-    --terracotta:#B8562F;
-    --neem:#4F6B3A;
-    --ink:#2A2118;
-    --ink-soft:#5B4E3E;
-    --card:#FFFCF5;
-    --line:#D8C9A8;
-    --radius:14px;
-    font-size:16px;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--wall);
-    color:var(--ink);
-    font-family:'Noto Sans', sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .app{max-width:900px;margin:0 auto;min-height:100vh;background:var(--wall);position:relative;}
-
-  /* ---- Header: hand-pump blue band with whitewash wall texture ---- */
-  .site-header{
-    background:linear-gradient(180deg,var(--indigo) 0%,var(--indigo-dark) 100%);
-    color:#F3ECDD;
-    padding:22px 20px 18px;
-    position:relative;
-    overflow:hidden;
-  }
-  .site-header::after{
-    content:"";
-    position:absolute;left:0;right:0;bottom:0;height:6px;
-    background:repeating-linear-gradient(90deg,var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
-    opacity:.9;
-  }
-  .brand-row{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-  .brand-mark{
-    width:44px;height:44px;flex:none;border-radius:10px;
-    background:var(--turmeric);
-    display:flex;align-items:center;justify-content:center;
-    font-size:22px;
-    box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);
-  }
-  .brand-text h1{margin:0;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:.2px;}
-  .brand-text p{margin:2px 0 0;font-size:.8rem;opacity:.8;}
-  .install-btn{
-    margin-left:auto;flex:none;
-    background:var(--turmeric);color:var(--indigo-dark);
-    border:none;border-radius:9px;
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.8rem;
-    padding:9px 13px;cursor:pointer;
-    display:none;align-items:center;gap:5px;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .install-btn.show{display:inline-flex;}
-
-  .admin-row{
-    position:relative;z-index:1;
-    display:flex;justify-content:flex-end;
-    margin-top:8px;
-  }
-  .admin-link{
-    background:rgba(255,255,255,.1);
-    color:#D9C9A3;
-    border:1px solid rgba(255,255,255,.25);
-    border-radius:8px;
-    font-family:'Baloo 2',sans-serif;font-size:.76rem;font-weight:600;
-    padding:6px 11px;cursor:pointer;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .admin-link.logged-in{background:var(--neem);color:#fff;border-color:var(--neem);}
-
-  .locked-notice{
-    background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
-    padding:36px 20px;text-align:center;color:var(--ink-soft);
-  }
-  .locked-notice .big{font-size:2.2rem;display:block;margin-bottom:10px;}
-  .locked-notice p{margin:0 0 4px;font-size:.9rem;}
-  .locked-notice .small{font-size:.78rem;color:var(--ink-soft);opacity:.8;}
-
-  /* ---- Tab nav ---- */
-  .tabs{
-    display:flex;
-    gap:0;
-    background:var(--indigo-dark);
-    position:sticky;top:0;z-index:20;
-    overflow-x:auto;
-    scrollbar-width:none;
-    box-shadow:0 2px 10px rgba(0,0,0,.15);
-  }
-  .tabs::-webkit-scrollbar{display:none;}
-  .tab-btn{
-    flex:1 0 auto;
-    background:transparent;
-    border:none;
-    color:#C9D3DB;
-    font-family:'Baloo 2',sans-serif;
-    font-size:.92rem;
-    font-weight:600;
-    padding:13px 14px 11px;
-    cursor:pointer;
-    white-space:nowrap;
-    border-bottom:3px solid transparent;
-    transition:.15s;
-    touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .tab-btn span.emoji{margin-right:6px;}
-  .tab-btn:hover{color:#fff;}
-  .tab-btn:focus-visible{outline:2px solid var(--turmeric);outline-offset:-2px;}
-  .tab-btn.active{color:#fff;border-bottom-color:var(--turmeric);background:rgba(255,255,255,.05);}
-
-  main{padding:18px 16px 60px;}
-  .panel{display:none;animation:fadeIn .25s ease;}
-  .panel.active{display:block;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-
-  .panel-head{margin-bottom:16px;}
-  .panel-head h2{
-    font-family:'Baloo 2',sans-serif;
-    font-size:1.3rem;margin:0 0 4px;color:var(--indigo-dark);
-  }
-  .panel-head p{margin:0;color:var(--ink-soft);font-size:.88rem;}
-
-  /* ---- Buttons ---- */
-  .btn{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:600;
-    border:none;
-    border-radius:10px;
-    padding:11px 18px;
-    font-size:.92rem;
-    cursor:pointer;
-    display:inline-flex;align-items:center;gap:7px;
-    transition:transform .1s, filter .15s;
-    touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .btn:active{transform:scale(.97);}
-  .btn:focus-visible{outline:2px solid var(--indigo-dark);outline-offset:2px;}
-  .btn-primary{background:var(--terracotta);color:#fff;box-shadow:0 3px 0 #8f421f;}
-  .btn-primary:hover{filter:brightness(1.05);}
-  .btn-outline{background:transparent;color:var(--indigo-dark);border:2px solid var(--indigo-dark);}
-  .btn-small{padding:7px 12px;font-size:.8rem;}
-  .btn-block{width:100%;justify-content:center;margin-top:10px;}
-
-  /* ---- Category grid (Samasya) ---- */
-  .cat-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-    gap:10px;
-    margin-bottom:22px;
-  }
-  .cat-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:14px 10px;
-    text-align:center;
-    cursor:pointer;
-    transition:.15s;
-    position:relative;
-    font-family:inherit;
-    -webkit-tap-highlight-color:transparent;
-    touch-action:manipulation;
-    user-select:none;
-    width:100%;
-  }
-  .cat-card:active{transform:scale(.96);border-color:var(--terracotta);}
-  .cat-card:focus-visible{outline:2px solid var(--indigo-dark);outline-offset:2px;}
-  .cat-card:hover{border-color:var(--terracotta);transform:translateY(-2px);}
-  .cat-card.active{border-color:var(--terracotta);background:#FFF6EC;box-shadow:0 0 0 2px var(--terracotta) inset;}
-  .cat-card .icon{font-size:1.8rem;display:block;margin-bottom:6px;}
-  .cat-card .name{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:.85rem;color:var(--ink);}
-  .cat-card .count{
-    position:absolute;top:8px;right:8px;
-    background:var(--indigo);color:#fff;font-size:.68rem;font-weight:700;
-    border-radius:20px;padding:1px 7px;
-  }
-
-  .section-divider{
-    display:flex;align-items:center;gap:10px;margin:20px 0 12px;
-  }
-  .section-divider .line{flex:1;height:1px;background:var(--line);}
-  .section-divider .label{font-family:'Baloo 2',sans-serif;color:var(--indigo-dark);font-weight:700;font-size:1rem;}
-
-  /* ---- Complaint / item cards ---- */
-  .item-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    margin-bottom:12px;
-    display:flex;
-    gap:0;
-  }
-  .item-photo{
-    width:110px;flex:none;
-    background:var(--wall-dark) center/cover no-repeat;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--ink-soft);font-size:1.6rem;
-  }
-  .item-photo.has-photo{
-    cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .photo-lightbox{
-    position:fixed;inset:0;background:rgba(10,8,5,.9);
-    display:none;align-items:center;justify-content:center;
-    z-index:300;padding:20px;
-  }
-  .photo-lightbox.open{display:flex;}
-  .photo-lightbox img{
-    max-width:100%;max-height:100%;border-radius:10px;
-    box-shadow:0 8px 30px rgba(0,0,0,.5);
-  }
-  .photo-lightbox-close{
-    position:absolute;top:16px;right:20px;
-    background:rgba(255,255,255,.15);color:#fff;border:none;
-    width:38px;height:38px;border-radius:50%;font-size:1.2rem;cursor:pointer;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .item-body{padding:11px 13px;flex:1;min-width:0;}
-  .item-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;}
-  .item-cat{font-size:.72rem;font-weight:700;color:var(--terracotta);text-transform:uppercase;letter-spacing:.4px;}
-  .item-desc{margin:4px 0 6px;font-size:.92rem;line-height:1.4;color:var(--ink);word-break:break-word;}
-  .item-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
-  .item-by{font-size:.76rem;color:var(--ink-soft);}
-  .btn-delete-samasya{
-    background:none;border:none;cursor:pointer;font-size:.78rem;font-weight:600;
-    color:var(--terracotta);padding:2px 8px;border-radius:6px;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-    display:inline-flex;align-items:center;gap:4px;
-    transition:background .15s, color .15s;
-  }
-  .btn-delete-samasya:hover{background:#FCE7D6;}
-  .status-pill{
-    font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;
-    font-family:'Baloo 2',sans-serif;flex:none;
-  }
-  .status-nayi{background:#FCE7D6;color:var(--terracotta);}
-  .status-progress{background:#FBF0D6;color:#8a6a10;}
-  .status-solved{background:#E4EEDC;color:var(--neem);}
-  .status-cycle{cursor:pointer;border:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-  .empty-state{
-    text-align:center;padding:34px 16px;color:var(--ink-soft);
-    background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
-  }
-  .empty-state .big{font-size:2rem;display:block;margin-bottom:8px;}
-
-  /* ---- Suchna (announcement) board ---- */
-  .board{
-    background:#8a6a3f;
-    background-image:
-      linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.08)),
-      repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 40px);
-    border-radius:var(--radius);
-    padding:18px;
-    margin-bottom:16px;
-  }
-  .pin-note{
-    background:#FFF9E8;
-    border-radius:4px;
-    padding:14px 14px 12px;
-    margin-bottom:12px;
-    position:relative;
-    box-shadow:0 4px 8px rgba(0,0,0,.18);
-    transform:rotate(var(--tilt,-.6deg));
-  }
-  .pin-note:nth-child(even){--tilt:.6deg;}
-  .pin-note::before{
-    content:"";
-    position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-    width:14px;height:14px;border-radius:50%;
-    background:radial-gradient(circle at 35% 35%,#e7594a,#a3271c);
-    box-shadow:0 2px 3px rgba(0,0,0,.4);
-  }
-  .pin-note h3{margin:4px 0 4px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);}
-  .pin-note p{margin:0 0 6px;font-size:.88rem;line-height:1.45;color:var(--ink);}
-  .pin-note .meta{font-size:.72rem;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
-  .pin-note-actions{display:flex;gap:8px;flex:none;}
-  .pin-note-actions button{
-    background:none;border:none;cursor:pointer;font-size:.85rem;
-    color:var(--ink-soft);padding:2px 4px;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .pin-note-actions button:hover{color:var(--terracotta);}
-
-  /* ---- Info cards (Gaon Jaankari) ---- */
-  .info-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:16px;margin-bottom:12px;
-  }
-  .info-card h3{margin:0 0 8px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);display:flex;align-items:center;gap:8px;}
-  .info-card p{margin:0;font-size:.9rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;}
-  .contact-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem;}
-  .contact-row:last-child{border-bottom:none;}
-  .contact-row .who{font-weight:600;}
-  .contact-row .num{color:var(--terracotta);font-weight:700;}
-
-  /* ---- Yojana cards ---- */
-  .yojana-card{
-    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--neem);
-    border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;
-  }
-  .yojana-card h3{margin:0 0 5px;font-family:'Baloo 2',sans-serif;font-size:1rem;color:var(--indigo-dark);}
-  .yojana-card p{margin:0 0 6px;font-size:.88rem;line-height:1.5;color:var(--ink);}
-  .yojana-card .apply{font-size:.78rem;color:var(--ink-soft);}
-
-  /* ---- Chaupal (Community Social Feed) ---- */
-  .chaupal-create-prompt{
-    background:var(--card);
-    border:1.5px dashed var(--line);
-    border-radius:var(--radius);
-    padding:14px 16px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:16px;
-    cursor:pointer;
-    transition:background .15s, border-color .15s;
-    touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .chaupal-create-prompt:hover{background:#FAF3E3;border-color:var(--turmeric);}
-  .prompt-avatar{
-    width:42px;height:42px;border-radius:50%;
-    background:linear-gradient(135deg,var(--turmeric),var(--terracotta));
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.2rem;flex:none;color:#fff;
-  }
-  .prompt-text{flex:1;font-size:.88rem;color:var(--ink-soft);font-weight:500;}
-  .chaupal-feed{display:flex;flex-direction:column;gap:14px;}
-  .chaupal-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:16px;
-    box-shadow:0 2px 6px rgba(0,0,0,.04);
-  }
-  .chaupal-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-  .chaupal-author-avatar{
-    width:38px;height:38px;border-radius:50%;
-    background:var(--indigo);color:#F3ECDD;
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;
-    display:flex;align-items:center;justify-content:center;flex:none;
-  }
-  .chaupal-author-info{flex:1;min-width:0;}
-  .chaupal-author-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.96rem;color:var(--indigo-dark);margin:0;line-height:1.2;}
-  .chaupal-post-time{font-size:.74rem;color:var(--ink-soft);margin:2px 0 0;}
-  .chaupal-card-text{
-    font-size:.94rem;line-height:1.55;color:var(--ink);
-    margin:0 0 10px;white-space:pre-wrap;word-break:break-word;
-  }
-  .chaupal-media-container{
-    margin-bottom:12px;border-radius:10px;overflow:hidden;
-    background:#111;max-height:360px;display:flex;align-items:center;justify-content:center;
-  }
-  .chaupal-media-img{
-    width:100%;max-height:360px;object-fit:cover;cursor:pointer;
-    transition:opacity .15s;
-  }
-  .chaupal-media-img:hover{opacity:.95;}
-  .chaupal-media-video{width:100%;max-height:360px;border-radius:10px;background:#000;}
-  .chaupal-card-actions{
-    display:flex;align-items:center;justify-content:space-between;
-    padding-top:10px;border-top:1px solid var(--line);gap:8px;flex-wrap:wrap;
-  }
-  .chaupal-action-btn{
-    background:none;border:none;cursor:pointer;
-    font-family:'Baloo 2',sans-serif;font-size:.84rem;font-weight:600;
-    color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px;
-    padding:5px 10px;border-radius:8px;transition:background .15s, color .15s;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .chaupal-action-btn:hover{background:#FAF3E3;}
-  .chaupal-action-btn.liked{color:#D32F2F;}
-  .chaupal-action-btn.share-btn{color:#128C7E;}
-  .chaupal-action-btn.delete-btn{color:var(--terracotta);margin-left:auto;}
-  .chaupal-action-btn.delete-btn:hover{background:#FCE7D6;}
-
-  /* ---- Krishi / Kheti-Baadi Guide ---- */
-  .krishi-season-filters{
-    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px;padding-bottom:4px;
-  }
-  .krishi-season-filters::-webkit-scrollbar{display:none;}
-  .krishi-filter-btn{
-    flex:none;background:var(--card);border:1.5px solid var(--line);border-radius:20px;
-    padding:7px 14px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;
-    color:var(--ink-soft);cursor:pointer;transition:.15s;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .krishi-filter-btn:hover{border-color:var(--neem);color:var(--neem);}
-  .krishi-filter-btn.active{background:var(--neem);color:#fff;border-color:var(--neem);box-shadow:0 2px 6px rgba(79,107,58,.3);}
-
-  .krishi-crop-picker{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px;margin-bottom:20px;
-  }
-  .crop-btn{
-    background:var(--card);border:1.5px solid var(--line);border-radius:12px;
-    padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;
-    display:flex;flex-direction:column;align-items:center;gap:6px;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .crop-btn:hover{transform:translateY(-2px);border-color:var(--neem);}
-  .crop-btn.active{border-color:var(--neem);background:#EBF2E6;box-shadow:0 3px 10px rgba(79,107,58,.25);}
-  .crop-btn .crop-icon{font-size:1.8rem;line-height:1;}
-  .crop-btn .crop-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.82rem;color:var(--ink);line-height:1.2;}
-
-  .krishi-hero-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    overflow:hidden;margin-bottom:16px;box-shadow:0 3px 10px rgba(0,0,0,.04);
-  }
-  .krishi-hero-img-wrap{
-    height:180px;position:relative;background:#333;overflow:hidden;
-  }
-  .krishi-hero-img{
-    width:100%;height:100%;object-fit:cover;
-  }
-  .krishi-hero-badge{
-    position:absolute;top:12px;left:12px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
-    color:#fff;padding:4px 10px;border-radius:20px;font-family:'Baloo 2',sans-serif;font-size:.76rem;font-weight:600;
-  }
-  .krishi-hero-content{padding:16px;}
-  .krishi-hero-title{margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-size:1.35rem;color:var(--indigo-dark);display:flex;align-items:center;gap:8px;}
-  .krishi-stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
-  .krishi-stat-box{background:#FAF3E3;padding:8px 12px;border-radius:10px;}
-  .krishi-stat-label{font-size:.72rem;color:var(--ink-soft);margin-bottom:2px;}
-  .krishi-stat-val{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);}
-
-  .krishi-section-title{
-    margin:20px 0 10px;font-family:'Baloo 2',sans-serif;font-size:1.1rem;
-    color:var(--indigo-dark);display:flex;align-items:center;gap:8px;
-  }
-
-  /* Khad Cards */
-  .khad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:16px;}
-  .khad-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:14px;position:relative;border-left:5px solid var(--neem);
-  }
-  .khad-card.badge-dap{border-left-color:#2E7D32;}
-  .khad-card.badge-urea{border-left-color:#E65100;}
-  .khad-card.badge-potash{border-left-color:#7B1FA2;}
-  .khad-card.badge-zinc, .khad-card.badge-sulfur{border-left-color:#0277BD;}
-  .khad-card.badge-gobar{border-left-color:#795548;}
-  .khad-card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
-  .khad-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;color:var(--indigo-dark);}
-  .khad-dose{
-    background:#FAF3E3;color:var(--terracotta);font-family:'Baloo 2',sans-serif;
-    font-weight:800;font-size:.82rem;padding:3px 8px;border-radius:6px;
-  }
-  .khad-timing{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin:0;}
-
-  /* Irrigation & Disease */
-  .irrigation-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:14px;margin-bottom:16px;
-  }
-  .irrigation-step{
-    display:flex;gap:10px;margin-bottom:10px;font-size:.88rem;line-height:1.45;color:var(--ink);
-  }
-  .irrigation-step:last-child{margin-bottom:0;}
-  .irrigation-icon{color:#0288D1;flex:none;font-size:1.1rem;}
-
-  .disease-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
-  .disease-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:14px;border-left:5px solid var(--terracotta);
-  }
-  .disease-head{margin-bottom:6px;}
-  .disease-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.95rem;color:var(--terracotta);}
-  .disease-symptoms{font-size:.82rem;color:var(--ink-soft);margin:2px 0 8px;}
-  .disease-rx{
-    background:#FFF6F0;border:1px dashed #F5C6A5;border-radius:8px;padding:9px 12px;
-  }
-  .disease-rx-title{font-size:.74rem;font-weight:700;color:var(--terracotta);text-transform:uppercase;margin-bottom:3px;}
-  .disease-rx-med{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);}
-  .disease-rx-dose{font-size:.8rem;color:var(--ink);margin-top:2px;}
-
-  .kisan-tips-card{
-    background:#FFF9E6;border:1.5px dashed var(--turmeric);border-radius:var(--radius);
-    padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-top:10px;
-  }
-  .kisan-tips-icon{font-size:1.5rem;flex:none;}
-  .kisan-tips-text h4{margin:0 0 4px;font-family:'Baloo 2',sans-serif;font-size:.92rem;color:var(--indigo-dark);}
-  .kisan-tips-text p{margin:0;font-size:.84rem;line-height:1.45;color:var(--ink-soft);}
-
-  /* ---- Modal / form ---- */
-  .overlay{
-    position:fixed;inset:0;background:rgba(20,15,10,.55);
-    display:none;align-items:flex-end;justify-content:center;z-index:100;
-  }
-  .overlay.open{display:flex;}
-  .sheet{
-    background:var(--wall);width:100%;max-width:900px;max-height:90vh;overflow-y:auto;
-    border-radius:18px 18px 0 0;padding:20px 18px 26px;
-    animation:slideUp .25s ease;
-  }
-  @keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-  .sheet h2{margin:0 0 14px;font-family:'Baloo 2',sans-serif;font-size:1.15rem;color:var(--indigo-dark);}
-  .field{margin-bottom:14px;}
-  .field label{display:block;font-size:.82rem;font-weight:600;color:var(--ink-soft);margin-bottom:5px;}
-  .field select, .field textarea, .field input[type=text]{
-    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;
-    font-family:'Noto Sans',sans-serif;font-size:.92rem;background:#fff;color:var(--ink);
-  }
-  .field textarea{min-height:80px;resize:vertical;}
-  .photo-input{
-    border:2px dashed var(--line);border-radius:10px;padding:16px;text-align:center;
-    cursor:pointer;background:#fff;color:var(--ink-soft);font-size:.85rem;
-  }
-  .photo-input input{display:none;}
-  .photo-preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px;display:none;}
-  .sheet-actions{display:flex;gap:10px;margin-top:6px;}
-  .sheet-actions .btn{flex:1;}
-  .close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;color:var(--ink-soft);cursor:pointer;}
-  .sheet-wrap{position:relative;}
-
-  .fab{
-    position:fixed;bottom:20px;right:calc(50% - 450px + 20px);
-    background:var(--terracotta);color:#fff;border:none;border-radius:50px;
-    padding:13px 20px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.92rem;
-    box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;z-index:30;
-  }
-  @media (max-width:940px){.fab{right:20px;}}
-  .fab:active{transform:scale(.96);}
-
-  .toast{
-    position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-    background:var(--indigo-dark);color:#fff;padding:10px 20px;border-radius:30px;
-    font-size:.85rem;z-index:200;opacity:0;pointer-events:none;transition:.25s;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
-
-  .loading-row{text-align:center;padding:30px;color:var(--ink-soft);font-size:.88rem;}
-
-  /* ---- Builder credit footer ---- */
-  .builder-footer{
-    margin:34px 16px 40px;
-    padding:26px 20px 30px;
-    background:linear-gradient(180deg,var(--indigo) 0%,var(--indigo-dark) 100%);
-    border-radius:18px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .builder-footer::before{
-    content:"";
-    position:absolute;top:0;left:0;right:0;height:5px;
-    background:repeating-linear-gradient(90deg,var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
-  }
-  .builder-photo{
-    width:78px;height:78px;border-radius:50%;
-    object-fit:cover;
-    border:3px solid var(--turmeric);
-    box-shadow:0 4px 14px rgba(0,0,0,.3);
-    margin:0 auto 12px;
-    display:block;
-  }
-  .builder-label{
-    font-size:.72rem;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:#B9C6D1;
-    margin:0 0 4px;
-    font-weight:600;
-  }
-  .builder-name{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:700;
-    font-size:1.15rem;
-    color:#F3ECDD;
-    margin:0;
-  }
-  .builder-sub{
-    font-size:.78rem;
-    color:#9FB0BE;
-    margin:4px 0 0;
-  }
-
-  /* ============ EMERGENCY QUICK STRIP ============ */
-  .emergency-strip{
-    background:linear-gradient(90deg, #7F1D1D 0%, #991B1B 100%);
-    padding:8px 12px;color:#fff;overflow-x:auto;-webkit-overflow-scrolling:touch;
-  }
-  .emergency-strip::-webkit-scrollbar{display:none;}
-  .emergency-strip-inner{
-    display:flex;align-items:center;gap:8px;max-width:900px;margin:0 auto;white-space:nowrap;
-  }
-  .emergency-label{
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;color:#FEE2E2;display:flex;align-items:center;gap:4px;
-  }
-  .emergency-pill{
-    display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);
-    color:#fff;padding:4px 10px;border-radius:16px;text-decoration:none;font-size:.78rem;font-weight:600;
-    border:1px solid rgba(255,255,255,.3);transition:.15s;
-  }
-  .emergency-pill:hover, .emergency-pill:active{
-    background:#fff;color:#991B1B;
-  }
-  .emergency-more-btn{
-    background:var(--turmeric);color:var(--indigo-dark);border:none;border-radius:16px;
-    padding:4px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;margin-left:auto;
-  }
-
-  /* ============ CONTACT DIRECTORY (JAANKARI) ============ */
-  .contact-card-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px;
-  }
-  .contact-box{
-    background:var(--card);border:1.5px solid var(--line);border-radius:12px;
-    padding:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;
-    transition:.15s;
-  }
-  .contact-box:hover{border-color:var(--neem);}
-  .contact-box.emergency{border-left:4px solid #DC2626;}
-  .contact-box.health{border-left:4px solid #0288D1;}
-  .contact-box.utility{border-left:4px solid #F59E0B;}
-  .contact-box.ration{border-left:4px solid #10B981;}
-  .contact-box.admin{border-left:4px solid var(--terracotta);}
-  .contact-box .who{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.88rem;color:var(--indigo-dark);display:block;}
-  .contact-box .num{font-size:.82rem;color:var(--ink-soft);display:block;margin-top:2px;}
-  .call-btn{
-    background:#2E7D32;color:#fff;border-radius:20px;padding:6px 12px;font-size:.78rem;font-weight:700;
-    text-decoration:none;display:inline-flex;align-items:center;gap:4px;box-shadow:0 2px 6px rgba(46,125,50,.3);
-    white-space:nowrap;touch-action:manipulation;
-  }
-  .call-btn:hover{background:#1B5E20;}
-
-  /* ============ WHATSAPP SHARE BUTTON ============ */
-  .btn-wa-share{
-    display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;
-    border:none;border-radius:8px;padding:6px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;
-    font-size:.82rem;cursor:pointer;text-decoration:none;transition:.15s;margin-top:8px;
-  }
-  .btn-wa-share:hover{background:#1EBE5D;transform:translateY(-1px);}
-
-  /* ============ VOICE INPUT MIC ============ */
-  .voice-btn{
-    background:#FAF3E3;border:1.5px solid var(--turmeric);border-radius:20px;
-    padding:4px 12px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.8rem;
-    color:var(--terracotta);cursor:pointer;display:inline-flex;align-items:center;gap:5px;
-    transition:.15s;
-  }
-  .voice-btn:hover{background:#F3ECDD;}
-  .voice-btn.recording{
-    background:#FEE2E2;border-color:#DC2626;color:#DC2626;animation:voicePulse 1.2s infinite;
-  }
-  @keyframes voicePulse{
-    0%{box-shadow:0 0 0 0 rgba(220,38,38,.4);}
-    70%{box-shadow:0 0 0 8px rgba(220,38,38,0);}
-    100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}
-  }
-
-  /* ============ SAMASYA TRACKER CARD ============ */
-  .samasya-tracker-card{
-    background:linear-gradient(180deg,#FAF3E3 0%,#F3ECDD 100%);
-    border:1.5px solid var(--turmeric);border-radius:var(--radius);padding:14px 16px;
-    margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.04);
-  }
-  .tracker-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-  .tracker-icon{font-size:1.6rem;}
-  .tracker-card-head h3{margin:0;font-family:'Baloo 2',sans-serif;font-size:1.05rem;color:var(--indigo-dark);}
-  .tracker-card-head p{margin:2px 0 0;font-size:.8rem;color:var(--ink-soft);}
-  .tracker-search-row{display:flex;gap:8px;}
-  .tracker-search-row input{
-    flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;
-    font-size:.88rem;background:#fff;color:var(--ink);
-  }
-  .track-result-card{
-    background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;
-    margin-top:12px;box-shadow:0 2px 6px rgba(0,0,0,.03);
-  }
-  .track-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-  .track-token-badge{
-    background:var(--indigo-dark);color:#fff;font-family:'Baloo 2',sans-serif;
-    font-weight:800;font-size:.84rem;padding:3px 10px;border-radius:6px;letter-spacing:.5px;
-  }
-  .track-status-badge{font-family:'Baloo 2',sans-serif;font-size:.8rem;font-weight:700;padding:3px 8px;border-radius:6px;}
-
-  /* Stepper */
-  .tracker-stepper{display:flex;align-items:center;justify-content:space-between;margin:16px 0;position:relative;}
-  .step{text-align:center;position:relative;z-index:2;flex:1;}
-  .step-circle{
-    width:28px;height:28px;border-radius:50%;background:#E2E8F0;color:#64748B;
-    display:flex;align-items:center;justify-content:center;margin:0 auto 4px;
-    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:.8rem;transition:.2s;
-  }
-  .step.active .step-circle{background:#D35400;color:#fff;box-shadow:0 0 0 3px rgba(211,84,0,.2);}
-  .step.done .step-circle{background:#2E7D32;color:#fff;}
-  .step-lbl{font-size:.72rem;font-weight:700;color:var(--ink-soft);}
-  .step.active .step-lbl{color:var(--terracotta);}
-  .step.done .step-lbl{color:#2E7D32;}
-  .step-line{flex:1;height:3px;background:#E2E8F0;margin:0 -10px 18px;position:relative;z-index:1;}
-  .step-line.done{background:#2E7D32;}
-
-  .track-details p{margin:4px 0;font-size:.84rem;line-height:1.4;}
-  .track-admin-remark{
-    background:#EBF2E6;border:1.5px dashed var(--neem);border-radius:10px;
-    padding:10px 12px;margin-top:10px;display:flex;gap:8px;align-items:flex-start;
-  }
-  .track-admin-remark p{margin:2px 0 0;font-size:.84rem;color:var(--ink);}
-  .track-admin-pending{
-    background:#FAF3E3;border:1px dashed var(--line);border-radius:8px;
-    padding:8px 12px;margin-top:10px;font-size:.8rem;color:var(--ink-soft);
-  }
-
-  /* Token Modal */
-  .token-display-box{
-    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.8rem;
-    letter-spacing:1px;color:var(--indigo-dark);background:#FAF3E3;
-    border:2px dashed var(--turmeric);border-radius:12px;padding:12px;margin:10px 0;
-  }
-
-  /* ============ YOJANA EXPANDED STYLING ============ */
-  .yojana-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:16px;margin-bottom:16px;box-shadow:0 2px 6px rgba(0,0,0,.03);
-  }
-  .yojana-card h3{margin:0 0 6px;font-family:'Baloo 2',sans-serif;font-size:1.15rem;color:var(--indigo-dark);}
-  .yojana-card p{margin:0 0 10px;font-size:.86rem;line-height:1.45;color:var(--ink);}
-  .yojana-eligibility{
-    background:#FFF9E6;border-left:3px solid var(--turmeric);padding:6px 10px;
-    border-radius:4px;font-size:.82rem;margin-bottom:10px;line-height:1.4;
-  }
-  .yojana-docs-box{
-    background:#FAF3E3;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:.82rem;
-  }
-  .yojana-docs-list{margin:6px 0 0;padding-left:18px;list-style:none;}
-  .yojana-docs-list li{margin-bottom:3px;position:relative;padding-left:4px;}
-  .yojana-actions-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;}
-  .btn-yojana-link{
-    display:inline-flex;align-items:center;gap:6px;background:var(--indigo-dark);color:#fff;
-    padding:6px 12px;border-radius:8px;font-size:.82rem;font-weight:700;text-decoration:none;
-    transition:.15s;
-  }
-  .btn-yojana-link:hover{background:var(--indigo);}
-
-  /* ============ ADMIN STATS & PRINT ============ */
-  .admin-dashboard-bar{
-    background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);
-    padding:14px;margin-bottom:16px;box-shadow:0 3px 10px rgba(0,0,0,.04);
-  }
-  .admin-stats-header{
-    display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;
-  }
-  .admin-stats-header h3{margin:0;font-family:'Baloo 2',sans-serif;font-size:1.05rem;color:var(--indigo-dark);}
-  .btn-print-report{
-    background:#1E3A8A;color:#fff;border:none;border-radius:8px;padding:6px 14px;
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.84rem;cursor:pointer;
-    display:inline-flex;align-items:center;gap:6px;transition:.15s;
-  }
-  .btn-print-report:hover{background:#172554;}
-  .admin-stats-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;
-  }
-  .admin-stat-card{
-    background:#FAF3E3;border-left:4px solid var(--indigo);border-radius:8px;padding:8px 10px;text-align:center;
-  }
-  .admin-stat-card .stat-num{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.25rem;line-height:1.1;color:var(--indigo-dark);}
-  .admin-stat-card .stat-lbl{font-size:.7rem;color:var(--ink-soft);margin-top:2px;font-weight:600;}
-  .token-pill{background:#E0E7FF;color:#3730A3;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.74rem;padding:2px 6px;border-radius:4px;}
-  .btn-remark{
-    background:none;border:1px dashed var(--line);border-radius:6px;padding:3px 8px;
-    font-size:.75rem;color:var(--indigo-dark);cursor:pointer;margin-left:auto;
-  }
-  .btn-remark:hover{border-color:var(--indigo);background:#fff;}
-  .card-admin-remark{
-    background:#FFF6F0;border-left:3px solid var(--terracotta);padding:6px 10px;
-    border-radius:4px;font-size:.8rem;margin-top:6px;line-height:1.4;
-  }
-</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --wall: #EFE6D3;
+            --wall-dark: #E4D6B8;
+            --indigo: #1F3F5C;
+            --indigo-dark: #152C41;
+            --turmeric: #D99A2B;
+            --terracotta: #B8562F;
+            --neem: #4F6B3A;
+            --ink: #2A2118;
+            --ink-soft: #5B4E3E;
+            --card: #FFFCF5;
+            --line: #D8C9A8;
+            --radius: 14px;
+            font-size: 16px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            background: var(--wall);
+            color: var(--ink);
+            font-family: 'Noto Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .app {
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--wall);
+            position: relative;
+        }
+        /* ---- Header: hand-pump blue band with whitewash wall texture ---- */
+        
+        .site-header {
+            background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo-dark) 100%);
+            color: #F3ECDD;
+            padding: 22px 20px 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
+            opacity: .9;
+        }
+        
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            flex: none;
+            border-radius: 10px;
+            background: var(--turmeric);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .15);
+        }
+        
+        .brand-text h1 {
+            margin: 0;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: .2px;
+        }
+        
+        .brand-text p {
+            margin: 2px 0 0;
+            font-size: .8rem;
+            opacity: .8;
+        }
+        
+        .install-btn {
+            margin-left: auto;
+            flex: none;
+            background: var(--turmeric);
+            color: var(--indigo-dark);
+            border: none;
+            border-radius: 9px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .8rem;
+            padding: 9px 13px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 5px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .install-btn.show {
+            display: inline-flex;
+        }
+        
+        .admin-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        
+        .admin-link {
+            background: rgba(255, 255, 255, .1);
+            color: #D9C9A3;
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 8px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+            padding: 6px 11px;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .admin-link.logged-in {
+            background: var(--neem);
+            color: #fff;
+            border-color: var(--neem);
+        }
+        
+        .locked-notice {
+            background: var(--card);
+            border: 1px dashed var(--line);
+            border-radius: var(--radius);
+            padding: 36px 20px;
+            text-align: center;
+            color: var(--ink-soft);
+        }
+        
+        .locked-notice .big {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .locked-notice p {
+            margin: 0 0 4px;
+            font-size: .9rem;
+        }
+        
+        .locked-notice .small {
+            font-size: .78rem;
+            color: var(--ink-soft);
+            opacity: .8;
+        }
+        /* ---- Tab nav ---- */
+        
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: var(--indigo-dark);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            overflow-x: auto;
+            scrollbar-width: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .15);
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tab-btn {
+            flex: 1 0 auto;
+            background: transparent;
+            border: none;
+            color: #C9D3DB;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .92rem;
+            font-weight: 600;
+            padding: 13px 14px 11px;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: .15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .tab-btn span.emoji {
+            margin-right: 6px;
+        }
+        
+        .tab-btn:hover {
+            color: #fff;
+        }
+        
+        .tab-btn:focus-visible {
+            outline: 2px solid var(--turmeric);
+            outline-offset: -2px;
+        }
+        
+        .tab-btn.active {
+            color: #fff;
+            border-bottom-color: var(--turmeric);
+            background: rgba(255, 255, 255, .05);
+        }
+        
+        main {
+            padding: 18px 16px 60px;
+        }
+        
+        .panel {
+            display: none;
+            animation: fadeIn .25s ease;
+        }
+        
+        .panel.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .panel-head {
+            margin-bottom: 16px;
+        }
+        
+        .panel-head h2 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.3rem;
+            margin: 0 0 4px;
+            color: var(--indigo-dark);
+        }
+        
+        .panel-head p {
+            margin: 0;
+            color: var(--ink-soft);
+            font-size: .88rem;
+        }
+        /* ---- Buttons ---- */
+        
+        .btn {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-size: .92rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: transform .1s, filter .15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn:active {
+            transform: scale(.97);
+        }
+        
+        .btn:focus-visible {
+            outline: 2px solid var(--indigo-dark);
+            outline-offset: 2px;
+        }
+        
+        .btn-primary {
+            background: var(--terracotta);
+            color: #fff;
+            box-shadow: 0 3px 0 #8f421f;
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.05);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--indigo-dark);
+            border: 2px solid var(--indigo-dark);
+        }
+        
+        .btn-small {
+            padding: 7px 12px;
+            font-size: .8rem;
+        }
+        
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        /* ---- Category grid (Samasya) ---- */
+        
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        
+        .cat-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: .15s;
+            position: relative;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            width: 100%;
+        }
+        
+        .cat-card:active {
+            transform: scale(.96);
+            border-color: var(--terracotta);
+        }
+        
+        .cat-card:focus-visible {
+            outline: 2px solid var(--indigo-dark);
+            outline-offset: 2px;
+        }
+        
+        .cat-card:hover {
+            border-color: var(--terracotta);
+            transform: translateY(-2px);
+        }
+        
+        .cat-card.active {
+            border-color: var(--terracotta);
+            background: #FFF6EC;
+            box-shadow: 0 0 0 2px var(--terracotta) inset;
+        }
+        
+        .cat-card .icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .cat-card .name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 600;
+            font-size: .85rem;
+            color: var(--ink);
+        }
+        
+        .cat-card .count {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--indigo);
+            color: #fff;
+            font-size: .68rem;
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 1px 7px;
+        }
+        
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0 12px;
+        }
+        
+        .section-divider .line {
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+        
+        .section-divider .label {
+            font-family: 'Baloo 2', sans-serif;
+            color: var(--indigo-dark);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        /* ---- Complaint / item cards ---- */
+        
+        .item-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 0;
+        }
+        
+        .item-photo {
+            width: 110px;
+            flex: none;
+            background: var(--wall-dark) center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink-soft);
+            font-size: 1.6rem;
+        }
+        
+        .item-photo.has-photo {
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .photo-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 8, 5, .9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            padding: 20px;
+        }
+        
+        .photo-lightbox.open {
+            display: flex;
+        }
+        
+        .photo-lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .5);
+        }
+        
+        .photo-lightbox-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .item-body {
+            padding: 11px 13px;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        
+        .item-cat {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--terracotta);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+        
+        .item-desc {
+            margin: 4px 0 6px;
+            font-size: .92rem;
+            line-height: 1.4;
+            color: var(--ink);
+            word-break: break-word;
+        }
+        
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .item-by {
+            font-size: .76rem;
+            color: var(--ink-soft);
+        }
+        
+        .btn-delete-samasya {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--terracotta);
+            padding: 2px 8px;
+            border-radius: 6px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background .15s, color .15s;
+        }
+        
+        .btn-delete-samasya:hover {
+            background: #FCE7D6;
+        }
+        
+        .status-pill {
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: 'Baloo 2', sans-serif;
+            flex: none;
+        }
+        
+        .status-nayi {
+            background: #FCE7D6;
+            color: var(--terracotta);
+        }
+        
+        .status-progress {
+            background: #FBF0D6;
+            color: #8a6a10;
+        }
+        
+        .status-solved {
+            background: #E4EEDC;
+            color: var(--neem);
+        }
+        
+        .status-cycle {
+            cursor: pointer;
+            border: none;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 34px 16px;
+            color: var(--ink-soft);
+            background: var(--card);
+            border: 1px dashed var(--line);
+            border-radius: var(--radius);
+        }
+        
+        .empty-state .big {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        /* ---- Suchna (announcement) board ---- */
+        
+        .board {
+            background: #8a6a3f;
+            background-image: linear-gradient(rgba(0, 0, 0, .08), rgba(0, 0, 0, .08)), repeating-linear-gradient(90deg, rgba(0, 0, 0, .05) 0 2px, transparent 2px 40px);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .pin-note {
+            background: #FFF9E8;
+            border-radius: 4px;
+            padding: 14px 14px 12px;
+            margin-bottom: 12px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .18);
+            transform: rotate(var(--tilt, -.6deg));
+        }
+        
+        .pin-note:nth-child(even) {
+            --tilt: .6deg;
+        }
+        
+        .pin-note::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #e7594a, #a3271c);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
+        }
+        
+        .pin-note h3 {
+            margin: 4px 0 4px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1rem;
+            color: var(--indigo-dark);
+        }
+        
+        .pin-note p {
+            margin: 0 0 6px;
+            font-size: .88rem;
+            line-height: 1.45;
+            color: var(--ink);
+        }
+        
+        .pin-note .meta {
+            font-size: .72rem;
+            color: var(--ink-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .pin-note-actions {
+            display: flex;
+            gap: 8px;
+            flex: none;
+        }
+        
+        .pin-note-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: .85rem;
+            color: var(--ink-soft);
+            padding: 2px 4px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .pin-note-actions button:hover {
+            color: var(--terracotta);
+        }
+        /* ---- Info cards (Gaon Jaankari) ---- */
+        
+        .info-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .info-card h3 {
+            margin: 0 0 8px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1rem;
+            color: var(--indigo-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card p {
+            margin: 0;
+            font-size: .9rem;
+            line-height: 1.55;
+            color: var(--ink);
+            white-space: pre-wrap;
+        }
+        
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: .88rem;
+        }
+        
+        .contact-row:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-row .who {
+            font-weight: 600;
+        }
+        
+        .contact-row .num {
+            color: var(--terracotta);
+            font-weight: 700;
+        }
+        /* ---- Yojana cards ---- */
+        
+        .yojana-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--neem);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+        
+        .yojana-card h3 {
+            margin: 0 0 5px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1rem;
+            color: var(--indigo-dark);
+        }
+        
+        .yojana-card p {
+            margin: 0 0 6px;
+            font-size: .88rem;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+        
+        .yojana-card .apply {
+            font-size: .78rem;
+            color: var(--ink-soft);
+        }
+        /* ---- Chaupal (Community Social Feed) ---- */
+        
+        .chaupal-create-prompt {
+            background: var(--card);
+            border: 1.5px dashed var(--line);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background .15s, border-color .15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .chaupal-create-prompt:hover {
+            background: #FAF3E3;
+            border-color: var(--turmeric);
+        }
+        
+        .prompt-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--turmeric), var(--terracotta));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex: none;
+            color: #fff;
+        }
+        
+        .prompt-text {
+            flex: 1;
+            font-size: .88rem;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+        
+        .chaupal-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .chaupal-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+        }
+        
+        .chaupal-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .chaupal-author-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--indigo);
+            color: #F3ECDD;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+        }
+        
+        .chaupal-author-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .chaupal-author-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .96rem;
+            color: var(--indigo-dark);
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .chaupal-post-time {
+            font-size: .74rem;
+            color: var(--ink-soft);
+            margin: 2px 0 0;
+        }
+        
+        .chaupal-card-text {
+            font-size: .94rem;
+            line-height: 1.55;
+            color: var(--ink);
+            margin: 0 0 10px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .chaupal-media-container {
+            margin-bottom: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #111;
+            max-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chaupal-media-img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity .15s;
+        }
+        
+        .chaupal-media-img:hover {
+            opacity: .95;
+        }
+        
+        .chaupal-media-video {
+            width: 100%;
+            max-height: 360px;
+            border-radius: 10px;
+            background: #000;
+        }
+        
+        .chaupal-card-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--line);
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .chaupal-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background .15s, color .15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .chaupal-action-btn:hover {
+            background: #FAF3E3;
+        }
+        
+        .chaupal-action-btn.liked {
+            color: #D32F2F;
+        }
+        
+        .chaupal-action-btn.share-btn {
+            color: #128C7E;
+        }
+        
+        .chaupal-action-btn.delete-btn {
+            color: var(--terracotta);
+            margin-left: auto;
+        }
+        
+        .chaupal-action-btn.delete-btn:hover {
+            background: #FCE7D6;
+        }
+        /* ---- Krishi / Kheti-Baadi Guide ---- */
+        
+        .krishi-season-filters {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            margin-bottom: 16px;
+            padding-bottom: 4px;
+        }
+        
+        .krishi-season-filters::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .krishi-filter-btn {
+            flex: none;
+            background: var(--card);
+            border: 1.5px solid var(--line);
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .84rem;
+            color: var(--ink-soft);
+            cursor: pointer;
+            transition: .15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .krishi-filter-btn:hover {
+            border-color: var(--neem);
+            color: var(--neem);
+        }
+        
+        .krishi-filter-btn.active {
+            background: var(--neem);
+            color: #fff;
+            border-color: var(--neem);
+            box-shadow: 0 2px 6px rgba(79, 107, 58, .3);
+        }
+        
+        .krishi-crop-picker {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .crop-btn {
+            background: var(--card);
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: .15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .crop-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--neem);
+        }
+        
+        .crop-btn.active {
+            border-color: var(--neem);
+            background: #EBF2E6;
+            box-shadow: 0 3px 10px rgba(79, 107, 58, .25);
+        }
+        
+        .crop-btn .crop-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+        
+        .crop-btn .crop-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .82rem;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+        
+        .krishi-hero-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .04);
+        }
+        
+        .krishi-hero-img-wrap {
+            height: 180px;
+            position: relative;
+            background: #333;
+            overflow: hidden;
+        }
+        
+        .krishi-hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .krishi-hero-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, .65);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+        }
+        
+        .krishi-hero-content {
+            padding: 16px;
+        }
+        
+        .krishi-hero-title {
+            margin: 0 0 6px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.35rem;
+            color: var(--indigo-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .krishi-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--line);
+        }
+        
+        .krishi-stat-box {
+            background: #FAF3E3;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+        
+        .krishi-stat-label {
+            font-size: .72rem;
+            color: var(--ink-soft);
+            margin-bottom: 2px;
+        }
+        
+        .krishi-stat-val {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .88rem;
+            color: var(--indigo-dark);
+        }
+        
+        .krishi-section-title {
+            margin: 20px 0 10px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.1rem;
+            color: var(--indigo-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        /* Khad Cards */
+        
+        .khad-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .khad-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            position: relative;
+            border-left: 5px solid var(--neem);
+        }
+        
+        .khad-card.badge-dap {
+            border-left-color: #2E7D32;
+        }
+        
+        .khad-card.badge-urea {
+            border-left-color: #E65100;
+        }
+        
+        .khad-card.badge-potash {
+            border-left-color: #7B1FA2;
+        }
+        
+        .khad-card.badge-zinc,
+        .khad-card.badge-sulfur {
+            border-left-color: #0277BD;
+        }
+        
+        .khad-card.badge-gobar {
+            border-left-color: #795548;
+        }
+        
+        .khad-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+        
+        .khad-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            color: var(--indigo-dark);
+        }
+        
+        .khad-dose {
+            background: #FAF3E3;
+            color: var(--terracotta);
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: .82rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        
+        .khad-timing {
+            font-size: .82rem;
+            color: var(--ink-soft);
+            line-height: 1.45;
+            margin: 0;
+        }
+        /* Irrigation & Disease */
+        
+        .irrigation-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .irrigation-step {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: .88rem;
+            line-height: 1.45;
+            color: var(--ink);
+        }
+        
+        .irrigation-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .irrigation-icon {
+            color: #0288D1;
+            flex: none;
+            font-size: 1.1rem;
+        }
+        
+        .disease-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .disease-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            border-left: 5px solid var(--terracotta);
+        }
+        
+        .disease-head {
+            margin-bottom: 6px;
+        }
+        
+        .disease-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            color: var(--terracotta);
+        }
+        
+        .disease-symptoms {
+            font-size: .82rem;
+            color: var(--ink-soft);
+            margin: 2px 0 8px;
+        }
+        
+        .disease-rx {
+            background: #FFF6F0;
+            border: 1px dashed #F5C6A5;
+            border-radius: 8px;
+            padding: 9px 12px;
+        }
+        
+        .disease-rx-title {
+            font-size: .74rem;
+            font-weight: 700;
+            color: var(--terracotta);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        
+        .disease-rx-med {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .88rem;
+            color: var(--indigo-dark);
+        }
+        
+        .disease-rx-dose {
+            font-size: .8rem;
+            color: var(--ink);
+            margin-top: 2px;
+        }
+        
+        .kisan-tips-card {
+            background: #FFF9E6;
+            border: 1.5px dashed var(--turmeric);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+        
+        .kisan-tips-icon {
+            font-size: 1.5rem;
+            flex: none;
+        }
+        
+        .kisan-tips-text h4 {
+            margin: 0 0 4px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .92rem;
+            color: var(--indigo-dark);
+        }
+        
+        .kisan-tips-text p {
+            margin: 0;
+            font-size: .84rem;
+            line-height: 1.45;
+            color: var(--ink-soft);
+        }
+        /* ---- Modal / form ---- */
+        
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 15, 10, .55);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .overlay.open {
+            display: flex;
+        }
+        
+        .sheet {
+            background: var(--wall);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 18px 18px 0 0;
+            padding: 20px 18px 26px;
+            animation: slideUp .25s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .sheet h2 {
+            margin: 0 0 14px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.15rem;
+            color: var(--indigo-dark);
+        }
+        
+        .field {
+            margin-bottom: 14px;
+        }
+        
+        .field label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            margin-bottom: 5px;
+        }
+        
+        .field select,
+        .field textarea,
+        .field input[type=text] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: .92rem;
+            background: #fff;
+            color: var(--ink);
+        }
+        
+        .field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .photo-input {
+            border: 2px dashed var(--line);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            background: #fff;
+            color: var(--ink-soft);
+            font-size: .85rem;
+        }
+        
+        .photo-input input {
+            display: none;
+        }
+        
+        .photo-preview {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .sheet-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        
+        .sheet-actions .btn {
+            flex: 1;
+        }
+        
+        .close-x {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--ink-soft);
+            cursor: pointer;
+        }
+        
+        .sheet-wrap {
+            position: relative;
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: calc(50% - 450px + 20px);
+            background: var(--terracotta);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 13px 20px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .92rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+            cursor: pointer;
+            z-index: 30;
+        }
+        
+        @media (max-width:940px) {
+            .fab {
+                right: 20px;
+            }
+        }
+        
+        .fab:active {
+            transform: scale(.96);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--indigo-dark);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: .85rem;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-6px);
+        }
+        
+        .loading-row {
+            text-align: center;
+            padding: 30px;
+            color: var(--ink-soft);
+            font-size: .88rem;
+        }
+        /* ---- Builder credit footer ---- */
+        
+        .builder-footer {
+            margin: 34px 16px 40px;
+            padding: 26px 20px 30px;
+            background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo-dark) 100%);
+            border-radius: 18px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .builder-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: repeating-linear-gradient(90deg, var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
+        }
+        
+        .builder-photo {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--turmeric);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+            margin: 0 auto 12px;
+            display: block;
+        }
+        
+        .builder-label {
+            font-size: .72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #B9C6D1;
+            margin: 0 0 4px;
+            font-weight: 600;
+        }
+        
+        .builder-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #F3ECDD;
+            margin: 0;
+        }
+        
+        .builder-sub {
+            font-size: .78rem;
+            color: #9FB0BE;
+            margin: 4px 0 0;
+        }
+        /* ============ EMERGENCY QUICK STRIP ============ */
+        
+        .emergency-strip {
+            background: linear-gradient(90deg, #7F1D1D 0%, #991B1B 100%);
+            padding: 8px 12px;
+            color: #fff;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .emergency-strip::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .emergency-strip-inner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+            white-space: nowrap;
+        }
+        
+        .emergency-label {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .84rem;
+            color: #FEE2E2;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .emergency-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, .3);
+            transition: .15s;
+        }
+        
+        .emergency-pill:hover,
+        .emergency-pill:active {
+            background: #fff;
+            color: #991B1B;
+        }
+        
+        .emergency-more-btn {
+            background: var(--turmeric);
+            color: var(--indigo-dark);
+            border: none;
+            border-radius: 16px;
+            padding: 4px 12px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .78rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        /* ============ CONTACT DIRECTORY (JAANKARI) ============ */
+        
+        .contact-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .contact-box {
+            background: var(--card);
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            transition: .15s;
+        }
+        
+        .contact-box:hover {
+            border-color: var(--neem);
+        }
+        
+        .contact-box.emergency {
+            border-left: 4px solid #DC2626;
+        }
+        
+        .contact-box.health {
+            border-left: 4px solid #0288D1;
+        }
+        
+        .contact-box.utility {
+            border-left: 4px solid #F59E0B;
+        }
+        
+        .contact-box.ration {
+            border-left: 4px solid #10B981;
+        }
+        
+        .contact-box.admin {
+            border-left: 4px solid var(--terracotta);
+        }
+        
+        .contact-box .who {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .88rem;
+            color: var(--indigo-dark);
+            display: block;
+        }
+        
+        .contact-box .num {
+            font-size: .82rem;
+            color: var(--ink-soft);
+            display: block;
+            margin-top: 2px;
+        }
+        
+        .call-btn {
+            background: #2E7D32;
+            color: #fff;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 6px rgba(46, 125, 50, .3);
+            white-space: nowrap;
+            touch-action: manipulation;
+        }
+        
+        .call-btn:hover {
+            background: #1B5E20;
+        }
+        /* ============ WHATSAPP SHARE BUTTON ============ */
+        
+        .btn-wa-share {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .82rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .15s;
+            margin-top: 8px;
+        }
+        
+        .btn-wa-share:hover {
+            background: #1EBE5D;
+            transform: translateY(-1px);
+        }
+        /* ============ VOICE INPUT MIC ============ */
+        
+        .voice-btn {
+            background: #FAF3E3;
+            border: 1.5px solid var(--turmeric);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .8rem;
+            color: var(--terracotta);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: .15s;
+        }
+        
+        .voice-btn:hover {
+            background: #F3ECDD;
+        }
+        
+        .voice-btn.recording {
+            background: #FEE2E2;
+            border-color: #DC2626;
+            color: #DC2626;
+            animation: voicePulse 1.2s infinite;
+        }
+        
+        @keyframes voicePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, .4);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+            }
+        }
+        /* ============ SAMASYA TRACKER CARD ============ */
+        
+        .samasya-tracker-card {
+            background: linear-gradient(180deg, #FAF3E3 0%, #F3ECDD 100%);
+            border: 1.5px solid var(--turmeric);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+        }
+        
+        .tracker-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .tracker-icon {
+            font-size: 1.6rem;
+        }
+        
+        .tracker-card-head h3 {
+            margin: 0;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.05rem;
+            color: var(--indigo-dark);
+        }
+        
+        .tracker-card-head p {
+            margin: 2px 0 0;
+            font-size: .8rem;
+            color: var(--ink-soft);
+        }
+        
+        .tracker-search-row {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .tracker-search-row input {
+            flex: 1;
+            padding: 9px 12px;
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            font-size: .88rem;
+            background: #fff;
+            color: var(--ink);
+        }
+        
+        .track-result-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .03);
+        }
+        
+        .track-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .track-token-badge {
+            background: var(--indigo-dark);
+            color: #fff;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: .84rem;
+            padding: 3px 10px;
+            border-radius: 6px;
+            letter-spacing: .5px;
+        }
+        
+        .track-status-badge {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        /* Stepper */
+        
+        .tracker-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 16px 0;
+            position: relative;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 4px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: .8rem;
+            transition: .2s;
+        }
+        
+        .step.active .step-circle {
+            background: #D35400;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(211, 84, 0, .2);
+        }
+        
+        .step.done .step-circle {
+            background: #2E7D32;
+            color: #fff;
+        }
+        
+        .step-lbl {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+        
+        .step.active .step-lbl {
+            color: var(--terracotta);
+        }
+        
+        .step.done .step-lbl {
+            color: #2E7D32;
+        }
+        
+        .step-line {
+            flex: 1;
+            height: 3px;
+            background: #E2E8F0;
+            margin: 0 -10px 18px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-line.done {
+            background: #2E7D32;
+        }
+        
+        .track-details p {
+            margin: 4px 0;
+            font-size: .84rem;
+            line-height: 1.4;
+        }
+        
+        .track-admin-remark {
+            background: #EBF2E6;
+            border: 1.5px dashed var(--neem);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        
+        .track-admin-remark p {
+            margin: 2px 0 0;
+            font-size: .84rem;
+            color: var(--ink);
+        }
+        
+        .track-admin-pending {
+            background: #FAF3E3;
+            border: 1px dashed var(--line);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: .8rem;
+            color: var(--ink-soft);
+        }
+        /* Token Modal */
+        
+        .token-display-box {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: var(--indigo-dark);
+            background: #FAF3E3;
+            border: 2px dashed var(--turmeric);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        /* ============ YOJANA EXPANDED STYLING ============ */
+        
+        .yojana-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .03);
+        }
+        
+        .yojana-card h3 {
+            margin: 0 0 6px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.15rem;
+            color: var(--indigo-dark);
+        }
+        
+        .yojana-card p {
+            margin: 0 0 10px;
+            font-size: .86rem;
+            line-height: 1.45;
+            color: var(--ink);
+        }
+        
+        .yojana-eligibility {
+            background: #FFF9E6;
+            border-left: 3px solid var(--turmeric);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: .82rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .yojana-docs-box {
+            background: #FAF3E3;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            font-size: .82rem;
+        }
+        
+        .yojana-docs-list {
+            margin: 6px 0 0;
+            padding-left: 18px;
+            list-style: none;
+        }
+        
+        .yojana-docs-list li {
+            margin-bottom: 3px;
+            position: relative;
+            padding-left: 4px;
+        }
+        
+        .yojana-actions-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .btn-yojana-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--indigo-dark);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .15s;
+        }
+        
+        .btn-yojana-link:hover {
+            background: var(--indigo);
+        }
+        /* ============ ADMIN STATS & PRINT ============ */
+        
+        .admin-dashboard-bar {
+            background: #fff;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .04);
+        }
+        
+        .admin-stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .admin-stats-header h3 {
+            margin: 0;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.05rem;
+            color: var(--indigo-dark);
+        }
+        
+        .btn-print-report {
+            background: #1E3A8A;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .84rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: .15s;
+        }
+        
+        .btn-print-report:hover {
+            background: #172554;
+        }
+        
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 8px;
+        }
+        
+        .admin-stat-card {
+            background: #FAF3E3;
+            border-left: 4px solid var(--indigo);
+            border-radius: 8px;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        
+        .admin-stat-card .stat-num {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            line-height: 1.1;
+            color: var(--indigo-dark);
+        }
+        
+        .admin-stat-card .stat-lbl {
+            font-size: .7rem;
+            color: var(--ink-soft);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+        
+        .token-pill {
+            background: #E0E7FF;
+            color: #3730A3;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: .74rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .btn-remark {
+            background: none;
+            border: 1px dashed var(--line);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: .75rem;
+            color: var(--indigo-dark);
+            cursor: pointer;
+            margin-left: auto;
+        }
+        
+        .btn-remark:hover {
+            border-color: var(--indigo);
+            background: #fff;
+        }
+        
+        .card-admin-remark {
+            background: #FFF6F0;
+            border-left: 3px solid var(--terracotta);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: .8rem;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+    </style>
 </head>
+
 <body>
-<div class="app">
+    <div class="app">
 
-  <header class="site-header">
-    <div class="brand-row">
-      <div class="brand-mark">🏡</div>
-      <div class="brand-text">
-        <h1>Jagdishpur Gaon Portal</h1>
-        <p>Gaon ki awaaz, gaon ke liye</p>
-      </div>
-      <button class="install-btn" id="installBtn">📲 App Install Karein</button>
-    </div>
-    <div class="admin-row" id="adminRow">
-      <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
-    </div>
-  </header>
+        <header class="site-header">
+            <div class="brand-row">
+                <div class="brand-mark">🏡</div>
+                <div class="brand-text">
+                    <h1>Jagdishpur Gaon Portal</h1>
+                    <p>Gaon ki awaaz, gaon ke liye</p>
+                </div>
+                <button class="install-btn" id="installBtn">📲 App Install Karein</button>
+            </div>
+            <div class="admin-row" id="adminRow">
+                <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
+            </div>
+        </header>
 
-  <!-- ===================== EMERGENCY QUICK CALL STRIP ===================== -->
-  <div class="emergency-strip" id="emergencyStrip">
-    <div class="emergency-strip-inner">
-      <span class="emergency-label">🚨 आपातकालीन:</span>
-      <a href="tel:108" class="emergency-pill">🚑 108 एम्बुलेंस</a>
-      <a href="tel:112" class="emergency-pill">🚓 112 पुलिस</a>
-      <a href="tel:1912" class="emergency-pill">⚡ 1912 बिजली फॉल्ट</a>
-      <button type="button" class="emergency-more-btn" id="btnEmergencyAll">सभी संपर्क 📞</button>
-    </div>
-  </div>
-
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>Samasya</button>
-    <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>चौपाल</button>
-    <button class="tab-btn" data-tab="krishi"><span class="emoji">🌾</span>खेती-बाड़ी</button>
-    <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>Suchna Board</button>
-    <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>Gaon ki Jaankari</button>
-    <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>Sarkari Yojanaein</button>
-  </nav>
-
-  <main>
-
-    <!-- ===================== KRISHI (KHETI-BAADI) PANEL ===================== -->
-    <section class="panel" id="panel-krishi">
-      <div class="panel-head">
-        <h2>🌾 उन्नत खेती-बाड़ी (Krishi Guide)</h2>
-        <p>गाँव की मुख्य फसलों की बुवाई, खाद (यूरिया/DAP) का सही गणित, सिंचाई व कीटनाशक दवा की पूरी जानकारी।</p>
-      </div>
-
-      <!-- Season Filter Pills -->
-      <div class="krishi-season-filters" id="krishiSeasonFilters">
-        <button type="button" class="krishi-filter-btn active" data-season="all">🌾 सभी फसलें</button>
-        <button type="button" class="krishi-filter-btn" data-season="kharif">☀️ खरीफ (धान, मक्का)</button>
-        <button type="button" class="krishi-filter-btn" data-season="rabi">❄️ रबी (गेहूं, चना, सरसों, आलू)</button>
-        <button type="button" class="krishi-filter-btn" data-season="cash">🎋 नगदी फसल (गन्ना)</button>
-      </div>
-
-      <!-- Crop Quick Picker Grid -->
-      <div class="krishi-crop-picker" id="krishiCropPicker"></div>
-
-      <!-- Active Crop Detailed View -->
-      <div id="krishiCropDetail" class="krishi-detail-wrap">
-        <div class="loading-row">फसलों की जानकारी लोड हो रही है...</div>
-      </div>
-    </section>
-
-    <!-- ===================== CHAUPAL PANEL ===================== -->
-    <section class="panel" id="panel-chaupal">
-      <div class="panel-head">
-        <h2>Gaon ki Chaupal (चौपाल)</h2>
-        <p>Gaon walo ke liye khula manch — apna sandesh, suchna, photo ya video share karein!</p>
-      </div>
-
-      <div class="chaupal-create-prompt" id="chaupalPromptBtn">
-        <div class="prompt-avatar">✍️</div>
-        <div class="prompt-text">Gaon ke saath koi sandesh, photo ya video share karein...</div>
-        <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:.82rem;">+ Post Karein</button>
-      </div>
-
-      <div id="chaupalFeed" class="chaupal-feed">
-        <div class="loading-row">चौपाल लोड हो रही है...</div>
-      </div>
-    </section>
-
-    <!-- ===================== SAMASYA PANEL ===================== -->
-    <section class="panel active" id="panel-samasya">
-      <div class="panel-head">
-        <h2>Apni Samasya Batayein</h2>
-        <p>Category chunein aur photo ke saath samasya darj karein — sirf Gaon ke Pradhan hi ise dekh payenge.</p>
-      </div>
-
-      <!-- Pradhan Stats Dashboard (visible if admin) -->
-      <div class="admin-dashboard-bar" id="adminDashboardBar" style="display:none;">
-        <div class="admin-stats-header">
-          <h3>📊 ग्राम पंचायत समस्या रिपोर्ट (Admin Dashboard)</h3>
-          <button type="button" class="btn-print-report" id="btnPrintReport">🖨️ रिपोर्ट प्रिंट / PDF</button>
+        <!-- ===================== EMERGENCY QUICK CALL STRIP ===================== -->
+        <div class="emergency-strip" id="emergencyStrip">
+            <div class="emergency-strip-inner">
+                <span class="emergency-label">🚨 आपातकालीन:</span>
+                <a href="tel:108" class="emergency-pill">🚑 108 एम्बुलेंस</a>
+                <a href="tel:112" class="emergency-pill">🚓 112 पुलिस</a>
+                <a href="tel:1912" class="emergency-pill">⚡ 1912 बिजली फॉल्ट</a>
+                <button type="button" class="emergency-more-btn" id="btnEmergencyAll">सभी संपर्क 📞</button>
+            </div>
         </div>
-        <div class="admin-stats-grid" id="adminStatsGrid"></div>
-      </div>
 
-      <!-- Samasya Public Tracker Card -->
-      <div class="samasya-tracker-card" id="samasyaTrackerCard">
-        <div class="tracker-card-head">
-          <div class="tracker-icon">🔍</div>
-          <div>
-            <h3>शिकायत ट्रैक करें (Track Complaint)</h3>
-            <p>टोकन नंबर (उदा. GP-101) या 10-अंक मोबाइल नंबर दर्ज करें और वर्तमान स्थिति देखें</p>
-          </div>
+        <nav class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>समस्या</button>
+            <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>संदेश</button>
+            <button class="tab-btn" data-tab="krishi"><span class="emoji">🌾</span>खेती-बाड़ी</button>
+            <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>सूचना बोर्ड</button>
+            <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>गाँव की जानकारी</button>
+            <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>सरकारी योजनाएं</button>
+        </nav>
+
+        <main>
+
+            <!-- ===================== KRISHI (KHETI-BAADI) PANEL ===================== -->
+            <section class="panel" id="panel-krishi">
+                <div class="panel-head">
+                    <h2>🌾 उन्नत खेती-बाड़ी (Krishi Guide)</h2>
+                    <p>गाँव की मुख्य फसलों की बुवाई, खाद (यूरिया/DAP) का सही गणित, सिंचाई व कीटनाशक दवा की पूरी जानकारी।</p>
+                </div>
+
+                <!-- Season Filter Pills -->
+                <div class="krishi-season-filters" id="krishiSeasonFilters">
+                    <button type="button" class="krishi-filter-btn active" data-season="all">🌾 सभी फसलें</button>
+                    <button type="button" class="krishi-filter-btn" data-season="kharif">☀️ खरीफ (धान, मक्का)</button>
+                    <button type="button" class="krishi-filter-btn" data-season="rabi">❄️ रबी (गेहूं, चना, सरसों, आलू)</button>
+                    <button type="button" class="krishi-filter-btn" data-season="cash">🎋 नगदी फसल (गन्ना)</button>
+                </div>
+
+                <!-- Crop Quick Picker Grid -->
+                <div class="krishi-crop-picker" id="krishiCropPicker"></div>
+
+                <!-- Active Crop Detailed View -->
+                <div id="krishiCropDetail" class="krishi-detail-wrap">
+                    <div class="loading-row">फसलों की जानकारी लोड हो रही है...</div>
+                </div>
+            </section>
+
+            <!-- ===================== SANDESH (CHAUPAL) PANEL ===================== -->
+            <section class="panel" id="panel-chaupal">
+                <div class="panel-head">
+                    <h2>गाँव के संदेश</h2>
+                    <p>गाँव वालों के लिए खुला मंच — अपना संदेश, विचार, फ़ोटो या वीडियो साझा करें!</p>
+                </div>
+
+                <div class="chaupal-create-prompt" id="chaupalPromptBtn">
+                    <div class="prompt-avatar">✍️</div>
+                    <div class="prompt-text">गाँव के साथ कोई संदेश, फ़ोटो या वीडियो साझा करें...</div>
+                    <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:.82rem;">+ संदेश लिखें</button>
+                </div>
+
+                <div id="chaupalFeed" class="chaupal-feed">
+                    <div class="loading-row">संदेश लोड हो रहे हैं...</div>
+                </div>
+            </section>
+
+            <!-- ===================== SAMASYA PANEL ===================== -->
+            <section class="panel active" id="panel-samasya">
+                <div class="panel-head">
+                    <h2>अपनी समस्या बताएं</h2>
+                    <p>श्रेणी चुनें और फ़ोटो के साथ समस्या दर्ज करें — सिर्फ गाँव के प्रधान ही इसे देख पाएंगे।</p>
+                </div>
+
+                <!-- Pradhan Stats Dashboard (visible if admin) -->
+                <div class="admin-dashboard-bar" id="adminDashboardBar" style="display:none;">
+                    <div class="admin-stats-header">
+                        <h3>📊 ग्राम पंचायत समस्या रिपोर्ट (Admin Dashboard)</h3>
+                        <button type="button" class="btn-print-report" id="btnPrintReport">🖨️ रिपोर्ट प्रिंट / PDF</button>
+                    </div>
+                    <div class="admin-stats-grid" id="adminStatsGrid"></div>
+                </div>
+
+                <!-- Samasya Public Tracker Card -->
+                <div class="samasya-tracker-card" id="samasyaTrackerCard">
+                    <div class="tracker-card-head">
+                        <div class="tracker-icon">🔍</div>
+                        <div>
+                            <h3>शिकायत ट्रैक करें (Track Complaint)</h3>
+                            <p>टोकन नंबर (उदा. GP-101) या 10-अंक मोबाइल नंबर दर्ज करें और वर्तमान स्थिति देखें</p>
+                        </div>
+                    </div>
+                    <div class="tracker-search-row">
+                        <input type="text" id="trackInput" placeholder="टोकन नंबर (उदा. GP-101) या मोबाइल नं.">
+                        <button type="button" class="btn btn-primary" id="btnTrackSearch" style="white-space:nowrap; padding:8px 16px;">ट्रैक करें</button>
+                    </div>
+                    <div id="trackResultWrap" style="display:none;"></div>
+                </div>
+
+                <div class="cat-grid" id="catGrid"></div>
+
+                <div id="samasyaListWrap">
+                    <div class="loading-row">Load ho raha hai...</div>
+                </div>
+            </section>
+
+            <!-- ===================== SUCHNA PANEL ===================== -->
+            <section class="panel" id="panel-suchna">
+                <div class="panel-head">
+                    <h2>सूचना बोर्ड</h2>
+                    <p>गाँव के लिए ज़रूरी सूचनाएं — ग्राम सभा बैठक, कैंप, सरकारी योजना की तारीख आदि।</p>
+                </div>
+                <div class="board" id="suchnaBoard">
+                    <div class="loading-row" style="color:#f3ecdd;">सूचनाएं लोड हो रही हैं...</div>
+                </div>
+            </section>
+
+            <!-- ===================== JAANKARI PANEL ===================== -->
+            <section class="panel" id="panel-jaankari">
+                <div class="panel-head">
+                    <h2>गाँव की जानकारी</h2>
+                    <p>गाँव का इतिहास, जनसंख्या, परिवार और ज़रूरी संपर्क नंबर।</p>
+                </div>
+                <div id="jaankariWrap">
+                    <div class="loading-row">गाँव की जानकारी लोड हो रही है...</div>
+                </div>
+            </section>
+
+            <!-- ===================== YOJANA PANEL ===================== -->
+            <section class="panel" id="panel-yojana">
+                <div class="panel-head">
+                    <h2>सरकारी योजनाएं</h2>
+                    <p>गाँव वालों के लिए उपलब्ध सरकारी योजनाएं, पात्रता, कागजात चेकलिस्ट व आवेदन का तरीका।</p>
+                </div>
+                <div id="yojanaWrap">
+                    <div class="loading-row">सरकारी योजनाएं लोड हो रही हैं...</div>
+                </div>
+                <button class="btn btn-outline btn-block" id="addYojanaBtn">+ नई सरकारी योजना जोड़ें</button>
+            </section>
+
+        </main>
+
+        <div class="builder-footer">
+            <img class="builder-photo" src="/images/builder-photo.jpg" alt="Website Builder">
+            <p class="builder-label">Website Builder</p>
+            <p class="builder-name">Alok Kushwaha</p>
+            <p class="builder-sub">🏡 Hamara Gaon Portal ke liye bana kar diya gaya</p>
         </div>
-        <div class="tracker-search-row">
-          <input type="text" id="trackInput" placeholder="टोकन नंबर (उदा. GP-101) या मोबाइल नं.">
-          <button type="button" class="btn btn-primary" id="btnTrackSearch" style="white-space:nowrap; padding:8px 16px;">ट्रैक करें</button>
-        </div>
-        <div id="trackResultWrap" style="display:none;"></div>
-      </div>
 
-      <div class="cat-grid" id="catGrid"></div>
+        <button class="fab" id="mainFab">+ Naya Jodein</button>
+        <div class="toast" id="toast"></div>
 
-      <div id="samasyaListWrap">
-        <div class="loading-row">Load ho raha hai...</div>
-      </div>
-    </section>
-
-    <!-- ===================== SUCHNA PANEL ===================== -->
-    <section class="panel" id="panel-suchna">
-      <div class="panel-head">
-        <h2>Suchna Board</h2>
-        <p>Gaon ke liye zaruri suchnaein — meeting, camp, yojana ki taarikh aadi.</p>
-      </div>
-      <div class="board" id="suchnaBoard">
-        <div class="loading-row" style="color:#f3ecdd;">Suchnaein load ho rahi hain...</div>
-      </div>
-    </section>
-
-    <!-- ===================== JAANKARI PANEL ===================== -->
-    <section class="panel" id="panel-jaankari">
-      <div class="panel-head">
-        <h2>Gaon ki Jaankari</h2>
-        <p>Gaon ka itihaas, jansankhya aur zaruri contact numbers.</p>
-      </div>
-      <div id="jaankariWrap">
-        <div class="loading-row">Jaankari load ho rahi hai...</div>
-      </div>
-    </section>
-
-    <!-- ===================== YOJANA PANEL ===================== -->
-    <section class="panel" id="panel-yojana">
-      <div class="panel-head">
-        <h2>Sarkari Yojanaein</h2>
-        <p>Gaon walon ke liye upalabdh sarkari yojanaein aur apply karne ka tareeka.</p>
-      </div>
-      <div id="yojanaWrap">
-        <div class="loading-row">Yojanaein load ho rahi hain...</div>
-      </div>
-      <button class="btn btn-outline btn-block" id="addYojanaBtn">+ Nayi Yojana Jodein</button>
-    </section>
-
-  </main>
-
-  <div class="builder-footer">
-    <img class="builder-photo" src="/images/builder-photo.jpg" alt="Website Builder">
-    <p class="builder-label">Website Builder</p>
-    <p class="builder-name">Alok Kushwaha</p>
-    <p class="builder-sub">🏡 Hamara Gaon Portal ke liye bana kar diya gaya</p>
-  </div>
-
-  <button class="fab" id="mainFab">+ Naya Jodein</button>
-  <div class="toast" id="toast"></div>
-
-  <!-- ===================== CHAUPAL FORM SHEET ===================== -->
-  <div class="overlay" id="overlayChaupal">
-    <div class="sheet">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlayChaupal">✕</button>
-        <h2>चौपाल पर नया पोस्ट करें</h2>
-        <form id="formChaupal">
-          <div class="field">
-            <label>Aapka Naam</label>
-            <input type="text" id="cName" placeholder="Aapka naam (jaise: Ramesh Yadav)" required>
-          </div>
-          <div class="field">
-            <label>Sandesh / Jaankari</label>
-            <textarea id="cText" placeholder="Gaon ke liye koi sandesh, suchna ya vichar likhein..."></textarea>
-          </div>
-          <div class="field">
-            <label>Photo ya Chhota Video (Optional)</label>
-            <label class="photo-input" id="cMediaBox">
-              <span id="cMediaLabel">📷 🎥 Photo ya Video chunne ke liye tap karein</span>
+        <!-- ===================== SANDESH (CHAUPAL) FORM SHEET ===================== -->
+        <div class="overlay" id="overlayChaupal">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayChaupal">✕</button>
+                    <h2>नया संदेश साझा करें</h2>
+                    <form id="formChaupal">
+                        <div class="field">
+                            <label>आपका नाम</label>
+                            <input type="text" id="cName" placeholder="आपका नाम (जैसे: रमेश यादव)" required>
+                        </div>
+                        <div class="field">
+                            <label>संदेश / विचार</label>
+                            <textarea id="cText" placeholder="गाँव के लिए कोई संदेश, विचार या जानकारी लिखें..."></textarea>
+                        </div>
+                        <div class="field">
+                            <label>फ़ोटो या छोटा वीडियो (वैकल्पिक)</label>
+                            <label class="photo-input" id="cMediaBox">
+              <span id="cMediaLabel">📷 🎥 फ़ोटो या वीडियो चुनने के लिए टैप करें</span>
               <input type="file" accept="image/*,video/*" id="cMedia">
             </label>
-            <img class="photo-preview" id="cPhotoPreview" style="display:none; max-height:220px; width:100%; object-fit:cover; border-radius:10px; margin-top:8px;">
-            <video class="photo-preview" id="cVideoPreview" controls style="display:none; max-height:220px; width:100%; border-radius:10px; margin-top:8px;"></video>
-            <button type="button" class="btn btn-outline" id="cRemoveMediaBtn" style="display:none; margin-top:8px; padding:4px 10px; font-size:.8rem;">❌ Media Hataayein</button>
-          </div>
-          <div class="field">
-            <label>🔗 YouTube Link ya Website Link (Optional)</label>
-            <input type="url" id="cLink" placeholder="https://youtube.com/watch?v=... ya koi bhi link">
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-outline" data-close="overlayChaupal">Radd Karein</button>
-            <button type="submit" class="btn btn-primary" id="cSubmitBtn">Post Karein</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+                            <img class="photo-preview" id="cPhotoPreview" style="display:none; max-height:220px; width:100%; object-fit:cover; border-radius:10px; margin-top:8px;">
+                            <video class="photo-preview" id="cVideoPreview" controls style="display:none; max-height:220px; width:100%; border-radius:10px; margin-top:8px;"></video>
+                            <button type="button" class="btn btn-outline" id="cRemoveMediaBtn" style="display:none; margin-top:8px; padding:4px 10px; font-size:.8rem;">❌ मीडिया हटाएं</button>
+                        </div>
+                        <div class="field">
+                            <label>🔗 यूट्यूब या वेबसाइट लिंक (वैकल्पिक)</label>
+                            <input type="url" id="cLink" placeholder="https://youtube.com/watch?v=... या कोई भी लिंक">
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlayChaupal">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary" id="cSubmitBtn">संदेश साझा करें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-  <!-- ===================== DELETE CHAUPAL MODAL (Delete for me / Delete for everyone) ===================== -->
-  <div class="overlay" id="overlayDeleteChaupal">
-    <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlayDeleteChaupal">✕</button>
-        <div style="font-size:2.2rem; margin-bottom:6px;">🗑️</div>
-        <h2 style="margin:0 0 6px; font-size:1.15rem; color:var(--indigo-dark);">पोस्ट हटाएं (Delete Post)</h2>
-        <p style="color:var(--ink-soft); font-size:.88rem; margin:0 0 18px; line-height:1.4;">
-          आप इस पोस्ट को कैसे हटाना चाहते हैं?
-        </p>
+        <!-- ===================== DELETE SANDESH MODAL (Delete for me / Delete for everyone) ===================== -->
+        <div class="overlay" id="overlayDeleteChaupal">
+            <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayDeleteChaupal">✕</button>
+                    <div style="font-size:2.2rem; margin-bottom:6px;">🗑️</div>
+                    <h2 style="margin:0 0 6px; font-size:1.15rem; color:var(--indigo-dark);">संदेश हटाएं (Delete Post)</h2>
+                    <p style="color:var(--ink-soft); font-size:.88rem; margin:0 0 18px; line-height:1.4;">
+                        आप इस संदेश को कैसे हटाना चाहते हैं?
+                    </p>
 
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <button type="button" class="btn btn-primary btn-block" id="btnDeleteEveryone" style="background:var(--terracotta); border:none; padding:12px 14px; font-size:.9rem;">
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button type="button" class="btn btn-primary btn-block" id="btnDeleteEveryone" style="background:var(--terracotta); border:none; padding:12px 14px; font-size:.9rem;">
             🌐 सभी के लिए हटाएं (Delete for Everyone)
           </button>
-          <button type="button" class="btn btn-outline btn-block" id="btnDeleteForMe" style="padding:12px 14px; font-size:.9rem;">
+                        <button type="button" class="btn btn-outline btn-block" id="btnDeleteForMe" style="padding:12px 14px; font-size:.9rem;">
             📱 सिर्फ मेरे लिए हटाएं (Delete for Me)
           </button>
-          <button type="button" class="btn btn-outline btn-block" data-close="overlayDeleteChaupal" style="border:none; color:var(--ink-soft); padding:8px; font-size:.85rem;">
+                        <button type="button" class="btn btn-outline btn-block" data-close="overlayDeleteChaupal" style="border:none; color:var(--ink-soft); padding:8px; font-size:.85rem;">
             रद्द करें (Cancel)
           </button>
+                    </div>
+
+                    <p id="deleteEveryoneNote" style="font-size:.76rem; color:var(--ink-soft); margin-top:14px; margin-bottom:0; display:none; background:#FAF3E3; padding:8px; border-radius:8px;">
+                        ℹ️ <em>"सभी के लिए हटाएं" सिर्फ अपने संदेश या प्रधान जी के लिए उपलब्ध है।</em>
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <p id="deleteEveryoneNote" style="font-size:.76rem; color:var(--ink-soft); margin-top:14px; margin-bottom:0; display:none; background:#FAF3E3; padding:8px; border-radius:8px;">
-          ℹ️ <em>"सभी के लिए हटाएं" सिर्फ अपनी पोस्ट या प्रधान जी के लिए उपलब्ध है।</em>
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== SAMASYA FORM SHEET ===================== -->
-  <div class="overlay" id="overlaySamasya">
-    <div class="sheet">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlaySamasya">✕</button>
-        <h2>Nayi Samasya Darj Karein</h2>
-        <form id="formSamasya">
-          <div class="field">
-            <label>Category</label>
-            <select id="fCategory" required></select>
-          </div>
-          <div class="field">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-              <label style="margin-bottom:0;">Samasya ka vivaran (description) *</label>
-              <button type="button" class="voice-btn" id="voiceBtnDesc" title="बोल कर लिखें">
+        <!-- ===================== SAMASYA FORM SHEET ===================== -->
+        <div class="overlay" id="overlaySamasya">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlaySamasya">✕</button>
+                    <h2>नई समस्या दर्ज करें</h2>
+                    <form id="formSamasya">
+                        <div class="field">
+                            <label>समस्या की श्रेणी *</label>
+                            <select id="fCategory" required></select>
+                        </div>
+                        <div class="field">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                                <label style="margin-bottom:0;">समस्या का पूरा विवरण *</label>
+                                <button type="button" class="voice-btn" id="voiceBtnDesc" title="बोल कर लिखें">
                 <span id="voiceMicIcon">🎤</span> <span id="voiceBtnText">बोल कर लिखें</span>
               </button>
-            </div>
-            <textarea id="fDesc" placeholder="Jaise: Ram Mandir wali gali me sadak 6 mahine se tooti hai... (ya mic dabakar bolein)" required></textarea>
-          </div>
-          <div class="field">
-            <label>Photo (agar hai to)</label>
-            <label class="photo-input">
-              <span id="photoLabel">📷 Photo chunne ke liye tap karein</span>
+                            </div>
+                            <textarea id="fDesc" placeholder="जैसे: राम मंदिर वाली गली में सड़क 6 महीने से टूटी है... (या माइक दबाकर बोलें)" required></textarea>
+                        </div>
+                        <div class="field">
+                            <label>फ़ोटो (यदि उपलब्ध हो)</label>
+                            <label class="photo-input">
+              <span id="photoLabel">📷 फ़ोटो चुनने के लिए टैप करें</span>
               <input type="file" accept="image/*" id="fPhoto">
             </label>
-            <img class="photo-preview" id="photoPreview">
-          </div>
-          <div class="field">
-            <label>Aapka naam (optional)</label>
-            <input type="text" id="fName" placeholder="Naam likhein ya khali chodein">
-          </div>
-          <div class="field">
-            <label>📱 Mobile Number (Token & Status track karne ke liye)</label>
-            <input type="tel" id="fPhone" placeholder="Jaise: 9876543210 (Optional)">
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-outline" data-close="overlaySamasya">Radd Karein</button>
-            <button type="submit" class="btn btn-primary">Jama Karein</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+                            <img class="photo-preview" id="photoPreview">
+                        </div>
+                        <div class="field">
+                            <label>आपका नाम (वैकल्पिक)</label>
+                            <input type="text" id="fName" placeholder="नाम लिखें या खाली छोड़ें">
+                        </div>
+                        <div class="field">
+                            <label>📱 मोबाइल नंबर (टोकन व स्थिति ट्रैक करने के लिए)</label>
+                            <input type="tel" id="fPhone" placeholder="जैसे: 9876543210 (वैकल्पिक)">
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlaySamasya">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary">समस्या दर्ज करें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-  <!-- ===================== TOKEN SUCCESS MODAL ===================== -->
-  <div class="overlay" id="overlayTokenSuccess">
-    <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlayTokenSuccess">✕</button>
-        <div style="font-size:2.4rem; margin-bottom:4px;">✅</div>
-        <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--indigo-dark);">समस्या सफलतापूर्वक दर्ज हुई!</h2>
-        <p style="color:var(--ink-soft); font-size:.85rem; margin:0 0 12px; line-height:1.4;">
-          आपकी शिकायत प्रधान जी तक पहुँच गई है। स्थिति ट्रैक करने के लिए अपना टोकन नंबर संभाल कर रखें:
-        </p>
-        <div class="token-display-box" id="modalTokenVal">GP-101</div>
-        <p id="modalPhoneNote" style="font-size:.8rem; color:var(--ink-soft); margin-bottom:14px;"></p>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          <button type="button" class="btn btn-primary btn-block" id="btnCopyToken">📋 टोकन कॉपी करें</button>
-          <button type="button" class="btn btn-outline btn-block" id="btnShareTokenWa" style="background:#25D366; color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-weight:700;">
+        <!-- ===================== TOKEN SUCCESS MODAL ===================== -->
+        <div class="overlay" id="overlayTokenSuccess">
+            <div class="sheet" style="max-width:440px; text-align:center; padding:24px 20px 26px; border-radius:18px;">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayTokenSuccess">✕</button>
+                    <div style="font-size:2.4rem; margin-bottom:4px;">✅</div>
+                    <h2 style="margin:0 0 6px; font-size:1.2rem; color:var(--indigo-dark);">समस्या सफलतापूर्वक दर्ज हुई!</h2>
+                    <p style="color:var(--ink-soft); font-size:.85rem; margin:0 0 12px; line-height:1.4;">
+                        आपकी शिकायत प्रधान जी तक पहुँच गई है। स्थिति ट्रैक करने के लिए अपना टोकन नंबर संभाल कर रखें:
+                    </p>
+                    <div class="token-display-box" id="modalTokenVal">GP-101</div>
+                    <p id="modalPhoneNote" style="font-size:.8rem; color:var(--ink-soft); margin-bottom:14px;"></p>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <button type="button" class="btn btn-primary btn-block" id="btnCopyToken">📋 टोकन कॉपी करें</button>
+                        <button type="button" class="btn btn-outline btn-block" id="btnShareTokenWa" style="background:#25D366; color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-weight:700;">
             💬 WhatsApp पर सेव करें
           </button>
-          <button type="button" class="btn btn-outline btn-block" data-close="overlayTokenSuccess">ठीक है (Close)</button>
+                        <button type="button" class="btn btn-outline btn-block" data-close="overlayTokenSuccess">ठीक है (Close)</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- ===================== SUCHNA FORM SHEET ===================== -->
+        <div class="overlay" id="overlaySuchna">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlaySuchna">✕</button>
+                    <h2>नई सूचना जोड़ें</h2>
+                    <form id="formSuchna">
+                        <div class="field">
+                            <label>सूचना का शीर्षक *</label>
+                            <input type="text" id="sTitle" placeholder="जैसे: ग्राम सभा की आवश्यक बैठक" required>
+                        </div>
+                        <div class="field">
+                            <label>पूरा विवरण (तारीख, समय, स्थान आदि) *</label>
+                            <textarea id="sText" placeholder="तारीख, समय और स्थान का विवरण लिखें..." required></textarea>
+                        </div>
+                        <div class="field">
+                            <label>जारीकर्ता का नाम (वैकल्पिक)</label>
+                            <input type="text" id="sName" placeholder="जैसे: ग्राम प्रधान / सेक्रेटरी">
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlaySuchna">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary">सूचना जारी करें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== YOJANA FORM SHEET ===================== -->
+        <div class="overlay" id="overlayYojana">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayYojana">✕</button>
+                    <h2>नई सरकारी योजना जोड़ें</h2>
+                    <form id="formYojana">
+                        <div class="field">
+                            <label>सरकारी योजना का नाम *</label>
+                            <input type="text" id="yName" placeholder="जैसे: पीएम किसान सम्मान निधि" required>
+                        </div>
+                        <div class="field">
+                            <label>योजना का विवरण व लाभ *</label>
+                            <textarea id="yDesc" placeholder="योजना के लाभ और पूरी जानकारी..." required></textarea>
+                        </div>
+                        <div class="field">
+                            <label>पात्रता (कौन लाभ ले सकता है)</label>
+                            <input type="text" id="yEligibility" placeholder="जैसे: सभी लघु व सीमांत किसान">
+                        </div>
+                        <div class="field">
+                            <label>ज़रूरी दस्तावेज़ चेकलिस्ट (कॉमा से अलग करें)</label>
+                            <input type="text" id="yDocs" placeholder="आधार कार्ड, बैंक पासबुक, खतौनी">
+                        </div>
+                        <div class="field">
+                            <label>आवेदन कैसे करें</label>
+                            <input type="text" id="yApply" placeholder="जैसे: ब्लॉक कार्यालय में संपर्क करें या ऑनलाइन CSC केंद्र से">
+                        </div>
+                        <div class="field">
+                            <label>आधिकारिक वेबसाइट लिंक (Official URL)</label>
+                            <input type="url" id="yApplyUrl" placeholder="https://pmkisan.gov.in">
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlayYojana">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary">योजना जोड़ें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== PRADHAN LOGIN SHEET ===================== -->
+        <div class="overlay" id="overlayAdmin">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayAdmin">✕</button>
+                    <h2>🔐 Pradhan Login</h2>
+                    <form id="formAdmin">
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="text" id="adminPassword" placeholder="Password daalein" autocomplete="off" required>
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlayAdmin">Radd Karein</button>
+                            <button type="submit" class="btn btn-primary">Login Karein</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== PHOTO LIGHTBOX (full-size view) ===================== -->
+        <div class="photo-lightbox" id="photoLightbox">
+            <button class="photo-lightbox-close" id="photoLightboxClose">✕</button>
+            <img id="photoLightboxImg" src="" alt="Samasya photo">
+        </div>
+
     </div>
-  </div>
 
-  <!-- ===================== SUCHNA FORM SHEET ===================== -->
-  <div class="overlay" id="overlaySuchna">
-    <div class="sheet">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlaySuchna">✕</button>
-        <h2>Nai Suchna Jodein</h2>
-        <form id="formSuchna">
-          <div class="field">
-            <label>Suchna ka title</label>
-            <input type="text" id="sTitle" placeholder="Jaise: Gram Sabha ki baithak" required>
-          </div>
-          <div class="field">
-            <label>Poora vivaran</label>
-            <textarea id="sText" placeholder="Tareekh, samay aur jagah likhein..." required></textarea>
-          </div>
-          <div class="field">
-            <label>Aapka naam (optional)</label>
-            <input type="text" id="sName" placeholder="Jaise: Pradhan ji">
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-outline" data-close="overlaySuchna">Radd Karein</button>
-            <button type="submit" class="btn btn-primary">Laga Dein</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+    <script>
+        /* ============ Config ============ */
+        const API = '/api';
+        const CATEGORIES = [{
+            id: 'sadak',
+            name: 'सड़क',
+            icon: '🛣️'
+        }, {
+            id: 'paani',
+            name: 'पानी',
+            icon: '💧'
+        }, {
+            id: 'bijli',
+            name: 'बिजली',
+            icon: '💡'
+        }, {
+            id: 'swasthya',
+            name: 'स्वास्थ्य',
+            icon: '🏥'
+        }, {
+            id: 'shiksha',
+            name: 'शिक्षा',
+            icon: '📚'
+        }, {
+            id: 'safai',
+            name: 'सफाई',
+            icon: '🧹'
+        }, ];
+        const STATUS_CYCLE = ['nayi', 'progress', 'solved'];
+        const STATUS_LABEL = {
+            nayi: 'नई (लंबित)',
+            progress: 'प्रगति पर',
+            solved: 'समाधान हुआ'
+        };
 
-  <!-- ===================== YOJANA FORM SHEET ===================== -->
-  <div class="overlay" id="overlayYojana">
-    <div class="sheet">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlayYojana">✕</button>
-        <h2>Nayi Yojana Jodein</h2>
-        <form id="formYojana">
-          <div class="field">
-            <label>Yojana ka naam *</label>
-            <input type="text" id="yName" placeholder="Jaise: PM Kisan Samman Nidhi" required>
-          </div>
-          <div class="field">
-            <label>Vivaran *</label>
-            <textarea id="yDesc" placeholder="Yojana ka laabh aur details..." required></textarea>
-          </div>
-          <div class="field">
-            <label>पात्रता (Eligibility)</label>
-            <input type="text" id="yEligibility" placeholder="Kaun aavedan kar sakta hai (e.g. Sabhi kisan)">
-          </div>
-          <div class="field">
-            <label>जरूरी दस्तावेज (कॉमा से अलग करें)</label>
-            <input type="text" id="yDocs" placeholder="Aadhar Card, Bank Passbook, Khatoni">
-          </div>
-          <div class="field">
-            <label>Apply kaise karein</label>
-            <input type="text" id="yApply" placeholder="Jaise: Block office me sampark karein ya online">
-          </div>
-          <div class="field">
-            <label>आधिकारिक वेबसाइट लिंक (Official Link)</label>
-            <input type="url" id="yApplyUrl" placeholder="https://pmkisan.gov.in">
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-outline" data-close="overlayYojana">Radd Karein</button>
-            <button type="submit" class="btn btn-primary">Jodein</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+        let samasyaList = [];
+        let chaupalList = [];
+        let suchnaList = [];
+        let jaankari = null;
+        let yojanaList = [];
+        let activeCategory = null;
+        let pendingPhotoBase64 = null;
+        let pendingChaupalMedia = null;
+        let pendingChaupalMediaType = null;
+        let krishiList = [];
+        let activeKrishiCrop = 'dhan';
+        let activeKrishiSeason = 'all';
 
-  <!-- ===================== PRADHAN LOGIN SHEET ===================== -->
-  <div class="overlay" id="overlayAdmin">
-    <div class="sheet">
-      <div class="sheet-wrap">
-        <button class="close-x" data-close="overlayAdmin">✕</button>
-        <h2>🔐 Pradhan Login</h2>
-        <form id="formAdmin">
-          <div class="field">
-            <label>Password</label>
-            <input type="text" id="adminPassword" placeholder="Password daalein" autocomplete="off" required>
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-outline" data-close="overlayAdmin">Radd Karein</button>
-            <button type="submit" class="btn btn-primary">Login Karein</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+        /* ============ Utilities ============ */
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2200);
+        }
 
-  <!-- ===================== PHOTO LIGHTBOX (full-size view) ===================== -->
-  <div class="photo-lightbox" id="photoLightbox">
-    <button class="photo-lightbox-close" id="photoLightboxClose">✕</button>
-    <img id="photoLightboxImg" src="" alt="Samasya photo">
-  </div>
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, s => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[s]));
+        }
 
-</div>
+        function fmtDate(ts) {
+            const d = new Date(ts);
+            return d.toLocaleDateString('hi-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
 
-<script>
-/* ============ Config ============ */
-const API = '/api';
-const CATEGORIES = [
-  {id:'sadak', name:'Sadak', icon:'🛣️'},
-  {id:'paani', name:'Paani', icon:'💧'},
-  {id:'bijli', name:'Bijli', icon:'💡'},
-  {id:'swasthya', name:'Swasthya', icon:'🏥'},
-  {id:'shiksha', name:'Shiksha', icon:'📚'},
-  {id:'safai', name:'Safai', icon:'🧹'},
-];
-const STATUS_CYCLE = ['nayi','progress','solved'];
-const STATUS_LABEL = {nayi:'Nayi', progress:'Progress me', solved:'Solve ho gayi'};
+        function fmtTimeAgo(ts) {
+            const diff = Date.now() - ts;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'Abhi-abhi';
+            if (mins < 60) return `${mins} min pehle`;
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return `${hours} ghante pehle`;
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} din pehle`;
+            return fmtDate(ts);
+        }
 
-let samasyaList = [];
-let chaupalList = [];
-let suchnaList = [];
-let jaankari = null;
-let yojanaList = [];
-let activeCategory = null;
-let pendingPhotoBase64 = null;
-let pendingChaupalMedia = null;
-let pendingChaupalMediaType = null;
-let krishiList = [];
-let activeKrishiCrop = 'dhan';
-let activeKrishiSeason = 'all';
+        function uid() {
+            return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        }
 
-/* ============ Utilities ============ */
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
-}
-function escapeHtml(str){
-  return (str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-}
-function fmtDate(ts){
-  const d = new Date(ts);
-  return d.toLocaleDateString('hi-IN',{day:'numeric',month:'short',year:'numeric'});
-}
-function fmtTimeAgo(ts){
-  const diff = Date.now() - ts;
-  const mins = Math.floor(diff / 60000);
-  if(mins < 1) return 'Abhi-abhi';
-  if(mins < 60) return `${mins} min pehle`;
-  const hours = Math.floor(mins / 60);
-  if(hours < 24) return `${hours} ghante pehle`;
-  const days = Math.floor(hours / 24);
-  if(days < 7) return `${days} din pehle`;
-  return fmtDate(ts);
-}
-function uid(){
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-}
+        /* ============ API helpers ============ */
+        let adminKey = sessionStorage.getItem('adminKey') || null;
 
-/* ============ API helpers ============ */
-let adminKey = sessionStorage.getItem('adminKey') || null;
+        async function apiGet(path, adminOnly) {
+            try {
+                const opts = adminOnly ? {
+                    headers: {
+                        'x-admin-key': adminKey || ''
+                    }
+                } : {};
+                const res = await fetch(API + path, opts);
+                if (res.status === 401) return {
+                    unauthorized: true
+                };
+                if (!res.ok) throw new Error('bad response');
+                return await res.json();
+            } catch (e) {
+                console.error('GET failed', path, e);
+                toast('Server se data nahi mil paya ⚠️');
+                return null;
+            }
+        }
+        async function apiSend(method, path, body, adminOnly, extraHeaders) {
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                if (adminOnly) headers['x-admin-key'] = adminKey || '';
+                if (extraHeaders) Object.assign(headers, extraHeaders);
+                const res = await fetch(API + path, {
+                    method,
+                    headers,
+                    body: JSON.stringify(body)
+                });
+                if (res.status === 401) return {
+                    unauthorized: true
+                };
+                if (res.status === 403) {
+                    const err = await res.json().catch(() => ({}));
+                    toast(err.error || 'Ise karne ki anumati nahi hai ⚠️');
+                    return null;
+                }
+                if (!res.ok) throw new Error('bad response');
+                return await res.json();
+            } catch (e) {
+                console.error(method + ' failed', path, e);
+                toast('Server se connect nahi ho paaya ⚠️');
+                return null;
+            }
+        }
 
-async function apiGet(path, adminOnly){
-  try{
-    const opts = adminOnly ? { headers:{'x-admin-key': adminKey || ''} } : {};
-    const res = await fetch(API+path, opts);
-    if(res.status===401) return {unauthorized:true};
-    if(!res.ok) throw new Error('bad response');
-    return await res.json();
-  }catch(e){
-    console.error('GET failed', path, e);
-    toast('Server se data nahi mil paya ⚠️');
-    return null;
-  }
-}
-async function apiSend(method, path, body, adminOnly, extraHeaders){
-  try{
-    const headers = {'Content-Type':'application/json'};
-    if(adminOnly) headers['x-admin-key'] = adminKey || '';
-    if(extraHeaders) Object.assign(headers, extraHeaders);
-    const res = await fetch(API+path, { method, headers, body: JSON.stringify(body) });
-    if(res.status===401) return {unauthorized:true};
-    if(res.status===403){
-      const err = await res.json().catch(()=>({}));
-      toast(err.error || 'Ise karne ki anumati nahi hai ⚠️');
-      return null;
-    }
-    if(!res.ok) throw new Error('bad response');
-    return await res.json();
-  }catch(e){
-    console.error(method+' failed', path, e);
-    toast('Server se connect nahi ho paaya ⚠️');
-    return null;
-  }
-}
+        /* ============ Tabs ============ */
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+                updateFab(btn.dataset.tab);
+            });
+        });
 
-/* ============ Tabs ============ */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
-    updateFab(btn.dataset.tab);
-  });
-});
-function updateFab(tab){
-  const fab = document.getElementById('mainFab');
-  if(tab==='samasya'){ fab.style.display='inline-flex'; fab.textContent='+ Samasya Jodein'; fab.onclick=()=>openSamasyaForm(); }
-  else if(tab==='chaupal'){ fab.style.display='inline-flex'; fab.textContent='+ चौपाल पर लिखें'; fab.onclick=()=>openChaupalForm(); }
-  else if(tab==='suchna'){ fab.style.display='inline-flex'; fab.textContent='+ Suchna Jodein'; fab.onclick=()=>openOverlay('overlaySuchna'); }
-  else { fab.style.display='none'; }
-}
-updateFab('samasya');
+        function updateFab(tab) {
+            const fab = document.getElementById('mainFab');
+            if (tab === 'samasya') {
+                fab.style.display = 'inline-flex';
+                fab.textContent = '+ समस्या दर्ज करें';
+                fab.onclick = () => openSamasyaForm();
+            } else if (tab === 'chaupal') {
+                fab.style.display = 'inline-flex';
+                fab.textContent = '+ संदेश लिखें';
+                fab.onclick = () => openChaupalForm();
+            } else if (tab === 'suchna') {
+                fab.style.display = 'inline-flex';
+                fab.textContent = '+ नई सूचना जोड़ें';
+                fab.onclick = () => openOverlay('overlaySuchna');
+            } else {
+                fab.style.display = 'none';
+            }
+        }
+        updateFab('samasya');
 
-/* ============ Overlay helpers ============ */
-function openOverlay(id){ document.getElementById(id).classList.add('open'); }
-function closeOverlay(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('[data-close]').forEach(el=>{
-  el.addEventListener('click', ()=>closeOverlay(el.dataset.close));
-});
-document.querySelectorAll('.overlay').forEach(ov=>{
-  ov.addEventListener('click', (e)=>{ if(e.target===ov) closeOverlay(ov.id); });
-});
+        /* ============ Overlay helpers ============ */
+        function openOverlay(id) {
+            document.getElementById(id).classList.add('open');
+        }
 
-/* ============ SAMASYA (Problem reporting) ============ */
-function renderCatGrid(){
-  const grid = document.getElementById('catGrid');
-  grid.innerHTML = CATEGORIES.map(c=>{
-    const count = samasyaList.filter(s=>s.category===c.id).length;
-    return `<button type="button" class="cat-card ${activeCategory===c.id?'active':''}" data-cat="${c.id}">
+        function closeOverlay(id) {
+            document.getElementById(id).classList.remove('open');
+        }
+        document.querySelectorAll('[data-close]').forEach(el => {
+            el.addEventListener('click', () => closeOverlay(el.dataset.close));
+        });
+        document.querySelectorAll('.overlay').forEach(ov => {
+            ov.addEventListener('click', (e) => {
+                if (e.target === ov) closeOverlay(ov.id);
+            });
+        });
+
+        /* ============ SAMASYA (Problem reporting) ============ */
+        function renderCatGrid() {
+            const grid = document.getElementById('catGrid');
+            grid.innerHTML = CATEGORIES.map(c => {
+                        const count = samasyaList.filter(s => s.category === c.id).length;
+                        return `<button type="button" class="cat-card ${activeCategory===c.id?'active':''}" data-cat="${c.id}">
       ${(adminKey && count)?`<span class="count">${count}</span>`:''}
       <span class="icon">${c.icon}</span>
       <span class="name">${c.name}</span>
     </button>`;
   }).join('') + `<button type="button" class="cat-card ${activeCategory===null?'active':''}" data-cat="all">
-      <span class="icon">🗂️</span><span class="name">Sabhi</span>
+      <span class="icon">🗂️</span><span class="name">सभी</span>
     </button>`;
 }
 // Event delegation: one listener on the grid itself, so clicks always work
@@ -1682,8 +3098,8 @@ function renderSamasyaList(){
   if(!adminKey){
     wrap.innerHTML = `<div class="locked-notice">
       <span class="big">🔒</span>
-      <p>Aapki samasya safaltapoorvak darj ho jaayegi.</p>
-      <p class="small">Samasyaon ki list sirf Gaon ke Pradhan hi (login karke) dekh sakte hain.</p>
+      <p>आपकी समस्या सफलतापूर्वक दर्ज हो जाएगी।</p>
+      <p class="small">समस्याओं की सूची केवल गाँव के प्रधान जी ही (लॉगिन करके) देख सकते हैं।</p>
     </div>`;
     return;
   }
@@ -1692,7 +3108,7 @@ function renderSamasyaList(){
   if(activeCategory) list = list.filter(s=>s.category===activeCategory);
 
   if(list.length===0){
-    wrap.innerHTML = `<div class="empty-state"><span class="big">🌾</span>Abhi is category me koi samasya darj nahi hai.</div>`;
+    wrap.innerHTML = `<div class="empty-state"><span class="big">🌾</span>अभी इस श्रेणी में कोई समस्या दर्ज नहीं है।</div>`;
     return;
   }
 
@@ -1742,14 +3158,14 @@ document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>
   const delBtn = e.target.closest('[data-delete-samasya]');
   if(delBtn){
     const id = delBtn.dataset.deleteSamasya;
-    if(!confirm('Kya aap sach me is samasya ko delete karna chahte hain?')) return;
+    if(!confirm('क्या आप सच में इस समस्या को हटाना चाहते हैं?')) return;
     const res = await apiSend('DELETE', '/samasya/'+id, {}, true);
     if(res && res.unauthorized){ adminLogout(); return; }
     if(res && res.ok){
       samasyaList = samasyaList.filter(s=>s.id!==id);
       renderCatGrid();
       renderSamasyaList();
-      toast('Samasya hata di gayi ✅');
+      toast('समस्या हटा दी गई ✅');
     }
     return;
   }
@@ -1794,10 +3210,10 @@ function renderItemCard(s){
         </div>
       ` : ''}
       <div class="item-meta">
-        <span class="item-by">${escapeHtml(s.name||'Gaon wasi')}${s.phone?` (${escapeHtml(s.phone)})`:''} · ${fmtDate(s.date)}</span>
+        <span class="item-by">${escapeHtml(s.name||'गाँव वासी')}${s.phone?` (${escapeHtml(s.phone)})`:''} · ${fmtDate(s.date)}</span>
         <div style="display:flex; gap:6px; margin-left:auto;">
           <button type="button" class="btn-remark" data-remark-id="${s.id}">💬 टिप्पणी</button>
-          <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="Ye samasya hataayein">🗑️ Hataayein</button>
+          <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="यह समस्या हटाएं">🗑️ हटाएं</button>
         </div>
       </div>
     </div>
@@ -1964,12 +3380,12 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
 
   const submitBtn = document.getElementById('cSubmitBtn');
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Post ho raha hai...';
+  submitBtn.textContent = 'साझा हो रहा है...';
 
   try {
     const myAuthorKey = uid();
     const payload = {
-      name: name || 'Gaon wasi',
+      name: name || 'गाँव वासी',
       text,
       link: link || null,
       media: pendingChaupalMedia,
@@ -1985,14 +3401,14 @@ document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
       resetChaupalMedia();
       document.getElementById('cLink').value = '';
       renderChaupal();
-      toast('चौपाल पर पोस्ट साझा हो गया! 🎉');
+      toast('नया संदेश सफलतापूर्वक साझा हो गया! 🎉');
     }
   } catch(err) {
     console.error('Post failed', err);
-    toast('Post nahi ho paaya, kripya dobara koshish karein ⚠️');
+    toast('संदेश पोस्ट नहीं हो पाया, कृपया दोबारा कोशिश करें ⚠️');
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = 'Post Karein';
+    submitBtn.textContent = 'संदेश साझा करें';
   }
 });
 
@@ -2018,7 +3434,7 @@ function hideChaupalPostForMe(id){
     localStorage.setItem('hidden_chaupal_posts', JSON.stringify(hidden));
   }
   renderChaupal();
-  toast('Post सिर्फ आपके स्क्रीन से हटा दी गई ✅');
+  toast('संदेश सिर्फ आपकी स्क्रीन से हटा दिया गया ✅');
 }
 
 let activeDeletePostId = null;
@@ -2031,7 +3447,7 @@ function renderChaupal(){
   if(visibleList.length === 0){
     feed.innerHTML = `<div class="empty-state">
       <span class="big">🗣️</span>
-      चौपाल पर अभी कोई पोस्ट नहीं है.<br>गाँव के लिए पहला संदेश, फ़ोटो, वीडियो या लिंक आप साझा करें!
+      अभी कोई संदेश साझा नहीं किया गया है...<br>गाँव के लिए पहला संदेश, फ़ोटो, वीडियो या लिंक आप साझा करें!
     </div>`;
     return;
   }
@@ -2045,7 +3461,7 @@ function renderChaupal(){
       if(p.mediaType === 'video'){
         mediaHtml = `<div class="chaupal-media-container"><video class="chaupal-media-video" src="${p.media}" controls playsinline preload="metadata"></video></div>`;
       } else {
-        mediaHtml = `<div class="chaupal-media-container"><img class="chaupal-media-img" src="${p.media}" alt="Chaupal Photo" data-chaupal-img="${p.id}"></div>`;
+        mediaHtml = `<div class="chaupal-media-container"><img class="chaupal-media-img" src="${p.media}" alt="संदेश फ़ोटो" data-chaupal-img="${p.id}"></div>`;
       }
     }
 
@@ -2068,7 +3484,7 @@ function renderChaupal(){
       <div class="chaupal-card-head">
         <div class="chaupal-author-avatar">${initial}</div>
         <div class="chaupal-author-info">
-          <h4 class="chaupal-author-name">${escapeHtml(p.name || 'Gaon wasi')}</h4>
+          <h4 class="chaupal-author-name">${escapeHtml(p.name || 'गाँव वासी')}</h4>
           <p class="chaupal-post-time">${fmtTimeAgo(p.date)}</p>
         </div>
       </div>
@@ -2078,13 +3494,13 @@ function renderChaupal(){
       <div class="chaupal-card-actions">
         <button type="button" class="chaupal-action-btn ${isLiked ? 'liked' : ''}" data-like-chaupal="${p.id}">
           <span>${isLiked ? '❤️' : '🤍'}</span>
-          <span class="chaupal-like-count">${p.likes || 0}</span> Like
+          <span class="chaupal-like-count">${p.likes || 0}</span> पसंद
         </button>
         <button type="button" class="chaupal-action-btn share-btn" data-share-chaupal="${p.id}">
-          <span>📲</span> WhatsApp Share
+          <span>📲</span> WhatsApp शेयर
         </button>
-        <button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="Ye post hataayein">
-          <span>🗑️</span> Hataayein
+        <button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="यह संदेश हटाएं">
+          <span>🗑️</span> हटाएं
         </button>
       </div>
     </div>`;
@@ -2108,7 +3524,7 @@ document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
     const post = chaupalList.find(p=>p.id===id);
     if(!post) return;
     if(localStorage.getItem('liked_chaupal_'+id)){
-      toast('Aap pehle hi like kar chuke hain ❤️');
+      toast('आप पहले ही पसंद कर चुके हैं ❤️');
       return;
     }
     const res = await apiSend('POST', '/chaupal/'+id+'/like', {});
@@ -2127,7 +3543,7 @@ document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
     if(!post) return;
     let extra = '';
     if(post.link) extra += `\n🔗 Link: ${post.link}`;
-    const shareText = `*🏡 Jagdishpur Gaon Portal - चौपाल*\n\n👤 *${post.name || 'Gaon wasi'}:*\n"${post.text || 'Photo/Video/Link साझा किया गया'}"${extra}\n\n👉 *Poora dekhne ke liye yahan kholein:*\n${window.location.origin}`;
+    const shareText = `*🏡 Jagdishpur Gaon Portal - गाँव के संदेश*\n\n👤 *${post.name || 'गाँव वासी'}:*\n"${post.text || 'फ़ोटो/वीडियो/लिंक साझा किया गया'}"${extra}\n\n👉 *पूरा देखने के लिए यहाँ खोलें:*\n${window.location.origin}`;
     const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
     window.open(waUrl, '_blank');
     return;
@@ -2174,7 +3590,7 @@ document.getElementById('btnDeleteEveryone').addEventListener('click', async ()=
     delete myPosts[id];
     localStorage.setItem('my_chaupal_posts', JSON.stringify(myPosts));
     renderChaupal();
-    toast('Post सभी के लिए हटा दी गई ✅');
+    toast('संदेश सभी के लिए हटा दिया गया ✅');
   }
 });
 
@@ -2190,7 +3606,7 @@ document.getElementById('btnDeleteForMe').addEventListener('click', ()=>{
 function renderSuchna(){
   const board = document.getElementById('suchnaBoard');
   if(suchnaList.length===0){
-    board.innerHTML = `<div class="empty-state" style="background:#FFF9E8;">📌 Abhi koi suchna nahi hai.<br>Pehli suchna aap lagayein.</div>`;
+    board.innerHTML = `<div class="empty-state" style="background:#FFF9E8;">📌 अभी कोई सूचना नहीं है।<br>पहली सूचना आप लगाएं।</div>`;
     return;
   }
   const sorted = suchnaList.slice().sort((a,b)=>b.date-a.date);
@@ -2199,14 +3615,14 @@ function renderSuchna(){
       <h3>${escapeHtml(s.title)}</h3>
       <p>${escapeHtml(s.text)}</p>
       <div class="meta" style="flex-wrap:wrap; gap:8px;">
-        <span>${escapeHtml(s.name||'Gaon prashasan')} · ${fmtDate(s.date)}</span>
+        <span>${escapeHtml(s.name||'ग्राम प्रशासन')} · ${fmtDate(s.date)}</span>
         <div style="display:flex; align-items:center; gap:8px; margin-left:auto;">
           <button type="button" class="btn-wa-share" data-share-suchna="${s.id}" style="margin-top:0;">
             <span>📲</span> WhatsApp शेयर
           </button>
           ${adminKey ? `<span class="pin-note-actions">
-            <button type="button" data-edit="${s.id}">✏️ Edit</button>
-            <button type="button" data-delete="${s.id}">🗑️ Hataayein</button>
+            <button type="button" data-edit="${s.id}">✏️ बदलें</button>
+            <button type="button" data-delete="${s.id}">🗑️ हटाएं</button>
           </span>` : ''}
         </div>
       </div>
@@ -2227,27 +3643,27 @@ document.getElementById('suchnaBoard').addEventListener('click', async (e)=>{
   if(editBtn){
     const item = suchnaList.find(s=>s.id===editBtn.dataset.edit);
     if(!item) return;
-    const title = prompt('Suchna ka title:', item.title);
+    const title = prompt('सूचना का शीर्षक:', item.title);
     if(title===null) return;
-    const text = prompt('Poora vivaran:', item.text);
+    const text = prompt('पूरा विवरण:', item.text);
     if(text===null) return;
     const updated = await apiSend('PUT', '/suchna/'+item.id, {title, text}, true);
     if(updated && updated.unauthorized){ adminLogout(); return; }
     if(!updated) return;
     item.title = updated.title; item.text = updated.text;
     renderSuchna();
-    toast('Suchna update ho gayi ✅');
+    toast('सूचना अपडेट हो गई ✅');
     return;
   }
   const delBtn = e.target.closest('[data-delete]');
   if(delBtn){
-    if(!confirm('Kya aap sach me ye suchna hataana chahte hain?')) return;
+    if(!confirm('क्या आप सच में यह सूचना हटाना चाहते हैं?')) return;
     const result = await apiSend('DELETE', '/suchna/'+delBtn.dataset.delete, {}, true);
     if(result && result.unauthorized){ adminLogout(); return; }
     if(!result) return;
     suchnaList = suchnaList.filter(s=>s.id!==delBtn.dataset.delete);
     renderSuchna();
-    toast('Suchna hata di gayi ✅');
+    toast('सूचना हटा दी गई ✅');
   }
 });
 document.getElementById('formSuchna').addEventListener('submit', async (e)=>{
@@ -2263,7 +3679,7 @@ document.getElementById('formSuchna').addEventListener('submit', async (e)=>{
   document.getElementById('formSuchna').reset();
   closeOverlay('overlaySuchna');
   renderSuchna();
-  toast('Suchna board par laga di gayi ✅');
+  toast('सूचना बोर्ड पर लगा दी गई ✅');
 });
 
 /* ============ GAON KI JAANKARI & CALL DIRECTORY ============ */
@@ -3040,6 +4456,7 @@ window.addEventListener('appinstalled', () => {
   installBtn.classList.remove('show');
   toast('App install ho gayi! 🎉');
 });
-</script>
+    </script>
 </body>
+
 </html>
