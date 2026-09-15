@@ -2137,7 +2137,400 @@
             border-radius: 4px;
             font-size: .8rem;
             margin-top: 6px;
-            line-height: 1.4;
+        /* ============ WEATHER & RAIN FORECAST STYLING ============ */
+        .weather-strip {
+            background: linear-gradient(90deg, #EFF6FF 0%, #E0F2FE 100%);
+            border-bottom: 1.5px solid #BAE6FD;
+            padding: 8px 12px;
+            font-size: .82rem;
+        }
+        .weather-strip-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .weather-strip-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            color: #0369A1;
+            font-weight: 600;
+        }
+        .weather-strip-loc {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            color: #0C4A6E;
+            font-weight: 700;
+        }
+        .weather-strip-temp {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0284C7;
+        }
+        .weather-strip-cond {
+            color: #0369A1;
+        }
+        .weather-strip-rain {
+            background: #E0F2FE;
+            color: #0369A1;
+            border: 1px solid #7DD3FC;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+        .btn-weather-details {
+            background: #0284C7;
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 4px 12px;
+            font-size: .75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background .2s;
+        }
+        .btn-weather-details:hover {
+            background: #0369A1;
+        }
+        .krishi-weather-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1.5px solid #BAE6FD;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .weather-card-header {
+            background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+            color: #fff;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .weather-loc-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-change-loc {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: .75rem;
+            cursor: pointer;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all .2s;
+        }
+        .btn-change-loc:hover {
+            background: #fff;
+            color: #0369A1;
+        }
+        .weather-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 16px;
+            gap: 16px;
+            background: #F0F9FF;
+            border-bottom: 1px solid #E0F2FE;
+        }
+        @media(max-width: 580px) {
+            .weather-main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .weather-temp-big {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #0369A1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .weather-temp-sub {
+            font-size: .84rem;
+            color: var(--ink-soft);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .weather-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .weather-stat-item {
+            background: #fff;
+            border: 1px solid #BAE6FD;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: .76rem;
+            color: var(--ink-soft);
+        }
+        .weather-stat-item .val {
+            font-weight: 700;
+            color: var(--ink);
+            font-size: .88rem;
+            margin-top: 2px;
+        }
+        .rain-section {
+            padding: 14px 16px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .rain-section-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0369A1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rain-hourly-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+        }
+        .rain-hour-card {
+            min-width: 80px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 8px 6px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+        .rain-hour-card.active-hour {
+            border-color: #0284C7;
+            background: #EFF6FF;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.15);
+        }
+        .rain-hour-time {
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            margin-bottom: 4px;
+        }
+        .rain-hour-icon {
+            font-size: 1.35rem;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .rain-hour-temp {
+            font-size: .84rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .rain-chance-badge {
+            display: inline-block;
+            font-size: .68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        .rain-chance-low {
+            background: #DCFCE7;
+            color: #166534;
+        }
+        .rain-chance-med {
+            background: #FEF08A;
+            color: #854D0E;
+        }
+        .rain-chance-high {
+            background: #FEE2E2;
+            color: #991B1B;
+            animation: pulse-rain 2s infinite;
+        }
+        @keyframes pulse-rain {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .daily-forecast-wrap {
+            padding: 14px 16px;
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .daily-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 4px;
+            border-bottom: 1px dashed #E2E8F0;
+            font-size: .82rem;
+        }
+        .daily-row:last-child {
+            border-bottom: none;
+        }
+        .daily-day {
+            font-weight: 700;
+            color: var(--ink);
+            width: 70px;
+        }
+        .daily-cond {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ink-soft);
+            flex: 1;
+        }
+        .daily-rain {
+            font-weight: 700;
+            font-size: .76rem;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+        .daily-temp {
+            font-weight: 700;
+            color: var(--ink);
+            width: 80px;
+            text-align: right;
+        }
+        .kisan-advisory-box {
+            margin: 14px 16px;
+            border-radius: 12px;
+            padding: 12px 14px;
+            background: #F0FDF4;
+            border: 1.5px solid #BBF7D0;
+        }
+        .advisory-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .advisory-item:last-child {
+            margin-bottom: 0;
+        }
+        .advisory-icon {
+            font-size: 1.25rem;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+        .advisory-title {
+            font-weight: 700;
+            font-size: .84rem;
+            color: #166534;
+        }
+        .advisory-desc {
+            font-size: .78rem;
+            color: #14532D;
+            margin-top: 2px;
+            line-height: 1.35;
+        }
+        .advisory-danger .advisory-title { color: #991B1B; }
+        .advisory-danger .advisory-desc { color: #7F1D1D; }
+        .advisory-warning .advisory-title { color: #854D0E; }
+        .advisory-warning .advisory-desc { color: #713F12; }
+        .btn-wa-weather-share {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: calc(100% - 32px);
+            margin: 0 16px 16px 16px;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px;
+            font-weight: 700;
+            font-size: .84rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+            transition: background .2s;
+        }
+        .btn-wa-weather-share:hover {
+            background: #1EBE5D;
+        }
+        .loc-chips-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+        .loc-chip {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 16px;
+            padding: 5px 12px;
+            font-size: .8rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--ink);
+            transition: all .2s;
+        }
+        .loc-chip:hover, .loc-chip.active {
+            background: #0284C7;
+            color: #fff;
+            border-color: #0284C7;
+        }
+        .btn-gps-loc {
+            background: #10B981;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+            transition: background .2s;
+        }
+        .btn-gps-loc:hover {
+            background: #059669;
+        }
+        .city-search-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .city-search-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid var(--line);
+            border-radius: 8px;
+            font-size: .85rem;
+        }
+        .city-search-row button {
+            padding: 8px 14px;
+            background: #0284C7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -2170,6 +2563,23 @@
             </div>
         </div>
 
+        <!-- ===================== WEATHER QUICK STRIP ===================== -->
+        <div class="weather-strip" id="weatherStrip">
+            <div class="weather-strip-inner">
+                <div class="weather-strip-left" id="weatherStripSummary">
+                    <span class="weather-strip-loc">📍 <span id="weatherStripLocName">स्थान खोज रहे हैं...</span></span>
+                    <span class="weather-strip-temp" id="weatherStripTemp">--°C</span>
+                    <span class="weather-strip-cond" id="weatherStripCond">⛅ मौसम लोड हो रहा है...</span>
+                    <span class="weather-strip-rain" id="weatherStripRain">🌧️ बारिश: --%</span>
+                </div>
+                <div class="weather-strip-right">
+                    <button type="button" class="btn-weather-details" id="btnOpenWeatherModal" title="विस्तृत मौसम व बारिश का पूर्वानुमान देखें">
+                        🔍 बारिश व मौसम ↗
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <nav class="tabs" role="tablist">
             <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>समस्या</button>
             <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>संदेश</button>
@@ -2186,6 +2596,12 @@
                 <div class="panel-head">
                     <h2>🌾 उन्नत खेती-बाड़ी (Krishi Guide)</h2>
                     <p>गाँव की मुख्य फसलों की बुवाई, खाद (यूरिया/DAP) का सही गणित, सिंचाई व कीटनाशक दवा की पूरी जानकारी।</p>
+                </div>
+
+                <!-- Weather & Rain Forecast Card for Farmers -->
+                <div class="krishi-weather-section" id="krishiWeatherSection">
+                    <div class="loading-row" id="krishiWeatherLoading">मौसम व बारिश का डेटा लोड हो रहा है... ⛅</div>
+                    <div id="krishiWeatherCardWrap" style="display:none;"></div>
                 </div>
 
                 <!-- Season Filter Pills -->
@@ -2508,6 +2924,35 @@
                             <button type="submit" class="btn btn-primary">योजना जोड़ें</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== WEATHER & RAIN DETAILS MODAL ===================== -->
+        <div class="overlay" id="overlayWeather">
+            <div class="sheet" style="max-width:560px;">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayWeather">✕</button>
+                    <h2>🌦️ मौसम व बारिश का लाइव हाल</h2>
+                    <p style="color:var(--ink-soft); font-size:.82rem; margin-bottom:12px;">लाइव तापमान, कब होगी बारिश और किसान भाइयों के लिए सलाह</p>
+
+                    <!-- Location Selector Section -->
+                    <div style="background:#F0F9FF; border:1px solid #BAE6FD; border-radius:10px; padding:12px; margin-bottom:14px;">
+                        <button type="button" class="btn-gps-loc" id="btnDetectGpsModal">
+                            <span>📍</span> मेरा वर्तमान GPS स्थान लें (Live Detect)
+                        </button>
+                        <div style="font-size:.76rem; font-weight:700; color:#0369A1; margin-bottom:6px;">लोकप्रिय स्थान तुरंत चुनें:</div>
+                        <div class="loc-chips-grid" id="modalLocChips"></div>
+                        <form id="formSearchCity" class="city-search-row">
+                            <input type="text" id="inputSearchCity" placeholder="अन्य शहर/ज़िला खोजें (जैसे: Lucknow, Barabanki)..." required>
+                            <button type="submit">खोजें</button>
+                        </form>
+                    </div>
+
+                    <!-- Weather Detail Content Container -->
+                    <div id="modalWeatherContent">
+                        <div class="loading-row">मौसम की जानकारी लोड हो रही है... ⛅</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4386,10 +4831,582 @@ document.getElementById('formAdmin').addEventListener('submit', async (e)=>{
   }
 });
 
+/* ============ LIVE WEATHER & RAIN FORECAST SUBSYSTEM ============ */
+const DEFAULT_WEATHER_LOCATION = {
+    name: 'जगदीशपुर (गाँव)',
+    lat: 26.4716,
+    lon: 81.6038,
+    isGps: false
+};
+
+const POPULAR_LOCATIONS = [
+    { name: '📍 मेरा लाइव स्थान (GPS)', isGps: true },
+    { name: '🏡 जगदीशपुर (गाँव)', lat: 26.4716, lon: 81.6038 },
+    { name: '🏙️ लखनऊ (Lucknow)', lat: 26.8467, lon: 80.9462 },
+    { name: '🏛️ अयोध्या (Ayodhya)', lat: 26.7922, lon: 82.1998 },
+    { name: '🌾 सुल्तानपुर (Sultanpur)', lat: 26.2648, lon: 82.0727 },
+    { name: '🏭 कानपुर (Kanpur)', lat: 26.4499, lon: 80.3319 },
+    { name: '🌱 अमेठी (Amethi)', lat: 26.1557, lon: 81.8155 }
+];
+
+let currentWeatherLocation = null;
+let currentWeatherData = null;
+let isWeatherLoading = false;
+
+const HINDI_DAYS = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
+const HINDI_MONTHS = ['जन', 'फ़र', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अग', 'सित', 'अक्तू', 'नव', 'दिस'];
+
+function decodeWeather(code, isDay = 1) {
+    switch (code) {
+        case 0:
+            return { text: isDay ? 'साफ धूप' : 'साफ रात', icon: isDay ? '☀️' : '🌙', type: 'clear' };
+        case 1:
+            return { text: 'मुख्यतः साफ', icon: isDay ? '🌤️' : '🌤️', type: 'clear' };
+        case 2:
+            return { text: 'आंशिक बादल', icon: '⛅', type: 'cloudy' };
+        case 3:
+            return { text: 'घने बादल', icon: '☁️', type: 'cloudy' };
+        case 45:
+        case 48:
+            return { text: 'कोहरा (Fog)', icon: '🌫️', type: 'fog' };
+        case 51:
+            return { text: 'हल्की बूंदाबांदी', icon: '🌦️', type: 'drizzle' };
+        case 53:
+            return { text: 'मध्यम बूंदाबांदी', icon: '🌦️', type: 'drizzle' };
+        case 55:
+            return { text: 'तेज़ बूंदाबांदी', icon: '🌧️', type: 'drizzle' };
+        case 61:
+            return { text: 'हल्की बारिश', icon: '🌧️', type: 'rain' };
+        case 63:
+            return { text: 'मध्यम बारिश', icon: '🌧️', type: 'rain' };
+        case 65:
+            return { text: 'मूसलाधार बारिश', icon: '⛈️', type: 'heavy-rain' };
+        case 80:
+        case 81:
+        case 82:
+            return { text: 'तेज़ बौछारें', icon: '🌦️', type: 'rain' };
+        case 95:
+            return { text: 'आंधी व बिजली चमक', icon: '⛈️', type: 'thunder' };
+        case 96:
+        case 99:
+            return { text: 'तूफान व ओलावृष्टि', icon: '⛈️⚡', type: 'thunder' };
+        default:
+            return { text: 'मौसम सामान्य', icon: '⛅', type: 'cloudy' };
+    }
+}
+
+function fmtHour(isoStr) {
+    const d = new Date(isoStr);
+    let h = d.getHours();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if (h === 0) h = 12;
+    return `${h} ${ampm}`;
+}
+
+function fmtDayName(isoDateStr, idx) {
+    if (idx === 0) return 'आज';
+    if (idx === 1) return 'कल';
+    const d = new Date(isoDateStr);
+    return HINDI_DAYS[d.getDay()] + ` (${d.getDate()} ${HINDI_MONTHS[d.getMonth()]})`;
+}
+
+function generateKisanAdvisory(current, hourly, daily) {
+    const rainNow = current.precipitation || 0;
+    const next12hRainProb = Math.max(...(hourly.precipitation_probability ? hourly.precipitation_probability.slice(0, 12) : [0]));
+    const windSpeed = current.wind_speed_10m || 0;
+    const temp = current.temperature_2m || 30;
+    
+    let adviceItems = [];
+
+    // 1. Rain advice (Crucial for farmers)
+    if (next12hRainProb >= 60 || rainNow > 1) {
+        adviceItems.push({
+            icon: '🛑',
+            type: 'advisory-danger',
+            title: 'बारिश का अलर्ट — सिंचाई व खाद/कीटनाशक छिड़काव रोकें',
+            desc: `अगले 12 घंटों में बारिश की संभावना ${next12hRainProb}% है। खेतों में यूरिया/DAP और कीटनाशक का छिड़काव तुरंत रोक दें (दवा बह जाएगी), और खेत में सिंचाई न करें।`
+        });
+    } else if (next12hRainProb >= 30) {
+        adviceItems.push({
+            icon: '⚠️',
+            type: 'advisory-warning',
+            title: 'हल्की बारिश की संभावना — सतर्क रहें',
+            desc: `अगले कुछ घंटों में बादलों और हल्की बारिश की संभावना (${next12hRainProb}%) है। मौसम देखकर ही सिंचाई या दवा का छिड़काव करें।`
+        });
+    } else {
+        adviceItems.push({
+            icon: '✅',
+            type: 'advisory-success',
+            title: 'मौसम साफ — कृषि कार्यों के लिए बहुत अनुकूल',
+            desc: `बारिश की संभावना नगण्य (${next12hRainProb}%) है। फसलों में आवश्यकतानुसार सिंचाई, निराई-गुड़ाई, यूरिया टॉप ड्रेसिंग और कीटनाशक छिड़काव के लिए यह उत्तम समय है।`
+        });
+    }
+
+    // 2. Wind advice
+    if (windSpeed >= 20) {
+        adviceItems.push({
+            icon: '💨',
+            type: 'advisory-warning',
+            title: 'तेज़ हवा चेतावनी',
+            desc: `हवा की गति लगभग ${Math.round(windSpeed)} km/h है। लंबी फसलों (गन्ना, मक्का, बाजरा) में भारी सिंचाई न करें, हवा से फसल गिरने (lodging) का खतरा हो सकता है।`
+        });
+    }
+
+    // 3. Temperature / Humidity advice
+    if (temp >= 38) {
+        adviceItems.push({
+            icon: '🌡️',
+            type: 'advisory-warning',
+            title: 'अधिक तापमान व धूप से बचाव',
+            desc: 'तेज धूप और उच्च तापमान के कारण शाम के समय हल्की सिंचाई करें ताकि जमीन में नमी बनी रहे। पशुओं को छायादार व हवादार स्थान पर बांधें।'
+        });
+    } else if (current.relative_humidity_2m >= 80 && temp >= 22) {
+        adviceItems.push({
+            icon: '🌾',
+            type: 'advisory-info',
+            title: 'नमी अधिक — कीट व फफूंद रोग की निगरानी',
+            desc: `हवा में नमी ${current.relative_humidity_2m}% है। धान व सब्जियों में शीथ ब्लाइट, पत्ती लपेटक और फफूंद जनित रोगों की नियमित निगरानी करें।`
+        });
+    }
+
+    return adviceItems;
+}
+
+async function detectUserLocation(forceGps = false) {
+    if (!navigator.geolocation) {
+        return DEFAULT_WEATHER_LOCATION;
+    }
+    return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+            async (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                let locName = 'मेरा लाइव स्थान';
+                try {
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=hi,en`);
+                    if (res.ok) {
+                        const json = await res.json();
+                        const addr = json.address || {};
+                        const city = addr.city || addr.town || addr.village || addr.state_district || addr.county || '';
+                        const suburb = addr.suburb || addr.neighbourhood || '';
+                        if (city) {
+                            locName = suburb ? `${city} (${suburb})` : city;
+                        } else if (json.display_name) {
+                            locName = json.display_name.split(',')[0].trim();
+                        }
+                    }
+                } catch(e) {
+                    console.warn('Reverse geocoding error', e);
+                }
+                resolve({ name: locName, lat, lon, isGps: true });
+            },
+            (err) => {
+                console.warn('Geolocation error or denied', err);
+                resolve(null);
+            },
+            { timeout: 7000, enableHighAccuracy: false }
+        );
+    });
+}
+
+async function loadWeatherData(loc) {
+    if (!loc) loc = DEFAULT_WEATHER_LOCATION;
+    isWeatherLoading = true;
+    currentWeatherLocation = loc;
+
+    const stripLocEl = document.getElementById('weatherStripLocName');
+    if (stripLocEl) stripLocEl.textContent = loc.name;
+
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=precipitation_probability,precipitation,temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&timezone=auto&forecast_days=7`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Weather API error: ' + res.status);
+        const data = await res.json();
+        currentWeatherData = data;
+
+        try {
+            localStorage.setItem('saved_weather_location', JSON.stringify(loc));
+        } catch(e){}
+
+        renderWeatherStrip();
+        renderKrishiWeatherCard();
+        renderWeatherModalContent();
+    } catch(err) {
+        console.error('Failed to load weather data', err);
+        const stripCond = document.getElementById('weatherStripCond');
+        if (stripCond) stripCond.textContent = 'मौसम लोड नहीं हो पाया ⚠️';
+    } finally {
+        isWeatherLoading = false;
+    }
+}
+
+function renderWeatherStrip() {
+    if (!currentWeatherData || !currentWeatherLocation) return;
+    const c = currentWeatherData.current;
+    const hourly = currentWeatherData.hourly;
+    const wInfo = decodeWeather(c.weather_code);
+    const next12MaxRain = Math.max(...(hourly.precipitation_probability ? hourly.precipitation_probability.slice(0, 12) : [0]));
+
+    const locEl = document.getElementById('weatherStripLocName');
+    const tempEl = document.getElementById('weatherStripTemp');
+    const condEl = document.getElementById('weatherStripCond');
+    const rainEl = document.getElementById('weatherStripRain');
+
+    if (locEl) locEl.textContent = currentWeatherLocation.name;
+    if (tempEl) tempEl.textContent = `${Math.round(c.temperature_2m)}°C`;
+    if (condEl) condEl.textContent = `${wInfo.icon} ${wInfo.text}`;
+    if (rainEl) {
+        rainEl.textContent = `🌧️ बारिश: ${next12MaxRain}%`;
+        if (next12MaxRain >= 50) {
+            rainEl.style.background = '#FEE2E2';
+            rainEl.style.color = '#991B1B';
+            rainEl.style.borderColor = '#FCA5A5';
+        } else {
+            rainEl.style.background = '#E0F2FE';
+            rainEl.style.color = '#0369A1';
+            rainEl.style.borderColor = '#7DD3FC';
+        }
+    }
+}
+
+function renderWeatherCardHtml(isModal = false) {
+    if (!currentWeatherData || !currentWeatherLocation) {
+        return '<div class="loading-row">मौसम की जानकारी लोड हो रही है... ⛅</div>';
+    }
+    const current = currentWeatherData.current;
+    const hourly = currentWeatherData.hourly;
+    const daily = currentWeatherData.daily;
+    const weatherNow = decodeWeather(current.weather_code);
+    const tempNow = Math.round(current.temperature_2m);
+    const apparentTemp = Math.round(current.apparent_temperature);
+    const windNow = Math.round(current.wind_speed_10m);
+    const todayMaxRain = daily.precipitation_probability_max ? (daily.precipitation_probability_max[0] ?? 0) : 0;
+
+    // Hourly rain forecast (Next 24 hours)
+    const now = Date.now();
+    let startIdx = 0;
+    if (hourly.time && hourly.time.length) {
+        startIdx = hourly.time.findIndex(t => new Date(t).getTime() >= (now - 45 * 60 * 1000));
+        if (startIdx === -1) startIdx = 0;
+    }
+    const hoursSlice = (hourly.time || []).slice(startIdx, startIdx + 24);
+
+    const hourlyHtml = hoursSlice.map((isoTime, i) => {
+        const fullIdx = startIdx + i;
+        const hTime = fmtHour(isoTime);
+        const hProb = hourly.precipitation_probability ? (hourly.precipitation_probability[fullIdx] ?? 0) : 0;
+        const hCode = hourly.weather_code ? (hourly.weather_code[fullIdx] ?? 0) : 0;
+        const hTemp = hourly.temperature_2m ? Math.round(hourly.temperature_2m[fullIdx]) : '--';
+        const wInfo = decodeWeather(hCode);
+        
+        let badgeClass = 'rain-chance-low';
+        let badgeText = `${hProb}% साफ`;
+        if (hProb >= 50) {
+            badgeClass = 'rain-chance-high';
+            badgeText = `${hProb}% 🌧️`;
+        } else if (hProb >= 25) {
+            badgeClass = 'rain-chance-med';
+            badgeText = `${hProb}%`;
+        }
+
+        return `
+            <div class="rain-hour-card ${i === 0 ? 'active-hour' : ''}">
+                <div class="rain-hour-time">${i === 0 ? 'अभी' : hTime}</div>
+                <div class="rain-hour-icon">${wInfo.icon}</div>
+                <div class="rain-hour-temp">${hTemp}°C</div>
+                <span class="rain-chance-badge ${badgeClass}">${badgeText}</span>
+            </div>
+        `;
+    }).join('');
+
+    // Daily 7-day forecast
+    const dailyTimes = daily.time || [];
+    const dailyHtml = dailyTimes.slice(0, 7).map((dayIso, idx) => {
+        const dayLabel = fmtDayName(dayIso, idx);
+        const dCode = daily.weather_code ? (daily.weather_code[idx] ?? 0) : 0;
+        const maxTemp = daily.temperature_2m_max ? Math.round(daily.temperature_2m_max[idx]) : '--';
+        const minTemp = daily.temperature_2m_min ? Math.round(daily.temperature_2m_min[idx]) : '--';
+        const rainProb = daily.precipitation_probability_max ? (daily.precipitation_probability_max[idx] ?? 0) : 0;
+        const wInfo = decodeWeather(dCode);
+
+        let rainBadgeStyle = 'background:#DCFCE7; color:#166534;';
+        if (rainProb >= 50) {
+            rainBadgeStyle = 'background:#FEE2E2; color:#991B1B; font-weight:800;';
+        } else if (rainProb >= 25) {
+            rainBadgeStyle = 'background:#FEF08A; color:#854D0E; font-weight:700;';
+        }
+
+        return `
+            <div class="daily-row">
+                <span class="daily-day">${dayLabel}</span>
+                <span class="daily-cond">${wInfo.icon} ${wInfo.text}</span>
+                <span class="daily-rain" style="${rainBadgeStyle}">🌧️ ${rainProb}%</span>
+                <span class="daily-temp">${minTemp}° / ${maxTemp}°C</span>
+            </div>
+        `;
+    }).join('');
+
+    // Kisan advisory
+    const advisoryList = generateKisanAdvisory(current, hourly, daily);
+    const advisoryHtml = advisoryList.map(a => `
+        <div class="advisory-item ${a.type}">
+            <span class="advisory-icon">${a.icon}</span>
+            <div>
+                <div class="advisory-title">${a.title}</div>
+                <div class="advisory-desc">${a.desc}</div>
+            </div>
+        </div>
+    `).join('');
+
+    return `
+        <div class="krishi-weather-card">
+            <div class="weather-card-header">
+                <div class="weather-loc-title">
+                    <span>📍</span>
+                    <span>${escapeHtml(currentWeatherLocation.name)}</span>
+                    ${currentWeatherLocation.isGps ? '<span style="background:#10B981; font-size:.65rem; padding:2px 6px; border-radius:10px; font-weight:700;">LIVE GPS</span>' : ''}
+                </div>
+                <button type="button" class="btn-change-loc" data-action="open-weather-modal">
+                    🔄 स्थान बदलें
+                </button>
+            </div>
+
+            <div class="weather-main-grid">
+                <div>
+                    <div class="weather-temp-big">
+                        <span>${weatherNow.icon}</span>
+                        <span>${tempNow}°C</span>
+                    </div>
+                    <div class="weather-temp-sub">
+                        <strong>${weatherNow.text}</strong> · महसूस: <strong>${apparentTemp}°C</strong>
+                    </div>
+                </div>
+                <div class="weather-stats-grid">
+                    <div class="weather-stat-item">
+                        <div>💧 नमी (Humidity)</div>
+                        <div class="val">${current.relative_humidity_2m ?? '--'}%</div>
+                    </div>
+                    <div class="weather-stat-item">
+                        <div>💨 हवा (Wind)</div>
+                        <div class="val">${windNow} km/h</div>
+                    </div>
+                    <div class="weather-stat-item">
+                        <div>🌧️ अभी वर्षा</div>
+                        <div class="val">${current.precipitation ?? 0} mm</div>
+                    </div>
+                    <div class="weather-stat-item">
+                        <div>☔ आज बारिश चांस</div>
+                        <div class="val" style="color:${todayMaxRain >= 50 ? '#DC2626' : '#059669'}">${todayMaxRain}%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rain-section">
+                <div class="rain-section-title">
+                    <span>🕒</span> कब होगी बारिश? (अगले 24 घंटे का प्रति घंटा अनुमान)
+                </div>
+                <div class="rain-hourly-scroll">
+                    ${hourlyHtml}
+                </div>
+            </div>
+
+            <div class="daily-forecast-wrap">
+                <div class="rain-section-title" style="margin-bottom:8px;">
+                    <span>📅</span> अगले 7 दिनों का मौसम व बारिश कैलेंडर
+                </div>
+                <div class="daily-list">
+                    ${dailyHtml}
+                </div>
+            </div>
+
+            <div class="kisan-advisory-box">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+                    <span style="font-size:1.1rem;">🌾</span>
+                    <strong style="font-family:'Baloo 2',sans-serif; color:#166534; font-size:.95rem;">किसान मौसम परामर्श (Agricultural Advisory)</strong>
+                </div>
+                ${advisoryHtml}
+            </div>
+
+            <button type="button" class="btn-wa-weather-share" data-action="share-weather">
+                <span>📲</span> आज का मौसम व बारिश अपडेट WhatsApp पर शेयर करें
+            </button>
+        </div>
+    `;
+}
+
+function renderKrishiWeatherCard() {
+    const loadingEl = document.getElementById('krishiWeatherLoading');
+    const wrapEl = document.getElementById('krishiWeatherCardWrap');
+    if (!wrapEl) return;
+    if (loadingEl) loadingEl.style.display = 'none';
+    wrapEl.style.display = 'block';
+    wrapEl.innerHTML = renderWeatherCardHtml(false);
+}
+
+function renderWeatherModalContent() {
+    const wrap = document.getElementById('modalWeatherContent');
+    if (!wrap) return;
+    wrap.innerHTML = renderWeatherCardHtml(true);
+}
+
+function shareWeatherWhatsApp() {
+    if (!currentWeatherData || !currentWeatherLocation) return;
+    const c = currentWeatherData.current;
+    const weather = decodeWeather(c.weather_code);
+    const hourly = currentWeatherData.hourly;
+    const next12MaxRain = Math.max(...(hourly.precipitation_probability ? hourly.precipitation_probability.slice(0, 12) : [0]));
+    
+    let text = `*🌦️ जगदीशपुर गाँव पोर्टल — मौसम व बारिश का लाइव हाल*\n\n`;
+    text += `📍 *स्थान:* ${currentWeatherLocation.name}\n`;
+    text += `🌡️ *वर्तमान तापमान:* ${Math.round(c.temperature_2m)}°C (${weather.text} ${weather.icon})\n`;
+    text += `💧 *महसूस:* ${Math.round(c.apparent_temperature)}°C | *नमी:* ${c.relative_humidity_2m}%\n`;
+    text += `💨 *हवा की गति:* ${Math.round(c.wind_speed_10m)} km/h\n\n`;
+    text += `🌧️ *कब होगी बारिश (अगले 12 घंटे):*\n`;
+    text += `👉 *बारिश की अधिकतम संभावना:* ${next12MaxRain}%\n`;
+    if (next12MaxRain >= 50) {
+        text += `⚠️ *चेतावनी:* आज बारिश की संभावना अधिक है! खेत में सिंचाई न करें और कीटनाशक/खाद छिड़काव रोक दें।\n`;
+    } else {
+        text += `✅ *मौसम साफ:* फसलों में सिंचाई, खाद व कीटनाशक छिड़काव के लिए अनुकूल समय।\n`;
+    }
+    text += `\n🌐 *अपने गाँव का लाइव मौसम और बारिश देखने के लिए यहाँ खोलें:*\n${window.location.origin}`;
+
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function renderModalLocChips() {
+    const wrap = document.getElementById('modalLocChips');
+    if (!wrap) return;
+    wrap.innerHTML = POPULAR_LOCATIONS.map((loc, idx) => {
+        if (loc.isGps) return '';
+        const isCur = currentWeatherLocation && currentWeatherLocation.name === loc.name;
+        return `<button type="button" class="loc-chip ${isCur ? 'active' : ''}" data-loc-idx="${idx}">${loc.name}</button>`;
+    }).join('');
+}
+
+async function searchCity(query) {
+    try {
+        toast(`"${query}" खोज रहे हैं... 🔍`);
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=4&language=en&format=json`);
+        if (!res.ok) throw new Error('Search failed');
+        const json = await res.json();
+        if (!json.results || !json.results.length) {
+            toast('स्थान नहीं मिला, कृपया सही नाम लिखें ⚠️');
+            return;
+        }
+        const top = json.results[0];
+        const dispName = top.admin1 ? `${top.name} (${top.admin1})` : top.name;
+        const newLoc = {
+            name: dispName,
+            lat: top.latitude,
+            lon: top.longitude,
+            isGps: false
+        };
+        await loadWeatherData(newLoc);
+        renderModalLocChips();
+        toast(`स्थान सेट हो गया: ${dispName} ✅`);
+    } catch(err) {
+        console.error('Search city error', err);
+        toast('सर्च करने में समस्या हुई, दोबारा कोशिश करें ⚠️');
+    }
+}
+
+function initWeather() {
+    // Top strip button -> open modal
+    const btnOpen = document.getElementById('btnOpenWeatherModal');
+    if (btnOpen) {
+        btnOpen.addEventListener('click', () => {
+            renderModalLocChips();
+            openOverlay('overlayWeather');
+        });
+    }
+
+    // Modal chip selection
+    const chipsWrap = document.getElementById('modalLocChips');
+    if (chipsWrap) {
+        chipsWrap.addEventListener('click', (e) => {
+            const chip = e.target.closest('.loc-chip');
+            if (!chip) return;
+            const idx = parseInt(chip.dataset.locIdx, 10);
+            const loc = POPULAR_LOCATIONS[idx];
+            if (loc) {
+                loadWeatherData(loc);
+                renderModalLocChips();
+                toast(`स्थान बदल गया: ${loc.name} ✅`);
+            }
+        });
+    }
+
+    // Modal GPS detection button
+    const btnGps = document.getElementById('btnDetectGpsModal');
+    if (btnGps) {
+        btnGps.addEventListener('click', async () => {
+            toast('📍 आपका वर्तमान स्थान खोज रहे हैं...');
+            const loc = await detectUserLocation(true);
+            if (loc) {
+                await loadWeatherData(loc);
+                renderModalLocChips();
+                toast(`स्थान मिल गया: ${loc.name} 📍`);
+            } else {
+                toast('GPS स्थान नहीं मिल पाया, कृपया ब्राउज़र में लोकेशन अनुमति दें ⚠️');
+            }
+        });
+    }
+
+    // Modal city search form
+    const formSearch = document.getElementById('formSearchCity');
+    if (formSearch) {
+        formSearch.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('inputSearchCity');
+            if (!input || !input.value.trim()) return;
+            await searchCity(input.value.trim());
+        });
+    }
+
+    // Event delegation for "स्थान बदलें" button and "WhatsApp Share" button
+    document.addEventListener('click', (e) => {
+        const changeLocBtn = e.target.closest('[data-action="open-weather-modal"]');
+        if (changeLocBtn) {
+            renderModalLocChips();
+            openOverlay('overlayWeather');
+            return;
+        }
+
+        const shareBtn = e.target.closest('[data-action="share-weather"]');
+        if (shareBtn) {
+            shareWeatherWhatsApp();
+            return;
+        }
+    });
+
+    // Initial weather load:
+    let savedLoc = null;
+    try {
+        const savedRaw = localStorage.getItem('saved_weather_location');
+        if (savedRaw) savedLoc = JSON.parse(savedRaw);
+    } catch(e){}
+
+    if (savedLoc && savedLoc.lat && savedLoc.lon) {
+        loadWeatherData(savedLoc);
+    } else {
+        detectUserLocation(false).then((gpsLoc) => {
+            if (gpsLoc) {
+                loadWeatherData(gpsLoc);
+            } else {
+                loadWeatherData(DEFAULT_WEATHER_LOCATION);
+            }
+        }).catch(() => {
+            loadWeatherData(DEFAULT_WEATHER_LOCATION);
+        });
+    }
+}
+
 /* ============ Init ============ */
 async function init(){
   updateAdminButton();
   initVoiceInput();
+  initWeather();
 
   const btnEmAll = document.getElementById('btnEmergencyAll');
   if(btnEmAll){
