@@ -1483,60 +1483,149 @@
             color: var(--ink-soft);
             font-size: .88rem;
         }
-        /* ---- Builder credit footer ---- */
-        
+        /* ---- Premium Website Builder / Creator Showcase ---- */
         .builder-footer {
-            margin: 34px 16px 40px;
-            padding: 26px 20px 30px;
-            background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo-dark) 100%);
-            border-radius: 18px;
+            margin: 36px 16px 40px;
+            padding: 30px 20px 26px;
+            background: linear-gradient(145deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+            border: 1.5px solid rgba(59, 130, 246, 0.25);
+            border-radius: 24px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
         }
-        
         .builder-footer::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
-            background: repeating-linear-gradient(90deg, var(--turmeric) 0 18px, var(--terracotta) 18px 36px);
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #10B981, #F59E0B, #EC4899);
         }
-        
+        .builder-glow {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        .builder-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #93C5FD;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+        .builder-photo-wrap {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            margin: 0 auto 14px;
+        }
         .builder-photo {
-            width: 78px;
-            height: 78px;
+            width: 104px;
+            height: 104px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--turmeric);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
-            margin: 0 auto 12px;
+            border: 3.5px solid #3B82F6;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
             display: block;
+            transition: transform .3s ease, box-shadow .3s ease;
         }
-        
-        .builder-label {
-            font-size: .72rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #B9C6D1;
-            margin: 0 0 4px;
-            font-weight: 600;
+        .builder-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.55);
         }
-        
+        .builder-verified-check {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            background: #10B981;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            font-weight: 900;
+            border: 2.5px solid #0F172A;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
         .builder-name {
             font-family: 'Baloo 2', sans-serif;
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: #F3ECDD;
-            margin: 0;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #FFFFFF;
+            margin: 0 0 2px;
+            letter-spacing: .3px;
         }
-        
-        .builder-sub {
-            font-size: .78rem;
-            color: #9FB0BE;
-            margin: 4px 0 0;
+        .builder-role {
+            font-size: .84rem;
+            font-weight: 600;
+            color: #60A5FA;
+            margin: 0 0 8px;
+        }
+        .builder-tagline {
+            font-size: .82rem;
+            color: #CBD5E1;
+            margin: 0 auto 14px;
+            max-width: 320px;
+            line-height: 1.45;
+        }
+        .builder-pills-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .builder-chip {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #E2E8F0;
+            font-size: .74rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        .builder-wa-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #25D366, #16A34A);
+            color: #fff;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 20px;
+            font-size: .82rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
+            transition: all .2s ease;
+        }
+        .builder-wa-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(37, 211, 102, 0.45);
+        }
+        .builder-foot-sub {
+            font-size: .72rem;
+            color: #64748B;
+            margin: 14px 0 0;
         }
         /* ============ EMERGENCY QUICK STRIP ============ */
         
@@ -3295,10 +3384,23 @@
         </main>
 
         <div class="builder-footer">
-            <img class="builder-photo" src="/images/builder-photo.jpg" alt="Website Builder">
-            <p class="builder-label">Website Builder</p>
-            <p class="builder-name">Alok Kushwaha</p>
-            <p class="builder-sub">🏡 Hamara Gaon Portal ke liye bana kar diya gaya</p>
+            <div class="builder-glow"></div>
+            <div class="builder-badge-pill">✨ वेबसाइट क्रिएटर व डेवलपर</div>
+            <div class="builder-photo-wrap">
+                <img class="builder-photo" src="/images/builder-photo.jpg?v=2" alt="Alok Kushwaha - Website Builder" loading="lazy">
+                <span class="builder-verified-check" title="वेरिफाइड डेवलपर">✓</span>
+            </div>
+            <h3 class="builder-name">Alok Kushwaha</h3>
+            <p class="builder-role">💻 Full-Stack Developer & Creator</p>
+            <p class="builder-tagline">"डिजिटल भारत, सशक्त गाँव — जगदीशपुर ग्राम पंचायत के विकास व ग्रामीणों की सुविधा हेतु समर्पित"</p>
+            <div class="builder-pills-row">
+                <span class="builder-chip">🏡 गाँव का युवा, गाँव के लिए</span>
+                <span class="builder-chip">🚀 Made with ❤️ for Jagdishpur</span>
+            </div>
+            <a href="https://api.whatsapp.com/send?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20%E0%A4%86%E0%A4%B2%E0%A5%8B%E0%A4%95%20%E0%A4%9C%E0%A5%80!%20%E0%A4%AE%E0%A5%88%E0%A4%82%E0%A4%A8%E0%A5%87%20%E0%A4%9C%E0%A4%97%E0%A4%A6%E0%A5%80%E0%A4%B6%E0%A4%AA%E0%A5%81%E0%A4%B0%20%E0%A4%97%E0%A4%BE%E0%A4%81%E0%A4%B5%20%E0%A4%AA%E0%A5%8B%E0%A4%B0%E0%A5%8D%E0%A4%9F%E0%A4%B2%20%E0%A4%B5%E0%A5%87%E0%A4%AC%E0%A4%B8%E0%A4%BE%E0%A4%87%E0%A4%9F%20%E0%A4%A6%E0%A5%87%E0%A4%96%E0%A5%80,%20%E0%A4%AC%E0%A4%B9%E0%A5%81%E0%A4%A4%20%E0%A4%B6%E0%A4%BE%E0%A4%A8%E0%A4%A6%E0%A4%BE%E0%A4%B0%20%E0%A4%AC%E0%A4%A8%E0%A4%BE%E0%A4%88%20%E0%A4%B9%E0%A5%88!" target="_blank" rel="noopener noreferrer" class="builder-wa-btn">
+                <span>💬</span> डेवलपर से जुड़ें / सुझाव दें
+            </a>
+            <p class="builder-foot-sub">जगदीशपुर गाँव पोर्टल · Version 2.0 (Live PWA)</p>
         </div>
 
         <button class="fab" id="mainFab">+ Naya Jodein</button>
