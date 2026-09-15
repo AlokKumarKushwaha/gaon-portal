@@ -2549,6 +2549,451 @@
             font-weight: 700;
             cursor: pointer;
         }
+        /* ===================== FEATURE #5: WEATHER AUDIO BULLETIN ===================== */
+        .btn-weather-audio {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 5px 11px;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+            transition: all .2s ease;
+            white-space: nowrap;
+        }
+        .btn-weather-audio:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(217, 119, 6, 0.35);
+        }
+        .btn-weather-audio.playing {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+            animation: audioPulse 1.4s infinite ease-in-out;
+        }
+        .weather-audio-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+            border: 1.5px solid #FCD34D;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin: 0 16px 14px 16px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.12);
+        }
+        .audio-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        .audio-wave-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+            flex-shrink: 0;
+            display: inline-block;
+        }
+        .audio-wave-icon.pulsing {
+            animation: audioPulse 1.2s infinite ease-in-out;
+        }
+        .audio-banner-title {
+            font-size: .88rem;
+            font-weight: 800;
+            color: #92400E;
+            font-family: 'Baloo 2', sans-serif;
+            line-height: 1.2;
+        }
+        .audio-banner-sub {
+            font-size: .74rem;
+            color: #B45309;
+            margin-top: 2px;
+        }
+        .btn-play-bulletin {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #D97706;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+            transition: all .2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .btn-play-bulletin:hover {
+            background: #B45309;
+        }
+        .btn-play-bulletin.playing {
+            background: #DC2626;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+            animation: audioPulse 1.3s infinite ease-in-out;
+        }
+        @keyframes audioPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+
+        /* ===================== FEATURE #4: 1-CLICK CITIZEN SERVICES ===================== */
+        .citizen-services-card {
+            background: #FFFFFF;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        .citizen-services-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1.5px dashed #E2E8F0;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+        .citizen-head-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .citizen-badge-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            background: #EFF6FF;
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #BFDBFE;
+        }
+        .citizen-head-left h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--ink);
+            font-family: 'Baloo 2', sans-serif;
+            margin: 0;
+        }
+        .citizen-head-left p {
+            font-size: .78rem;
+            color: var(--ink-soft);
+            margin: 2px 0 0 0;
+        }
+        .btn-guide-toggle {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #0369A1;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .btn-guide-toggle:hover {
+            background: #E0F2FE;
+            border-color: #7DD3FC;
+        }
+        .citizen-guide-box {
+            background: #F8FAFC;
+            border: 1.5px solid #BAE6FD;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .guide-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: .8rem;
+            color: var(--ink);
+            line-height: 1.4;
+        }
+        .guide-step:last-child {
+            margin-bottom: 0;
+        }
+        .step-num {
+            background: #0284C7;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .citizen-services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+        .citizen-card {
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform .2s, box-shadow .2s;
+            position: relative;
+        }
+        .citizen-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .citizen-card.bhulekh-theme {
+            background: #F0FDF4;
+            border: 1.5px solid #86EFAC;
+        }
+        .citizen-card.ration-theme {
+            background: #EFF6FF;
+            border: 1.5px solid #93C5FD;
+        }
+        .citizen-card.pension-theme {
+            background: #FAF5FF;
+            border: 1.5px solid #D8B4FE;
+        }
+        .citizen-card.pmkisan-theme {
+            background: #FFFBEB;
+            border: 1.5px solid #FDE68A;
+        }
+        .citizen-card-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .citizen-card-title {
+            font-size: .95rem;
+            font-weight: 800;
+            color: var(--ink);
+            font-family: 'Baloo 2', sans-serif;
+            margin-bottom: 4px;
+        }
+        .citizen-card-desc {
+            font-size: .78rem;
+            color: var(--ink-soft);
+            line-height: 1.35;
+            margin: 0 0 8px 0;
+            flex: 1;
+        }
+        .citizen-card-meta {
+            font-size: .7rem;
+            color: #64748B;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .citizen-card-btn {
+            display: block;
+            text-align: center;
+            background: #0284C7;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+            transition: background .2s;
+        }
+        .citizen-card.bhulekh-theme .citizen-card-btn { background: #166534; }
+        .citizen-card.bhulekh-theme .citizen-card-btn:hover { background: #14532D; }
+        .citizen-card.ration-theme .citizen-card-btn { background: #1D4ED8; }
+        .citizen-card.ration-theme .citizen-card-btn:hover { background: #1E40AF; }
+        .citizen-card.pension-theme .citizen-card-btn { background: #7E22CE; }
+        .citizen-card.pension-theme .citizen-card-btn:hover { background: #6B21A8; }
+        .citizen-card.pmkisan-theme .citizen-card-btn { background: #D97706; }
+        .citizen-card.pmkisan-theme .citizen-card-btn:hover { background: #B45309; }
+
+        /* ===================== FEATURE #3: FARM MACHINERY SHARING ===================== */
+        .machinery-section {
+            background: #FFFFFF;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+        .machinery-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .machinery-head h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #166534;
+            font-family: 'Baloo 2', sans-serif;
+            margin: 0;
+        }
+        .machinery-head p {
+            font-size: .78rem;
+            color: var(--ink-soft);
+            margin: 2px 0 0 0;
+        }
+        .machinery-filters {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .machinery-filters::-webkit-scrollbar { display: none; }
+        .machinery-filter-btn {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--ink);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .2s;
+        }
+        .machinery-filter-btn:hover, .machinery-filter-btn.active {
+            background: #166534;
+            color: #fff;
+            border-color: #166534;
+        }
+        .machinery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .machinery-card {
+            background: #FAFAFA;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: transform .2s, border-color .2s;
+        }
+        .machinery-card:hover {
+            transform: translateY(-2px);
+            border-color: #10B981;
+        }
+        .mach-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .mach-name {
+            font-size: .95rem;
+            font-weight: 800;
+            color: var(--ink);
+            font-family: 'Baloo 2', sans-serif;
+            line-height: 1.25;
+        }
+        .mach-cat-badge {
+            font-size: .68rem;
+            font-weight: 700;
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .mach-rate-box {
+            background: #FEF3C7;
+            border: 1px solid #FDE68A;
+            border-radius: 8px;
+            padding: 5px 10px;
+            margin: 6px 0 8px 0;
+            font-size: .84rem;
+            font-weight: 800;
+            color: #92400E;
+            display: inline-block;
+        }
+        .mach-desc {
+            font-size: .78rem;
+            color: var(--ink-soft);
+            line-height: 1.35;
+            margin-bottom: 8px;
+            flex: 1;
+        }
+        .mach-owner-info {
+            font-size: .78rem;
+            color: var(--ink);
+            margin-bottom: 10px;
+            padding-top: 6px;
+            border-top: 1px dashed #E2E8F0;
+        }
+        .mach-owner-info div {
+            margin-bottom: 2px;
+        }
+        .mach-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-mach-call {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background: #10B981;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: .8rem;
+            font-weight: 700;
+            transition: background .2s;
+        }
+        .btn-mach-call:hover { background: #059669; }
+        .btn-mach-wa {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background: #25D366;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: .8rem;
+            font-weight: 700;
+            transition: background .2s;
+        }
+        .btn-mach-wa:hover { background: #1EBE5D; }
+        .mach-delete-btn {
+            background: none;
+            border: none;
+            color: #EF4444;
+            font-size: .75rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            font-weight: 600;
+            text-align: right;
+            margin-top: 6px;
+        }
+        .mach-delete-btn:hover { text-decoration: underline; }
     </style>
 </head>
 
@@ -2590,6 +3035,10 @@
                     <span class="weather-strip-rain" id="weatherStripRain">🌧️ बारिश: --%</span>
                 </div>
                 <div class="weather-strip-right">
+                    <button type="button" class="btn-weather-audio" id="btnWeatherAudioStrip" title="मौसम व खेती बुलेटिन बोलकर सुनें">
+                        <span class="weather-audio-btn-icon">🔊</span>
+                        <span class="weather-audio-btn-text">सुनें</span>
+                    </button>
                     <button type="button" class="btn-weather-details" id="btnOpenWeatherModal" title="विस्तृत मौसम व बारिश का पूर्वानुमान देखें">
                         🔍 बारिश व मौसम ↗
                     </button>
@@ -2635,6 +3084,33 @@
                 <!-- Active Crop Detailed View -->
                 <div id="krishiCropDetail" class="krishi-detail-wrap">
                     <div class="loading-row">फसलों की जानकारी लोड हो रही है...</div>
+                </div>
+
+                <!-- ===================== FARM MACHINERY SHARING SECTION ===================== -->
+                <div class="machinery-section" id="machinerySection">
+                    <div class="machinery-head">
+                        <div>
+                            <h3>🚜 गाँव के कृषि औज़ार व साधन शेयरिंग</h3>
+                            <p>गाँव में उपलब्ध ट्रैक्टर, रोटावेटर, थ्रेशर, पंपसेट व स्प्रेयर सीधे किराये पर लें या अपना साधन जोड़ें।</p>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btnAddMachineryBtn" style="font-size:.82rem; padding:8px 14px;">
+                            + अपना साधन जोड़ें
+                        </button>
+                    </div>
+
+                    <!-- Machinery Category Filters -->
+                    <div class="machinery-filters" id="machineryFilters">
+                        <button type="button" class="machinery-filter-btn active" data-cat="all">🌾 सभी साधन</button>
+                        <button type="button" class="machinery-filter-btn" data-cat="tractor">🚜 ट्रैक्टर / जुताई</button>
+                        <button type="button" class="machinery-filter-btn" data-cat="thresher">🌾 थ्रेशर / कटाई</button>
+                        <button type="button" class="machinery-filter-btn" data-cat="pump">💧 पानी का इंजन / पंप</button>
+                        <button type="button" class="machinery-filter-btn" data-cat="sprayer">💦 स्प्रे मशीन</button>
+                    </div>
+
+                    <!-- Machinery List Grid -->
+                    <div class="machinery-grid" id="machineryGrid">
+                        <div class="loading-row">साधन लोड हो रहे हैं...</div>
+                    </div>
                 </div>
             </section>
 
@@ -2723,6 +3199,93 @@
                     <h2>सरकारी योजनाएं</h2>
                     <p>गाँव वालों के लिए उपलब्ध सरकारी योजनाएं, पात्रता, कागजात चेकलिस्ट व आवेदन का तरीका।</p>
                 </div>
+
+                <!-- ===================== 1-CLICK CITIZEN SERVICES (1-क्लिक सरकारी चेक) ===================== -->
+                <div class="citizen-services-card">
+                    <div class="citizen-services-head">
+                        <div class="citizen-head-left">
+                            <span class="citizen-badge-icon">🌐</span>
+                            <div>
+                                <h3>1-क्लिक सरकारी चेक (Citizen Quick Services)</h3>
+                                <p>खतौनी, राशन कार्ड लिस्ट, पेंशन व PM-किसान स्टेटस सीधे आधिकारिक पोर्टल से जांचें</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-guide-toggle" id="btnToggleGovHelp" title="मोबाइल से कैसे चेक करें">
+                            ℹ️ सहायता गाइड
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Guide -->
+                    <div class="citizen-guide-box" id="citizenGuideBox" style="display:none;">
+                        <div class="guide-step">
+                            <span class="step-num">1</span>
+                            <div><strong>पोर्टल चुनें:</strong> नीचे जिस सुविधा की जांच करनी है, उसके बटन (जैसे "खतौनी देखें" या "राशन कार्ड लिस्ट") पर क्लिक करें।</div>
+                        </div>
+                        <div class="guide-step">
+                            <span class="step-num">2</span>
+                            <div><strong>ज़िला व गाँव चुनें:</strong> आधिकारिक पेज पर अपना ज़िला (उदा. अमेठी/सुल्तानपुर), तहसील और अपना गाँव चुनें।</div>
+                        </div>
+                        <div class="guide-step">
+                            <span class="step-num">3</span>
+                            <div><strong>नाम या खाता संख्या दर्ज करें:</strong> खतौनी में गाटा/खाता संख्या, या राशन कार्ड/पेंशन में लाभार्थी का नाम देखें।</div>
+                        </div>
+                    </div>
+
+                    <div class="citizen-services-grid">
+                        <!-- Card 1: UP Bhulekh -->
+                        <div class="citizen-card bhulekh-theme">
+                            <div class="citizen-card-icon">📜</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">UP भूलेख / खतौनी</div>
+                                <p class="citizen-card-desc">अपनी जमीन/खेत का खसरा-खतौनी नकल, गाटा संख्या व भू-अभिलेख विवरण ऑनलाइन देखें</p>
+                                <div class="citizen-card-meta">पोर्टल: upbhulekh.gov.in (राजस्व परिषद UP)</div>
+                            </div>
+                            <a href="https://upbhulekh.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                खतौनी देखें ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 2: UP Ration Card -->
+                        <div class="citizen-card ration-theme">
+                            <div class="citizen-card-icon">🌾</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">राशन कार्ड पात्रता सूची (NFSA)</div>
+                                <p class="citizen-card-desc">गाँव के कोटेदार के अनुसार राशन कार्ड लिस्ट, यूनिट व परिवार के सभी सदस्यों का नाम देखें</p>
+                                <div class="citizen-card-meta">पोर्टल: fcs.up.gov.in (खाद्य एवं रसद विभाग UP)</div>
+                            </div>
+                            <a href="https://fcs.up.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                राशन कार्ड लिस्ट ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 3: UP SSPY Pension -->
+                        <div class="citizen-card pension-theme">
+                            <div class="citizen-card-icon">👴</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">वृद्धा / विधवा / दिव्यांग पेंशन</div>
+                                <p class="citizen-card-desc">हर माह ₹1000 पेंशन की अगली किस्त, बैंक खाता लिंकेज और नई लाभार्थी सूची देखें</p>
+                                <div class="citizen-card-meta">पोर्टल: sspy-up.gov.in (समाज कल्याण विभाग)</div>
+                            </div>
+                            <a href="https://sspy-up.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                पेंशन स्टेटस ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 4: PM Kisan -->
+                        <div class="citizen-card pmkisan-theme">
+                            <div class="citizen-card-icon">🚜</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">PM किसान सम्मान निधि</div>
+                                <p class="citizen-card-desc">₹2000 वाली अगली किस्त, आधार e-KYC व बैंक खाता डीबीटी स्टेटस तुरंत चेक करें</p>
+                                <div class="citizen-card-meta">पोर्टल: pmkisan.gov.in (कृषि मंत्रालय, भारत सरकार)</div>
+                            </div>
+                            <a href="https://pmkisan.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                PM किसान स्टेटस ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="yojanaWrap">
                     <div class="loading-row">सरकारी योजनाएं लोड हो रही हैं...</div>
                 </div>
@@ -2939,6 +3502,57 @@
                         <div class="sheet-actions">
                             <button type="button" class="btn btn-outline" data-close="overlayYojana">रद्द करें</button>
                             <button type="submit" class="btn btn-primary">योजना जोड़ें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== FARM MACHINERY FORM SHEET ===================== -->
+        <div class="overlay" id="overlayMachinery">
+            <div class="sheet">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayMachinery">✕</button>
+                    <h2>🚜 नया कृषि साधन / औज़ार जोड़ें</h2>
+                    <p style="font-size:.8rem; color:var(--ink-soft); margin-bottom:14px;">गाँव के किसान भाई अपनी खेती की मशीनें किराये पर उपलब्ध कराने के लिए यहाँ विवरण भरें।</p>
+                    <form id="formMachinery">
+                        <div class="field">
+                            <label>साधन / औज़ार का नाम *</label>
+                            <input type="text" id="machName" placeholder="जैसे: महिंद्रा 575 ट्रैक्टर + कल्टीवेटर" required>
+                        </div>
+                        <div class="field">
+                            <label>साधन की श्रेणी (Category) *</label>
+                            <select id="machCategory" required>
+                                <option value="tractor">🚜 ट्रैक्टर / जुताई (Tractor / Rotavator)</option>
+                                <option value="thresher">🌾 थ्रेशर / रीपर / कटाई (Thresher / Harvester)</option>
+                                <option value="pump">💧 पानी का इंजन / पंपसेट (Boring Engine / Pump)</option>
+                                <option value="sprayer">💦 स्प्रे मशीन (Battery Sprayer / Duster)</option>
+                                <option value="other">⚙️ अन्य कृषि औज़ार</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>मालिक का नाम *</label>
+                            <input type="text" id="machOwner" placeholder="जैसे: रामनरेश वर्मा" required>
+                        </div>
+                        <div class="field">
+                            <label>मोबाइल नंबर (सीधे कॉल व व्हाट्सएप के लिए) *</label>
+                            <input type="tel" id="machPhone" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर (उदा. 9876543210)" required>
+                        </div>
+                        <div class="field">
+                            <label>टोला / स्थान (गाँव में कहाँ मिलेगा) *</label>
+                            <input type="text" id="machLocation" placeholder="जैसे: जगदीशपुर (मेन चौराहा) या पूरब टोला" required>
+                        </div>
+                        <div class="field">
+                            <label>किराया दर (Rate) *</label>
+                            <input type="text" id="machRate" placeholder="जैसे: ₹600/घंटा या ₹450/बीघा" required>
+                        </div>
+                        <div class="field">
+                            <label>उपलब्ध काम / विशेष विवरण</label>
+                            <textarea id="machDesc" placeholder="जैसे: गहरी जुताई, मिट्टी ढुलाई, लेह लगाना, समय व तेल की शर्तें..."></textarea>
+                        </div>
+                        <div class="sheet-actions">
+                            <button type="button" class="btn btn-outline" data-close="overlayMachinery">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary">साधन लिस्ट करें ✅</button>
                         </div>
                     </form>
                 </div>
@@ -4640,6 +5254,7 @@ const DEFAULT_KRISHI = [
 function renderKrishi(){
   renderKrishiPicker();
   renderKrishiDetail();
+  renderMachineryList();
 }
 
 function renderKrishiPicker(){
@@ -4793,6 +5408,247 @@ document.getElementById('krishiCropPicker').addEventListener('click', (e) => {
     renderKrishiDetail();
   }
 });
+
+/* ============ 1-CLICK CITIZEN SERVICES GUIDE ============ */
+function initCitizenServices() {
+    const btn = document.getElementById('btnToggleGovHelp');
+    const box = document.getElementById('citizenGuideBox');
+    if (btn && box) {
+        btn.addEventListener('click', () => {
+            const isHidden = box.style.display === 'none';
+            box.style.display = isHidden ? 'block' : 'none';
+            btn.textContent = isHidden ? '✕ गाइड बंद करें' : 'ℹ️ सहायता गाइड';
+        });
+    }
+}
+
+/* ============ FARM MACHINERY & TRACTOR SHARING ============ */
+const DEFAULT_MACHINERY = [
+    {
+        id: 'mach-1',
+        name: 'महिंद्रा 575 DI ट्रैक्टर (45 HP) + कल्टीवेटर व बड़ी ट्रॉली',
+        category: 'tractor',
+        categoryLabel: '🚜 ट्रैक्टर / जुताई',
+        owner: 'रामनरेश वर्मा',
+        phone: '9876543210',
+        location: 'जगदीशपुर (मेन चौराहा)',
+        rate: '₹600 / घंटा (या ₹400 / बीघा जुताई)',
+        desc: 'खेत की गहरी जुताई, कल्टीवेटर, पाटा व मिट्टी/गोबर खाद ढुलाई के लिए मजबूत ट्रॉली उपलब्ध।',
+        available: true,
+        isDefault: true
+    },
+    {
+        id: 'mach-2',
+        name: 'शक्तिमान 6 फीट रोटावेटर (बारीक जुताई)',
+        category: 'tractor',
+        categoryLabel: '🚜 रोटावेटर / जुताई',
+        owner: 'शिवकुमार मौर्य',
+        phone: '9876543211',
+        location: 'पूरब टोला, जगदीशपुर',
+        rate: '₹550 / बीघा',
+        desc: 'धान की रोपाई से पहले लेह लगाने और गेहूं/सरसों बुवाई हेतु मिट्टी को भुरभुरा बनाने के लिए बेहतरीन रोटावेटर।',
+        available: true,
+        isDefault: true
+    },
+    {
+        id: 'mach-3',
+        name: 'मल्टीक्रॉप टोकरी थ्रेशर व रीपर (कटाई-मड़ाई)',
+        category: 'thresher',
+        categoryLabel: '🌾 थ्रेशर / कटाई-मड़ाई',
+        owner: 'राधे श्याम यादव',
+        phone: '9876543212',
+        location: 'पश्चिम टोला',
+        rate: '₹800 / घंटा (या अनाज पर तय)',
+        desc: 'गेहूं, चना, सरसों, मटर और धान की साफ़ मड़ाई व भूसा बनाने के लिए उच्च क्षमता वाला थ्रेशर।',
+        available: true,
+        isDefault: true
+    },
+    {
+        id: 'mach-4',
+        name: '5 HP फील्डमार्शल पानी का इंजन (पंपसेट + 250 फीट पाइप)',
+        category: 'pump',
+        categoryLabel: '💧 पानी का इंजन / सिंचाई',
+        owner: 'सुरेश कुमार',
+        phone: '9876543213',
+        location: 'उत्तर टोला, जगदीशपुर',
+        rate: '₹150 / घंटा (डीजल किसान का)',
+        desc: 'बोरिंग से खेत तक तेज पानी पहुंचाने हेतु 5HP इंजन और 250 फीट डिलीवरी रबर पाइप उपलब्ध।',
+        available: true,
+        isDefault: true
+    },
+    {
+        id: 'mach-5',
+        name: '16 लीटर डबल मोटर बैटरी स्प्रे मशीन',
+        category: 'sprayer',
+        categoryLabel: '💦 स्प्रे मशीन / छिड़काव',
+        owner: 'विकास वर्मा',
+        phone: '9876543214',
+        location: 'दक्षिण टोला',
+        rate: '₹60 / दिन',
+        desc: 'धान, गेहूं, गन्ने में कीटनाशक दवा व टॉनिक छिड़काव हेतु फुल चार्ज बैटरी स्प्रेयर। लंबा नोजल भी साथ में।',
+        available: true,
+        isDefault: true
+    }
+];
+
+let activeMachineryCat = 'all';
+
+function getMachineryList() {
+    try {
+        const custom = JSON.parse(localStorage.getItem('custom_machinery_list') || '[]');
+        return [...custom, ...DEFAULT_MACHINERY];
+    } catch(e) {
+        return DEFAULT_MACHINERY;
+    }
+}
+
+function saveCustomMachinery(list) {
+    try {
+        localStorage.setItem('custom_machinery_list', JSON.stringify(list));
+    } catch(e){}
+}
+
+function deleteMachinery(id) {
+    if (!confirm('क्या आप इस साधन को हटाना चाहते हैं?')) return;
+    try {
+        const custom = JSON.parse(localStorage.getItem('custom_machinery_list') || '[]');
+        const updated = custom.filter(m => m.id !== id);
+        saveCustomMachinery(updated);
+        renderMachineryList();
+        toast('साधन हटा दिया गया ✅');
+    } catch(e) {
+        console.error('Delete machinery error', e);
+    }
+}
+
+function renderMachineryList() {
+    const grid = document.getElementById('machineryGrid');
+    if (!grid) return;
+
+    const all = getMachineryList();
+    const filtered = activeMachineryCat === 'all' ? all : all.filter(m => m.category === activeMachineryCat);
+
+    if (!filtered || !filtered.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--ink-soft); font-size:.85rem;">इस श्रेणी में कोई कृषि साधन उपलब्ध नहीं है।</div>';
+        return;
+    }
+
+    grid.innerHTML = filtered.map(m => {
+        const cleanPhone = m.phone ? m.phone.replace(/[^0-9]/g, '') : '';
+        const waMsg = `नमस्ते ${m.owner} जी! मुझे जगदीशपुर गाँव पोर्टल पर आपका "${m.name}" किराये के लिए दिखा। क्या यह अभी उपलब्ध है?`;
+        const canDelete = !m.isDefault || adminKey;
+
+        return `
+            <div class="machinery-card">
+                <div>
+                    <div class="mach-top">
+                        <div class="mach-name">${escapeHtml(m.name)}</div>
+                        <span class="mach-cat-badge">${escapeHtml(m.categoryLabel || '⚙️ कृषि साधन')}</span>
+                    </div>
+                    <div class="mach-rate-box">💰 किराया: ${escapeHtml(m.rate)}</div>
+                    ${m.desc ? `<div class="mach-desc">${escapeHtml(m.desc)}</div>` : ''}
+                    <div class="mach-owner-info">
+                        <div>👤 <strong>मालिक:</strong> ${escapeHtml(m.owner)}</div>
+                        <div>📍 <strong>स्थान:</strong> ${escapeHtml(m.location)}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mach-actions">
+                        <a href="tel:${cleanPhone}" class="btn-mach-call">
+                            <span>📞</span> फोन करें
+                        </a>
+                        <a href="https://api.whatsapp.com/send?phone=91${cleanPhone}&text=${encodeURIComponent(waMsg)}" target="_blank" rel="noopener noreferrer" class="btn-mach-wa">
+                            <span>💬</span> WhatsApp
+                        </a>
+                    </div>
+                    ${canDelete ? `
+                        <div style="text-align:right;">
+                            <button type="button" class="mach-delete-btn" onclick="deleteMachinery('${m.id}')">🗑️ हटाएं</button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function initMachinery() {
+    // Category filter buttons
+    const filterWrap = document.getElementById('machineryFilters');
+    if (filterWrap) {
+        filterWrap.addEventListener('click', (e) => {
+            const btn = e.target.closest('.machinery-filter-btn');
+            if (!btn) return;
+            filterWrap.querySelectorAll('.machinery-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeMachineryCat = btn.dataset.cat || 'all';
+            renderMachineryList();
+        });
+    }
+
+    // Open add machinery sheet
+    const btnAdd = document.getElementById('btnAddMachineryBtn');
+    if (btnAdd) {
+        btnAdd.addEventListener('click', () => {
+            openOverlay('overlayMachinery');
+        });
+    }
+
+    // Form submit
+    const form = document.getElementById('formMachinery');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('machName').value.trim();
+            const cat = document.getElementById('machCategory').value;
+            const owner = document.getElementById('machOwner').value.trim();
+            const phone = document.getElementById('machPhone').value.trim();
+            const loc = document.getElementById('machLocation').value.trim();
+            const rate = document.getElementById('machRate').value.trim();
+            const desc = document.getElementById('machDesc').value.trim();
+
+            if (!name || !owner || !phone || !rate) {
+                toast('कृपया सभी जरूरी जानकारी भरें ⚠️');
+                return;
+            }
+
+            const catLabels = {
+                tractor: '🚜 ट्रैक्टर / जुताई',
+                thresher: '🌾 थ्रेशर / कटाई',
+                pump: '💧 पानी का इंजन / पंप',
+                sprayer: '💦 स्प्रे मशीन',
+                other: '⚙️ अन्य कृषि औज़ार'
+            };
+
+            const newItem = {
+                id: 'custom-mach-' + Date.now(),
+                name,
+                category: cat,
+                categoryLabel: catLabels[cat] || '⚙️ कृषि साधन',
+                owner,
+                phone,
+                location: loc || 'गाँव',
+                rate,
+                desc,
+                available: true,
+                isDefault: false
+            };
+
+            try {
+                const custom = JSON.parse(localStorage.getItem('custom_machinery_list') || '[]');
+                custom.unshift(newItem);
+                saveCustomMachinery(custom);
+                form.reset();
+                closeOverlay('overlayMachinery');
+                renderMachineryList();
+                toast('आपका कृषि साधन सफलतापूर्वक जुड़ गया! 🎉');
+            } catch(err) {
+                console.error('Save machinery error', err);
+                toast('साधन जोड़ने में त्रुटि हुई ⚠️');
+            }
+        });
+    }
+}
 
 /* ============ PRADHAN LOGIN / LOGOUT ============ */
 function updateAdminButton(){
@@ -5102,6 +5958,138 @@ function renderWeatherStrip() {
     }
 }
 
+/* ============ WEATHER & KRISHI AUDIO SPEECH BULLETIN ============ */
+let isSpeakingWeather = false;
+let weatherSpeechUtterance = null;
+
+function generateWeatherAudioBulletin() {
+    if (!currentWeatherData || !currentWeatherLocation) {
+        return "मौसम की जानकारी अभी लोड हो रही है। कृपया कुछ क्षण बाद प्रयास करें।";
+    }
+    const c = currentWeatherData.current;
+    const hourly = currentWeatherData.hourly;
+    const daily = currentWeatherData.daily;
+    const weather = decodeWeather(c.weather_code);
+    const temp = Math.round(c.temperature_2m);
+    const apparent = Math.round(c.apparent_temperature);
+    const todayMaxRain = daily.precipitation_probability_max ? (daily.precipitation_probability_max[0] ?? 0) : 0;
+    const advisories = generateKisanAdvisory(c, hourly, daily);
+
+    let text = `नमस्ते किसान भाइयों! जगदीशपुर गाँव पोर्टल मौसम बुलेटिन में आपका स्वागत है। `;
+    text += `आज ${currentWeatherLocation.name} में तापमान ${temp} डिग्री सेल्सियस है। `;
+    text += `मौसम ${weather.text} है, और धूप व हवा के कारण यह ${apparent} डिग्री जैसा महसूस हो रहा है। `;
+
+    if (todayMaxRain >= 50) {
+        text += `सावधान रहें! आज बारिश की संभावना ${todayMaxRain} प्रतिशत है, जो काफी अधिक है। आज फसलों में सिंचाई न करें और कीटनाशक दवा का छिड़काव टाल दें। कटी हुई फसल को सुरक्षित स्थान पर रखें। `;
+    } else if (todayMaxRain >= 25) {
+        text += `आज आसमान में हल्के बादल छाए रह सकते हैं और बारिश की संभावना लगभग ${todayMaxRain} प्रतिशत है। खेत के जरूरी काम मौसम देखकर ही करें। `;
+    } else {
+        text += `आज मौसम साफ और सामान्य रहने का अनुमान है। बारिश की संभावना केवल ${todayMaxRain} प्रतिशत है। आप खेतों में जुताई, निराई और खाद का काम आसानी से कर सकते हैं। `;
+    }
+
+    if (advisories && advisories.length > 0) {
+        text += `आज की मुख्य कृषि सलाह: `;
+        advisories.slice(0, 2).forEach((adv) => {
+            text += `${adv.title}। ${adv.desc}। `;
+        });
+    }
+
+    text += `अधिक जानकारी के लिए ऐप में फसल कार्ड देखें। धन्यवाद, आपका दिन शुभ हो!`;
+    return text;
+}
+
+function updateWeatherAudioButtons(playing) {
+    isSpeakingWeather = playing;
+    
+    // Top strip button
+    const stripBtn = document.getElementById('btnWeatherAudioStrip');
+    if (stripBtn) {
+        const icon = stripBtn.querySelector('.weather-audio-btn-icon');
+        const txt = stripBtn.querySelector('.weather-audio-btn-text');
+        if (playing) {
+            if (icon) icon.textContent = '⏹️';
+            if (txt) txt.textContent = 'रोकें';
+            stripBtn.classList.add('playing');
+        } else {
+            if (icon) icon.textContent = '🔊';
+            if (txt) txt.textContent = 'सुनें';
+            stripBtn.classList.remove('playing');
+        }
+    }
+
+    // Krishi card banner buttons
+    const cardBtns = document.querySelectorAll('[data-action="toggle-audio"]');
+    cardBtns.forEach(btn => {
+        const icon = btn.querySelector('.btn-bulletin-icon');
+        const txt = btn.querySelector('.btn-bulletin-text');
+        if (playing) {
+            if (icon) icon.textContent = '⏹️';
+            if (txt) txt.textContent = 'रोकें';
+            btn.classList.add('playing');
+        } else {
+            if (icon) icon.textContent = '🔊';
+            if (txt) txt.textContent = 'बुलेटिन सुनें';
+            btn.classList.remove('playing');
+        }
+    });
+
+    // Wave icon pulse
+    const waveIcons = document.querySelectorAll('.audio-wave-icon');
+    waveIcons.forEach(w => {
+        if (playing) w.classList.add('pulsing');
+        else w.classList.remove('pulsing');
+    });
+
+    const sub = document.getElementById('audioBannerSub');
+    if (sub) {
+        sub.textContent = playing ? 'आवाज़ चल रही है... रोकने के लिए बटन दबाएं' : 'तापमान, बारिश अलर्ट और आज की कृषि सलाह बोलकर सुनें';
+    }
+}
+
+function toggleWeatherAudioBulletin() {
+    if (!('speechSynthesis' in window)) {
+        toast('आपके ब्राउज़र में बोलकर सुनाने की सुविधा उपलब्ध नहीं है ⚠️');
+        return;
+    }
+
+    if (window.speechSynthesis.speaking || isSpeakingWeather) {
+        window.speechSynthesis.cancel();
+        updateWeatherAudioButtons(false);
+        toast('ऑडियो रोक दिया गया ⏹️');
+        return;
+    }
+
+    const textToSpeak = generateWeatherAudioBulletin();
+    window.speechSynthesis.cancel();
+
+    weatherSpeechUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    weatherSpeechUtterance.lang = 'hi-IN';
+    weatherSpeechUtterance.rate = 0.92;
+    weatherSpeechUtterance.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices();
+    const hiVoice = voices.find(v => v.lang && (v.lang === 'hi-IN' || v.lang.startsWith('hi')));
+    if (hiVoice) {
+        weatherSpeechUtterance.voice = hiVoice;
+    }
+
+    weatherSpeechUtterance.onstart = () => {
+        updateWeatherAudioButtons(true);
+        toast('🔊 मौसम व खेती बुलेटिन चल रहा है...');
+    };
+
+    weatherSpeechUtterance.onend = () => {
+        updateWeatherAudioButtons(false);
+    };
+
+    weatherSpeechUtterance.onerror = (e) => {
+        console.warn('SpeechSynthesis error:', e);
+        updateWeatherAudioButtons(false);
+    };
+
+    window.speechSynthesis.speak(weatherSpeechUtterance);
+}
+
 function renderWeatherCardHtml(isModal = false) {
     if (!currentWeatherData || !currentWeatherLocation) {
         return '<div class="loading-row">मौसम की जानकारी लोड हो रही है... ⛅</div>';
@@ -5250,6 +6238,20 @@ function renderWeatherCardHtml(isModal = false) {
                 <div class="daily-list">
                     ${dailyHtml}
                 </div>
+            </div>
+
+            <div class="weather-audio-banner" id="weatherAudioBanner">
+                <div class="audio-banner-left">
+                    <span class="audio-wave-icon ${isSpeakingWeather ? 'pulsing' : ''}" id="audioWaveIcon">📢</span>
+                    <div>
+                        <div class="audio-banner-title">आज का मौसम व खेती बुलेटिन सुनें</div>
+                        <div class="audio-banner-sub" id="audioBannerSub">${isSpeakingWeather ? 'आवाज़ चल रही है... रोकने के लिए बटन दबाएं' : 'लाइव तापमान, बारिश अलर्ट और आज की कृषि सलाह बोलकर सुनें'}</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-play-bulletin ${isSpeakingWeather ? 'playing' : ''}" id="btnPlayKrishiAudio" data-action="toggle-audio">
+                    <span class="btn-bulletin-icon">${isSpeakingWeather ? '⏹️' : '🔊'}</span>
+                    <span class="btn-bulletin-text">${isSpeakingWeather ? 'रोकें' : 'बुलेटिन सुनें'}</span>
+                </button>
             </div>
 
             <div class="kisan-advisory-box">
@@ -5404,8 +6406,22 @@ function initWeather() {
         });
     }
 
-    // Event delegation for "स्थान बदलें" button and "WhatsApp Share" button
+    // Top strip weather audio button
+    const btnAudio = document.getElementById('btnWeatherAudioStrip');
+    if (btnAudio) {
+        btnAudio.addEventListener('click', () => {
+            toggleWeatherAudioBulletin();
+        });
+    }
+
+    // Event delegation for "स्थान बदलें", "ऑडियो सुनें", and "WhatsApp Share"
     document.addEventListener('click', (e) => {
+        const audioBtn = e.target.closest('[data-action="toggle-audio"]');
+        if (audioBtn) {
+            toggleWeatherAudioBulletin();
+            return;
+        }
+
         const changeLocBtn = e.target.closest('[data-action="open-weather-modal"]');
         if (changeLocBtn) {
             renderModalLocChips();
@@ -5471,6 +6487,8 @@ async function init(){
   updateAdminButton();
   initVoiceInput();
   initWeather();
+  initCitizenServices();
+  initMachinery();
 
   const btnEmAll = document.getElementById('btnEmergencyAll');
   if(btnEmAll){
