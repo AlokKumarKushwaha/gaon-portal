@@ -2775,6 +2775,73 @@
             100% { transform: scale(1); }
         }
 
+        /* ============ CROP AUDIO BANNER ============ */
+        .crop-audio-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+            border: 1.5px solid #86EFAC;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin: 14px 0 16px 0;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+        }
+        .crop-audio-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        .crop-audio-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            flex-shrink: 0;
+            display: inline-block;
+        }
+        .crop-audio-icon.pulsing {
+            animation: audioPulse 1.2s infinite ease-in-out;
+        }
+        .crop-audio-title {
+            font-size: .92rem;
+            font-weight: 800;
+            color: #166534;
+            font-family: 'Baloo 2', sans-serif;
+            line-height: 1.2;
+        }
+        .crop-audio-sub {
+            font-size: .76rem;
+            color: #15803D;
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+        .btn-play-crop-audio {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #16A34A;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 16px;
+            font-size: .84rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
+            transition: all .2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .btn-play-crop-audio:hover {
+            background: #15803D;
+        }
+        .btn-play-crop-audio.playing {
+            background: #DC2626;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+            animation: audioPulse 1.3s infinite ease-in-out;
+        }
+
         /* ===================== FEATURE #4: 1-CLICK CITIZEN SERVICES ===================== */
         .citizen-services-card {
             background: #FFFFFF;
@@ -5499,6 +5566,23 @@ function renderKrishiDetail(){
     </div>
   ` : '';
 
+  const isCropPlaying = (typeof activeSpeechState !== 'undefined' && activeSpeechState && activeSpeechState.type === 'crop' && activeSpeechState.cropId === crop.id);
+  const audioBannerHtml = `
+    <div class="crop-audio-banner" id="cropAudioBanner">
+      <div class="crop-audio-left">
+        <span class="crop-audio-icon ${isCropPlaying ? 'pulsing' : ''}" id="cropAudioIcon">📢</span>
+        <div>
+          <div class="crop-audio-title">${escapeHtml(crop.name)} की संपूर्ण सलाह बोलकर सुनें</div>
+          <div class="crop-audio-sub" id="cropAudioSub">${isCropPlaying ? '🔊 आवाज़ चल रही है... रोकने के लिए बटन दबाएं' : 'खाद की सही मात्रा, पानी का समय, दवा व जरूरी सावधानियां'}</div>
+        </div>
+      </div>
+      <button type="button" class="btn-play-crop-audio ${isCropPlaying ? 'playing' : ''}" id="btnPlayCropAudio" data-crop="${crop.id}">
+        <span class="crop-audio-btn-icon">${isCropPlaying ? '⏹️' : '🔊'}</span>
+        <span class="crop-audio-btn-text">${isCropPlaying ? 'रोकें' : 'बोलकर सुनें'}</span>
+      </button>
+    </div>
+  `;
+
   wrap.innerHTML = `
     <div class="krishi-hero-card">
       <div class="krishi-hero-img-wrap">
@@ -5524,6 +5608,7 @@ function renderKrishiDetail(){
       </div>
     </div>
 
+    ${audioBannerHtml}
     ${khadHtml}
     ${irrHtml}
     ${diseaseHtml}
@@ -5534,6 +5619,7 @@ function renderKrishiDetail(){
 document.getElementById('krishiSeasonFilters').addEventListener('click', (e) => {
   const btn = e.target.closest('.krishi-filter-btn');
   if(!btn) return;
+  if (typeof stopAllSpeech === 'function') stopAllSpeech();
   document.querySelectorAll('.krishi-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   activeKrishiSeason = btn.dataset.season;
@@ -5546,11 +5632,25 @@ document.getElementById('krishiCropPicker').addEventListener('click', (e) => {
   if(!btn) return;
   const cropId = btn.dataset.crop;
   if(cropId && cropId !== activeKrishiCrop){
+    if (typeof stopAllSpeech === 'function') stopAllSpeech();
     activeKrishiCrop = cropId;
     document.querySelectorAll('.crop-btn').forEach(b => b.classList.toggle('active', b.dataset.crop === cropId));
     renderKrishiDetail();
   }
 });
+
+const krishiDetailWrap = document.getElementById('krishiCropDetail');
+if (krishiDetailWrap) {
+  krishiDetailWrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('#btnPlayCropAudio');
+    if (btn) {
+      const cropId = btn.dataset.crop || activeKrishiCrop;
+      if (typeof toggleCropAudio === 'function') {
+        toggleCropAudio(cropId);
+      }
+    }
+  });
+}
 
 /* ============ 1-CLICK CITIZEN SERVICES GUIDE ============ */
 function initCitizenServices() {
@@ -6101,9 +6201,170 @@ function renderWeatherStrip() {
     }
 }
 
-/* ============ WEATHER & KRISHI AUDIO SPEECH BULLETIN ============ */
-let isSpeakingWeather = false;
-let weatherSpeechUtterance = null;
+/* ============ FAST UNIFIED SPEECH SYNTHESIS ENGINE (WEATHER & CROP VOICE ADVISORY) ============ */
+let activeSpeechState = {
+    type: null, // 'weather' or 'crop'
+    cropId: null,
+    utterances: [],
+    canceled: false,
+    timerId: null
+};
+
+let cachedHindiVoice = null;
+function getHindiVoice() {
+    if (cachedHindiVoice) return cachedHindiVoice;
+    if (!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices();
+    cachedHindiVoice = voices.find(v => v.lang && (v.lang === 'hi-IN' || v.lang.startsWith('hi'))) 
+                    || voices.find(v => v.lang && v.lang.startsWith('en-IN')) 
+                    || null;
+    return cachedHindiVoice;
+}
+
+if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+        cachedHindiVoice = null;
+        getHindiVoice();
+    };
+}
+
+function splitSpeechSentences(text) {
+    if (!text) return [];
+    // Split on Devanagari danda '।', exclamation '!', question '?', period '.', newline '\n'
+    const rawChunks = text.split(/[।!?\n\.]+/);
+    const result = [];
+    for (let raw of rawChunks) {
+        let clean = raw.replace(/[—–\-]/g, ' ').replace(/\s+/g, ' ').trim();
+        if (!clean) continue;
+        if (clean.length > 90) {
+            const subParts = clean.split(/[,;]+/);
+            let buf = '';
+            for (let sp of subParts) {
+                let s = sp.trim();
+                if (!s) continue;
+                if (buf && (buf.length + s.length > 80)) {
+                    result.push(buf);
+                    buf = s;
+                } else {
+                    buf = buf ? (buf + ', ' + s) : s;
+                }
+            }
+            if (buf) result.push(buf);
+        } else {
+            result.push(clean);
+        }
+    }
+    return result;
+}
+
+function stopAllSpeech() {
+    if (!('speechSynthesis' in window)) return;
+    activeSpeechState.canceled = true;
+    if (activeSpeechState.timerId) {
+        clearInterval(activeSpeechState.timerId);
+        activeSpeechState.timerId = null;
+    }
+    activeSpeechState.utterances = [];
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {}
+    activeSpeechState.type = null;
+    activeSpeechState.cropId = null;
+    updateWeatherAudioButtons(false);
+    updateCropAudioButtons(false);
+}
+
+function playHindiSpeechFast(text, type, cropId, onStart, onEnd) {
+    if (!('speechSynthesis' in window)) {
+        toast('आपके ब्राउज़र में बोलकर सुनाने की सुविधा उपलब्ध नहीं है ⚠️');
+        return;
+    }
+
+    stopAllSpeech();
+
+    const sentences = splitSpeechSentences(text);
+    if (!sentences.length) return;
+
+    activeSpeechState.type = type;
+    activeSpeechState.cropId = cropId || null;
+    activeSpeechState.canceled = false;
+    activeSpeechState.utterances = [];
+
+    const voice = getHindiVoice();
+    let currentQueued = 0;
+    let hasStarted = false;
+
+    try {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+    } catch (e) {}
+
+    function queueNext() {
+        if (activeSpeechState.canceled) return;
+        if (currentQueued >= sentences.length) return;
+        const idx = currentQueued++;
+        const utt = new SpeechSynthesisUtterance(sentences[idx]);
+        utt.lang = 'hi-IN';
+        utt.rate = 0.94;
+        utt.pitch = 1.0;
+        if (voice) utt.voice = voice;
+
+        utt.onstart = () => {
+            if (activeSpeechState.canceled) return;
+            if (!hasStarted) {
+                hasStarted = true;
+                if (onStart) onStart();
+            }
+            queueNext();
+        };
+
+        utt.onend = () => {
+            if (activeSpeechState.canceled) return;
+            if (idx === sentences.length - 1) {
+                stopAllSpeech();
+                if (onEnd) onEnd();
+            } else {
+                queueNext();
+            }
+        };
+
+        utt.onerror = (e) => {
+            console.warn('Speech chunk error at index', idx, e);
+            if (activeSpeechState.canceled) return;
+            if (idx === sentences.length - 1) {
+                stopAllSpeech();
+                if (onEnd) onEnd();
+            } else {
+                queueNext();
+            }
+        };
+
+        activeSpeechState.utterances.push(utt);
+        window.speechSynthesis.speak(utt);
+    }
+
+    // Pre-queue first 2 short chunks for zero-latency start and gapless playback
+    queueNext();
+    if (sentences.length > 1) {
+        queueNext();
+    }
+
+    // Chrome 14-sec audio sleep watchdog
+    activeSpeechState.timerId = setInterval(() => {
+        if (!activeSpeechState.type || activeSpeechState.canceled) {
+            clearInterval(activeSpeechState.timerId);
+            activeSpeechState.timerId = null;
+            return;
+        }
+        try {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause();
+                window.speechSynthesis.resume();
+            }
+        } catch (e) {}
+    }, 10000);
+}
 
 function generateWeatherAudioBulletin() {
     if (!currentWeatherData || !currentWeatherLocation) {
@@ -6142,8 +6403,6 @@ function generateWeatherAudioBulletin() {
 }
 
 function updateWeatherAudioButtons(playing) {
-    isSpeakingWeather = playing;
-    
     // Top strip button
     const stripBtn = document.getElementById('btnWeatherAudioStrip');
     if (stripBtn) {
@@ -6190,47 +6449,142 @@ function updateWeatherAudioButtons(playing) {
 }
 
 function toggleWeatherAudioBulletin() {
-    if (!('speechSynthesis' in window)) {
-        toast('आपके ब्राउज़र में बोलकर सुनाने की सुविधा उपलब्ध नहीं है ⚠️');
-        return;
-    }
-
-    if (window.speechSynthesis.speaking || isSpeakingWeather) {
-        window.speechSynthesis.cancel();
-        updateWeatherAudioButtons(false);
-        toast('ऑडियो रोक दिया गया ⏹️');
+    if (activeSpeechState.type === 'weather') {
+        stopAllSpeech();
+        toast('मौसम बुलेटिन रोक दिया गया ⏹️');
         return;
     }
 
     const textToSpeak = generateWeatherAudioBulletin();
-    window.speechSynthesis.cancel();
+    playHindiSpeechFast(
+        textToSpeak,
+        'weather',
+        null,
+        () => {
+            updateWeatherAudioButtons(true);
+            toast('🔊 मौसम व खेती बुलेटिन चल रहा है...');
+        },
+        () => {
+            updateWeatherAudioButtons(false);
+        }
+    );
+}
 
-    weatherSpeechUtterance = new SpeechSynthesisUtterance(textToSpeak);
-    weatherSpeechUtterance.lang = 'hi-IN';
-    weatherSpeechUtterance.rate = 0.92;
-    weatherSpeechUtterance.pitch = 1.0;
+function generateCropAudioText(crop) {
+    if (!crop) return "";
+    const cleanName = crop.name.replace(/\([^)]*\)/g, '').trim();
+    let parts = [];
 
-    const voices = window.speechSynthesis.getVoices();
-    const hiVoice = voices.find(v => v.lang && (v.lang === 'hi-IN' || v.lang.startsWith('hi')));
-    if (hiVoice) {
-        weatherSpeechUtterance.voice = hiVoice;
+    parts.push(`राम राम किसान भाइयों! प्रस्तुत है ${cleanName} की खेती की पूरी जानकारी।`);
+
+    if (crop.sowing) {
+        parts.push(`बुवाई का समय ${crop.sowing} है।`);
+    }
+    if (crop.harvest) {
+        parts.push(`फसल पकने और कटाई का समय ${crop.harvest} है।`);
+    }
+    if (crop.production) {
+        parts.push(`अनुमानित पैदावार ${crop.production} तक हो सकती है।`);
     }
 
-    weatherSpeechUtterance.onstart = () => {
-        updateWeatherAudioButtons(true);
-        toast('🔊 मौसम व खेती बुलेटिन चल रहा है...');
-    };
+    if (crop.khadSchedule && crop.khadSchedule.length > 0) {
+        let khadText = 'खाद और उर्वरक का सही गणित: प्रति बीघा क्या और कितना डालना है, ध्यान से सुनें। ';
+        crop.khadSchedule.forEach((k) => {
+            khadText += `${k.name}, मात्रा ${k.dose}। कब डालें: ${k.timing}। `;
+        });
+        parts.push(khadText.trim());
+    }
 
-    weatherSpeechUtterance.onend = () => {
-        updateWeatherAudioButtons(false);
-    };
+    if (crop.irrigation && crop.irrigation.length > 0) {
+        let irrText = 'सिंचाई का सही समय और नियम: ';
+        crop.irrigation.forEach((step, idx) => {
+            irrText += `सिंचाई नंबर ${idx + 1}: ${step}। `;
+        });
+        parts.push(irrText.trim());
+    }
 
-    weatherSpeechUtterance.onerror = (e) => {
-        console.warn('SpeechSynthesis error:', e);
-        updateWeatherAudioButtons(false);
-    };
+    if (crop.diseases && crop.diseases.length > 0) {
+        let disText = 'प्रमुख रोग, कीड़े और असरदार दवा: ';
+        crop.diseases.forEach((d) => {
+            disText += `रोग का नाम: ${d.name}। लक्षण: ${d.symptoms}। दवा: ${d.medicine}। छिड़काव की मात्रा: ${d.sprayDose}। `;
+        });
+        parts.push(disText.trim());
+    }
 
-    window.speechSynthesis.speak(weatherSpeechUtterance);
+    if (crop.kisanTips) {
+        parts.push(`किसान भाइयों के लिए जरूरी सलाह: ${crop.kisanTips}`);
+    }
+
+    parts.push(`जगदीशपुर गाँव पोर्टल से जुड़े रहें और उन्नत खेती करें। धन्यवाद!`);
+    return parts.join(' ');
+}
+
+function updateCropAudioButtons(playing, cropId) {
+    const btn = document.getElementById('btnPlayCropAudio');
+    const icon = document.getElementById('cropAudioIcon');
+    const sub = document.getElementById('cropAudioSub');
+
+    if (btn) {
+        const btnIcon = btn.querySelector('.crop-audio-btn-icon');
+        const btnTxt = btn.querySelector('.crop-audio-btn-text');
+        if (playing) {
+            if (btnIcon) btnIcon.textContent = '⏹️';
+            if (btnTxt) btnTxt.textContent = 'रोकें';
+            btn.classList.add('playing');
+        } else {
+            if (btnIcon) btnIcon.textContent = '🔊';
+            if (btnTxt) btnTxt.textContent = 'बोलकर सुनें';
+            btn.classList.remove('playing');
+        }
+    }
+
+    if (icon) {
+        if (playing) icon.classList.add('pulsing');
+        else icon.classList.remove('pulsing');
+    }
+
+    if (sub) {
+        if (playing) {
+            sub.textContent = '🔊 आवाज़ चल रही है... रोकने के लिए बटन दबाएं';
+        } else {
+            sub.textContent = 'खाद की सही मात्रा, पानी का समय, दवा व जरूरी सावधानियां';
+        }
+    }
+}
+
+function toggleCropAudio(cropId) {
+    if (activeSpeechState.type === 'crop' && activeSpeechState.cropId === cropId) {
+        stopAllSpeech();
+        toast('फसल ऑडियो रोक दिया गया ⏹️');
+        return;
+    }
+
+    const list = (typeof krishiList !== 'undefined' && krishiList && krishiList.length) ? krishiList : DEFAULT_KRISHI;
+    const crop = list.find(c => c.id === cropId) || list.find(c => c.id === activeKrishiCrop);
+    if (!crop) {
+        toast('फसल की जानकारी नहीं मिली ⚠️');
+        return;
+    }
+
+    const textToSpeak = generateCropAudioText(crop);
+    if (!textToSpeak) {
+        toast('बोलकर सुनाने के लिए जानकारी नहीं है ⚠️');
+        return;
+    }
+
+    playHindiSpeechFast(
+        textToSpeak,
+        'crop',
+        crop.id,
+        () => {
+            updateCropAudioButtons(true, crop.id);
+            const cleanName = crop.name.split('(')[0].trim() || crop.name;
+            toast(`🔊 ${cleanName} की सलाह शुरू हो गई है...`);
+        },
+        () => {
+            updateCropAudioButtons(false, crop.id);
+        }
+    );
 }
 
 function renderWeatherCardHtml(isModal = false) {
