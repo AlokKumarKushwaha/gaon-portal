@@ -5462,6 +5462,9 @@ const DEFAULT_KRISHI = [
 ];
 
 function renderKrishi(){
+  if (typeof renderKrishiWeatherCard === 'function') {
+    renderKrishiWeatherCard();
+  }
   renderKrishiPicker();
   renderKrishiDetail();
   renderMachineryList();
@@ -6202,6 +6205,7 @@ function renderWeatherStrip() {
 }
 
 /* ============ FAST UNIFIED SPEECH SYNTHESIS ENGINE (WEATHER & CROP VOICE ADVISORY) ============ */
+let isSpeakingWeather = false;
 let activeSpeechState = {
     type: null, // 'weather' or 'crop'
     cropId: null,
@@ -6260,6 +6264,7 @@ function splitSpeechSentences(text) {
 function stopAllSpeech() {
     if (!('speechSynthesis' in window)) return;
     activeSpeechState.canceled = true;
+    isSpeakingWeather = false;
     if (activeSpeechState.timerId) {
         clearInterval(activeSpeechState.timerId);
         activeSpeechState.timerId = null;
@@ -6403,6 +6408,7 @@ function generateWeatherAudioBulletin() {
 }
 
 function updateWeatherAudioButtons(playing) {
+    isSpeakingWeather = playing;
     // Top strip button
     const stripBtn = document.getElementById('btnWeatherAudioStrip');
     if (stripBtn) {
@@ -6591,6 +6597,7 @@ function renderWeatherCardHtml(isModal = false) {
     if (!currentWeatherData || !currentWeatherLocation) {
         return '<div class="loading-row">मौसम की जानकारी लोड हो रही है... ⛅</div>';
     }
+    const isWeatherPlaying = Boolean(typeof isSpeakingWeather !== 'undefined' && isSpeakingWeather);
     const current = currentWeatherData.current;
     const hourly = currentWeatherData.hourly;
     const daily = currentWeatherData.daily;
@@ -6739,15 +6746,15 @@ function renderWeatherCardHtml(isModal = false) {
 
             <div class="weather-audio-banner" id="weatherAudioBanner">
                 <div class="audio-banner-left">
-                    <span class="audio-wave-icon ${isSpeakingWeather ? 'pulsing' : ''}" id="audioWaveIcon">📢</span>
+                    <span class="audio-wave-icon ${isWeatherPlaying ? 'pulsing' : ''}" id="audioWaveIcon">📢</span>
                     <div>
                         <div class="audio-banner-title">आज का मौसम व खेती बुलेटिन सुनें</div>
-                        <div class="audio-banner-sub" id="audioBannerSub">${isSpeakingWeather ? 'आवाज़ चल रही है... रोकने के लिए बटन दबाएं' : 'लाइव तापमान, बारिश अलर्ट और आज की कृषि सलाह बोलकर सुनें'}</div>
+                        <div class="audio-banner-sub" id="audioBannerSub">${isWeatherPlaying ? 'आवाज़ चल रही है... रोकने के लिए बटन दबाएं' : 'लाइव तापमान, बारिश अलर्ट और आज की कृषि सलाह बोलकर सुनें'}</div>
                     </div>
                 </div>
-                <button type="button" class="btn-play-bulletin ${isSpeakingWeather ? 'playing' : ''}" id="btnPlayKrishiAudio" data-action="toggle-audio">
-                    <span class="btn-bulletin-icon">${isSpeakingWeather ? '⏹️' : '🔊'}</span>
-                    <span class="btn-bulletin-text">${isSpeakingWeather ? 'रोकें' : 'बुलेटिन सुनें'}</span>
+                <button type="button" class="btn-play-bulletin ${isWeatherPlaying ? 'playing' : ''}" id="btnPlayKrishiAudio" data-action="toggle-audio">
+                    <span class="btn-bulletin-icon">${isWeatherPlaying ? '⏹️' : '🔊'}</span>
+                    <span class="btn-bulletin-text">${isWeatherPlaying ? 'रोकें' : 'बुलेटिन सुनें'}</span>
                 </button>
             </div>
 
@@ -6770,9 +6777,17 @@ function renderKrishiWeatherCard() {
     const loadingEl = document.getElementById('krishiWeatherLoading');
     const wrapEl = document.getElementById('krishiWeatherCardWrap');
     if (!wrapEl) return;
-    if (loadingEl) loadingEl.style.display = 'none';
-    wrapEl.style.display = 'block';
-    wrapEl.innerHTML = renderWeatherCardHtml(false);
+    if (currentWeatherData && currentWeatherLocation) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        wrapEl.style.display = 'block';
+        wrapEl.innerHTML = renderWeatherCardHtml(false);
+    } else {
+        if (loadingEl) {
+            loadingEl.style.display = 'block';
+            loadingEl.textContent = 'मौसम व बारिश का डेटा लोड हो रहा है... ⛅';
+        }
+        wrapEl.style.display = 'none';
+    }
 }
 
 function renderWeatherModalContent() {
