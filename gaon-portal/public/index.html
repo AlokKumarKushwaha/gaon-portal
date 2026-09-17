@@ -6204,23 +6204,29 @@ function renderWeatherStrip() {
     }
 }
 
-/* ============ FAST UNIFIED SPEECH SYNTHESIS ENGINE (WEATHER & CROP VOICE ADVISORY) ============ */
+/* ============ FAST & RELIABLE CONTINUOUS SPEECH SYNTHESIS ENGINE ============ */
 let isSpeakingWeather = false;
-let activeSpeechState = {
-    type: null, // 'weather' or 'crop'
+let currentSpeechSession = {
+    id: 0,
+    type: null,
     cropId: null,
-    utterances: [],
-    canceled: false,
-    timerId: null
+    chunks: [],
+    currentIndex: 0
 };
+// Global alias for compatibility
+let activeSpeechState = currentSpeechSession;
+// Strong global reference so Garbage Collection never cuts off speech mid-playback
+window._currentSpeakingUtterance = null;
 
 let cachedHindiVoice = null;
 function getHindiVoice() {
     if (cachedHindiVoice) return cachedHindiVoice;
     if (!('speechSynthesis' in window)) return null;
     const voices = window.speechSynthesis.getVoices();
-    cachedHindiVoice = voices.find(v => v.lang && (v.lang === 'hi-IN' || v.lang.startsWith('hi'))) 
-                    || voices.find(v => v.lang && v.lang.startsWith('en-IN')) 
+    if (!voices || !voices.length) return null;
+    cachedHindiVoice = voices.find(v => v.lang && (v.lang === 'hi-IN' || v.lang === 'hi_IN')) 
+                    || voices.find(v => v.lang && v.lang.startsWith('hi')) 
+                    || voices.find(v => v.lang && (v.lang === 'en-IN' || v.lang === 'en_IN')) 
                     || null;
     return cachedHindiVoice;
 }
@@ -6232,148 +6238,124 @@ if ('speechSynthesis' in window) {
     };
 }
 
-function splitSpeechSentences(text) {
-    if (!text) return [];
-    // Split on Devanagari danda '।', exclamation '!', question '?', period '.', newline '\n'
-    const rawChunks = text.split(/[।!?\n\.]+/);
-    const result = [];
-    for (let raw of rawChunks) {
-        let clean = raw.replace(/[—–\-]/g, ' ').replace(/\s+/g, ' ').trim();
-        if (!clean) continue;
-        if (clean.length > 90) {
-            const subParts = clean.split(/[,;]+/);
-            let buf = '';
-            for (let sp of subParts) {
-                let s = sp.trim();
-                if (!s) continue;
-                if (buf && (buf.length + s.length > 80)) {
-                    result.push(buf);
-                    buf = s;
-                } else {
-                    buf = buf ? (buf + ', ' + s) : s;
-                }
-            }
-            if (buf) result.push(buf);
-        } else {
-            result.push(clean);
-        }
-    }
-    return result;
-}
-
 function stopAllSpeech() {
-    if (!('speechSynthesis' in window)) return;
-    activeSpeechState.canceled = true;
+    currentSpeechSession.id++;
+    currentSpeechSession.type = null;
+    currentSpeechSession.cropId = null;
+    currentSpeechSession.chunks = [];
+    currentSpeechSession.currentIndex = 0;
+    window._currentSpeakingUtterance = null;
     isSpeakingWeather = false;
-    if (activeSpeechState.timerId) {
-        clearInterval(activeSpeechState.timerId);
-        activeSpeechState.timerId = null;
+
+    if ('speechSynthesis' in window) {
+        try {
+            window.speechSynthesis.cancel();
+        } catch (e) {}
     }
-    activeSpeechState.utterances = [];
-    try {
-        window.speechSynthesis.cancel();
-    } catch (e) {}
-    activeSpeechState.type = null;
-    activeSpeechState.cropId = null;
+
     updateWeatherAudioButtons(false);
     updateCropAudioButtons(false);
 }
 
-function playHindiSpeechFast(text, type, cropId, onStart, onEnd) {
+function playHindiSpeechChunks(chunks, type, cropId, onStart, onEnd) {
     if (!('speechSynthesis' in window)) {
-        toast('आपके ब्राउज़र में बोलकर सुनाने की सुविधा उपलब्ध नहीं है ⚠️');
+        toast('आपके डिवाइस में बोलकर सुनाने की सुविधा उपलब्ध नहीं है ⚠️');
         return;
     }
 
+    // Cancel previous speech session cleanly
     stopAllSpeech();
 
-    const sentences = splitSpeechSentences(text);
-    if (!sentences.length) return;
+    if (!chunks || !chunks.length) return;
 
-    activeSpeechState.type = type;
-    activeSpeechState.cropId = cropId || null;
-    activeSpeechState.canceled = false;
-    activeSpeechState.utterances = [];
+    const sessionId = ++currentSpeechSession.id;
+    currentSpeechSession.type = type;
+    currentSpeechSession.cropId = cropId || null;
+    currentSpeechSession.chunks = chunks;
+    currentSpeechSession.currentIndex = 0;
 
     const voice = getHindiVoice();
-    let currentQueued = 0;
-    let hasStarted = false;
+    let hasNotifiedStart = false;
 
-    try {
-        if (window.speechSynthesis.paused) {
-            window.speechSynthesis.resume();
+    function playNextChunk() {
+        if (currentSpeechSession.id !== sessionId) return;
+
+        if (currentSpeechSession.currentIndex >= currentSpeechSession.chunks.length) {
+            stopAllSpeech();
+            if (onEnd) onEnd();
+            return;
         }
-    } catch (e) {}
 
-    function queueNext() {
-        if (activeSpeechState.canceled) return;
-        if (currentQueued >= sentences.length) return;
-        const idx = currentQueued++;
-        const utt = new SpeechSynthesisUtterance(sentences[idx]);
+        const chunkText = currentSpeechSession.chunks[currentSpeechSession.currentIndex];
+        if (!chunkText || !chunkText.trim()) {
+            currentSpeechSession.currentIndex++;
+            playNextChunk();
+            return;
+        }
+
+        const utt = new SpeechSynthesisUtterance(chunkText);
         utt.lang = 'hi-IN';
         utt.rate = 0.94;
         utt.pitch = 1.0;
         if (voice) utt.voice = voice;
 
+        // GC anchor: Prevents Chrome from garbage-collecting the utterance mid-sentence
+        window._currentSpeakingUtterance = utt;
+
+        let chunkHandled = false;
+        function advanceNext() {
+            if (chunkHandled) return;
+            chunkHandled = true;
+            if (currentSpeechSession.id !== sessionId) return;
+            currentSpeechSession.currentIndex++;
+            playNextChunk();
+        }
+
         utt.onstart = () => {
-            if (activeSpeechState.canceled) return;
-            if (!hasStarted) {
-                hasStarted = true;
+            if (currentSpeechSession.id !== sessionId) return;
+            if (!hasNotifiedStart) {
+                hasNotifiedStart = true;
                 if (onStart) onStart();
             }
-            queueNext();
         };
 
         utt.onend = () => {
-            if (activeSpeechState.canceled) return;
-            if (idx === sentences.length - 1) {
-                stopAllSpeech();
-                if (onEnd) onEnd();
-            } else {
-                queueNext();
-            }
+            advanceNext();
         };
 
         utt.onerror = (e) => {
-            console.warn('Speech chunk error at index', idx, e);
-            if (activeSpeechState.canceled) return;
-            if (idx === sentences.length - 1) {
-                stopAllSpeech();
-                if (onEnd) onEnd();
-            } else {
-                queueNext();
+            console.warn('Speech chunk error:', e);
+            if (e.error === 'canceled' || e.error === 'interrupted') {
+                if (currentSpeechSession.id !== sessionId) return;
             }
+            advanceNext();
         };
 
-        activeSpeechState.utterances.push(utt);
-        window.speechSynthesis.speak(utt);
-    }
-
-    // Pre-queue first 2 short chunks for zero-latency start and gapless playback
-    queueNext();
-    if (sentences.length > 1) {
-        queueNext();
-    }
-
-    // Chrome 14-sec audio sleep watchdog
-    activeSpeechState.timerId = setInterval(() => {
-        if (!activeSpeechState.type || activeSpeechState.canceled) {
-            clearInterval(activeSpeechState.timerId);
-            activeSpeechState.timerId = null;
-            return;
-        }
         try {
-            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-                window.speechSynthesis.pause();
+            if (window.speechSynthesis.paused) {
                 window.speechSynthesis.resume();
             }
-        } catch (e) {}
-    }, 10000);
+            window.speechSynthesis.speak(utt);
+        } catch (err) {
+            console.warn('Speech speak exception:', err);
+            advanceNext();
+        }
+    }
+
+    // Begin speaking Chunk 0 immediately!
+    playNextChunk();
 }
 
-function generateWeatherAudioBulletin() {
+// Fallback helper in case external callers use text
+function playHindiSpeechFast(text, type, cropId, onStart, onEnd) {
+    const rawChunks = text.split(/[।!?\n]+/);
+    const chunks = rawChunks.map(c => c.trim()).filter(Boolean);
+    playHindiSpeechChunks(chunks.length ? chunks : [text], type, cropId, onStart, onEnd);
+}
+
+function generateWeatherAudioChunks() {
     if (!currentWeatherData || !currentWeatherLocation) {
-        return "मौसम की जानकारी अभी लोड हो रही है। कृपया कुछ क्षण बाद प्रयास करें।";
+        return ["मौसम की जानकारी अभी लोड हो रही है। कृपया कुछ क्षण बाद प्रयास करें।"];
     }
     const c = currentWeatherData.current;
     const hourly = currentWeatherData.hourly;
@@ -6384,27 +6366,37 @@ function generateWeatherAudioBulletin() {
     const todayMaxRain = daily.precipitation_probability_max ? (daily.precipitation_probability_max[0] ?? 0) : 0;
     const advisories = generateKisanAdvisory(c, hourly, daily);
 
-    let text = `नमस्ते किसान भाइयों! जगदीशपुर गाँव पोर्टल मौसम बुलेटिन में आपका स्वागत है। `;
-    text += `आज ${currentWeatherLocation.name} में तापमान ${temp} डिग्री सेल्सियस है। `;
-    text += `मौसम ${weather.text} है, और धूप व हवा के कारण यह ${apparent} डिग्री जैसा महसूस हो रहा है। `;
+    const chunks = [];
 
+    // 1. Welcome & Temperature (Short: speaks instantly in ~100ms)
+    chunks.push(`नमस्ते किसान भाइयों! जगदीशपुर गाँव पोर्टल मौसम बुलेटिन में आपका स्वागत है। आज ${currentWeatherLocation.name} में तापमान ${temp} डिग्री सेल्सियस है और मौसम ${weather.text} है। धूप व हवा के कारण यह ${apparent} डिग्री जैसा महसूस हो रहा है।`);
+
+    // 2. Rain Forecast & Alerts
     if (todayMaxRain >= 50) {
-        text += `सावधान रहें! आज बारिश की संभावना ${todayMaxRain} प्रतिशत है, जो काफी अधिक है। आज फसलों में सिंचाई न करें और कीटनाशक दवा का छिड़काव टाल दें। कटी हुई फसल को सुरक्षित स्थान पर रखें। `;
+        chunks.push(`सावधान रहें! आज बारिश की संभावना ${todayMaxRain} प्रतिशत है, जो काफी अधिक है। आज फसलों में सिंचाई न करें और कीटनाशक दवा का छिड़काव टाल दें। कटी हुई फसल को सुरक्षित स्थान पर रखें।`);
     } else if (todayMaxRain >= 25) {
-        text += `आज आसमान में हल्के बादल छाए रह सकते हैं और बारिश की संभावना लगभग ${todayMaxRain} प्रतिशत है। खेत के जरूरी काम मौसम देखकर ही करें। `;
+        chunks.push(`आज आसमान में हल्के बादल छाए रह सकते हैं और बारिश की संभावना लगभग ${todayMaxRain} प्रतिशत है। खेत के जरूरी काम मौसम देखकर ही करें।`);
     } else {
-        text += `आज मौसम साफ और सामान्य रहने का अनुमान है। बारिश की संभावना केवल ${todayMaxRain} प्रतिशत है। आप खेतों में जुताई, निराई और खाद का काम आसानी से कर सकते हैं। `;
+        chunks.push(`आज मौसम साफ और सामान्य रहने का अनुमान है। बारिश की संभावना केवल ${todayMaxRain} प्रतिशत है। आप खेतों में जुताई, निराई और खाद का काम आसानी से कर सकते हैं।`);
     }
 
+    // 3. Kisan Agricultural Advisories
     if (advisories && advisories.length > 0) {
-        text += `आज की मुख्य कृषि सलाह: `;
+        let advText = `आज की मुख्य कृषि सलाह: `;
         advisories.slice(0, 2).forEach((adv) => {
-            text += `${adv.title}। ${adv.desc}। `;
+            advText += `${adv.title}। ${adv.desc}। `;
         });
+        chunks.push(advText.trim());
     }
 
-    text += `अधिक जानकारी के लिए ऐप में फसल कार्ड देखें। धन्यवाद, आपका दिन शुभ हो!`;
-    return text;
+    // 4. Closing
+    chunks.push(`अधिक जानकारी के लिए ऐप में फसल कार्ड देखें। धन्यवाद, आपका दिन शुभ हो!`);
+
+    return chunks;
+}
+
+function generateWeatherAudioBulletin() {
+    return generateWeatherAudioChunks().join(' ');
 }
 
 function updateWeatherAudioButtons(playing) {
@@ -6455,15 +6447,15 @@ function updateWeatherAudioButtons(playing) {
 }
 
 function toggleWeatherAudioBulletin() {
-    if (activeSpeechState.type === 'weather') {
+    if (currentSpeechSession.type === 'weather') {
         stopAllSpeech();
         toast('मौसम बुलेटिन रोक दिया गया ⏹️');
         return;
     }
 
-    const textToSpeak = generateWeatherAudioBulletin();
-    playHindiSpeechFast(
-        textToSpeak,
+    const chunks = generateWeatherAudioChunks();
+    playHindiSpeechChunks(
+        chunks,
         'weather',
         null,
         () => {
@@ -6476,53 +6468,58 @@ function toggleWeatherAudioBulletin() {
     );
 }
 
-function generateCropAudioText(crop) {
-    if (!crop) return "";
+function generateCropAudioChunks(crop) {
+    if (!crop) return [];
     const cleanName = crop.name.replace(/\([^)]*\)/g, '').trim();
-    let parts = [];
+    const chunks = [];
 
-    parts.push(`राम राम किसान भाइयों! प्रस्तुत है ${cleanName} की खेती की पूरी जानकारी।`);
+    // 1. Overview (Short: starts speaking in ~100ms)
+    let intro = `राम राम किसान भाइयों! प्रस्तुत है ${cleanName} की उन्नत खेती की पूरी जानकारी। `;
+    if (crop.sowing) intro += `बुवाई का सही समय ${crop.sowing} है। `;
+    if (crop.harvest) intro += `कटाई ${crop.harvest} में होती है। `;
+    if (crop.production) intro += `इसकी अनुमानित पैदावार ${crop.production} तक होती है।`;
+    chunks.push(intro.trim());
 
-    if (crop.sowing) {
-        parts.push(`बुवाई का समय ${crop.sowing} है।`);
-    }
-    if (crop.harvest) {
-        parts.push(`फसल पकने और कटाई का समय ${crop.harvest} है।`);
-    }
-    if (crop.production) {
-        parts.push(`अनुमानित पैदावार ${crop.production} तक हो सकती है।`);
-    }
-
+    // 2. Fertilizers (What to apply and what not to)
     if (crop.khadSchedule && crop.khadSchedule.length > 0) {
-        let khadText = 'खाद और उर्वरक का सही गणित: प्रति बीघा क्या और कितना डालना है, ध्यान से सुनें। ';
+        let khadText = `खाद और उर्वरक का सही गणित, प्रति बीघा के अनुसार ध्यान से सुनें। `;
         crop.khadSchedule.forEach((k) => {
             khadText += `${k.name}, मात्रा ${k.dose}। कब डालें: ${k.timing}। `;
         });
-        parts.push(khadText.trim());
+        chunks.push(khadText.trim());
     }
 
+    // 3. Irrigation
     if (crop.irrigation && crop.irrigation.length > 0) {
-        let irrText = 'सिंचाई का सही समय और नियम: ';
+        let irrText = `सिंचाई का सही समय और नियम: `;
         crop.irrigation.forEach((step, idx) => {
-            irrText += `सिंचाई नंबर ${idx + 1}: ${step}। `;
+            irrText += `सिंचाई ${idx + 1}: ${step}। `;
         });
-        parts.push(irrText.trim());
+        chunks.push(irrText.trim());
     }
 
+    // 4. Diseases & Medicines
     if (crop.diseases && crop.diseases.length > 0) {
-        let disText = 'प्रमुख रोग, कीड़े और असरदार दवा: ';
+        let disText = `प्रमुख रोग, कीड़े और असरदार दवा: `;
         crop.diseases.forEach((d) => {
-            disText += `रोग का नाम: ${d.name}। लक्षण: ${d.symptoms}। दवा: ${d.medicine}। छिड़काव की मात्रा: ${d.sprayDose}। `;
+            disText += `${d.name}। लक्षण: ${d.symptoms}। इसके लिए दवा: ${d.medicine}, और 15 लीटर स्प्रे टंकी में मात्रा: ${d.sprayDose}। `;
         });
-        parts.push(disText.trim());
+        chunks.push(disText.trim());
     }
 
+    // 5. Special Farmer Tips & Conclusion
+    let tipsText = '';
     if (crop.kisanTips) {
-        parts.push(`किसान भाइयों के लिए जरूरी सलाह: ${crop.kisanTips}`);
+        tipsText += `किसान भाई विशेष ध्यान दें: ${crop.kisanTips} `;
     }
+    tipsText += `जगदीशपुर गाँव पोर्टल से जुड़े रहें और उन्नत खेती करें। धन्यवाद!`;
+    chunks.push(tipsText.trim());
 
-    parts.push(`जगदीशपुर गाँव पोर्टल से जुड़े रहें और उन्नत खेती करें। धन्यवाद!`);
-    return parts.join(' ');
+    return chunks;
+}
+
+function generateCropAudioText(crop) {
+    return generateCropAudioChunks(crop).join(' ');
 }
 
 function updateCropAudioButtons(playing, cropId) {
@@ -6559,7 +6556,7 @@ function updateCropAudioButtons(playing, cropId) {
 }
 
 function toggleCropAudio(cropId) {
-    if (activeSpeechState.type === 'crop' && activeSpeechState.cropId === cropId) {
+    if (currentSpeechSession.type === 'crop' && currentSpeechSession.cropId === cropId) {
         stopAllSpeech();
         toast('फसल ऑडियो रोक दिया गया ⏹️');
         return;
@@ -6572,14 +6569,14 @@ function toggleCropAudio(cropId) {
         return;
     }
 
-    const textToSpeak = generateCropAudioText(crop);
-    if (!textToSpeak) {
+    const chunks = generateCropAudioChunks(crop);
+    if (!chunks.length) {
         toast('बोलकर सुनाने के लिए जानकारी नहीं है ⚠️');
         return;
     }
 
-    playHindiSpeechFast(
-        textToSpeak,
+    playHindiSpeechChunks(
+        chunks,
         'crop',
         crop.id,
         () => {
