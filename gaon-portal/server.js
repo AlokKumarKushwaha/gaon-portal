@@ -102,62 +102,7 @@ const DEFAULT_JAANKARI = {
     ]
 };
 
-const DEFAULT_YOJANA = [
-    {
-        id: 'y2',
-        name: 'राशन कार्ड (पात्र गृहस्थी / अंत्योदय)',
-        desc: 'गरीब परिवारों को राष्ट्रीय खाद्य सुरक्षा (NFSA) के तहत मुफ्त/सस्ती दर पर चावल, गेहूं और राशन का वितरण।',
-        eligibility: 'ग्रामीण क्षेत्र के पात्र गरीब एवं अंत्योदय परिवार जिनकी वार्षिक आय निर्धारित सीमा में हो।',
-        documents: ['परिवार के सभी सदस्यों का आधार कार्ड', 'मुखिया महिला की पासपोर्ट फ़ोटो', 'आय प्रमाण पत्र', 'बैंक पासबुक', 'निवास प्रमाण / बिजली बिल'],
-        apply: 'ब्लॉक खाद्य आपूर्ति कार्यालय या जनसेवा केंद्र (CSC) से ऑनलाइन।',
-        applyUrl: 'https://fcs.up.gov.in'
-    },
-    {
-        id: 'y3',
-        name: 'पीएम किसान सम्मान निधि (₹6,000 सालाना)',
-        desc: 'किसानों को प्रति वर्ष ₹2,000 की 3 समान किस्तों में कुल ₹6,000 सीधे बैंक खाते (DBT) में दिए जाते हैं।',
-        eligibility: 'सभी भू-स्वामी किसान परिवार जिनके नाम पर कृषि योग्य भूमि की खतौनी दर्ज है।',
-        documents: ['खतौनी (भूलेख नकल)', 'आधार कार्ड', 'बैंक पासबुक (NPCI / DBT चालू होना अनिवार्य)', 'मोबाइल नंबर'],
-        apply: 'PM-Kisan पोर्टल पर ऑनलाइन स्वयं या CSC / कृषि विभाग कार्यालय से।',
-        applyUrl: 'https://pmkisan.gov.in'
-    },
-    {
-        id: 'y5',
-        name: 'वृद्धावस्था / विधवा / दिव्यांग पेंशन योजना',
-        desc: '60 वर्ष से अधिक उम्र के बुजुर्गों, निराश्रित महिलाओं एवं दिव्यांगजनों को ₹1,000 प्रति माह सीधे खाते में।',
-        eligibility: '60+ वर्ष के वृद्धजन, निराश्रित विधवा महिलाएं या 40% से अधिक दिव्यांग व्यक्ति (गरीबी रेखा के नीचे)।',
-        documents: ['आधार कार्ड', 'आयु प्रमाण पत्र (वोटर कार्ड/स्कूल सर्टिफिकेट)', 'बैंक पासबुक', 'आय प्रमाण पत्र', 'दिव्यांगता सर्टिफिकेट (दिव्यांग पेंशन हेतु)'],
-        apply: 'समाज कल्याण विभाग की आधिकारिक वेबसाइट (SSPY) या जनसेवा केंद्र से।',
-        applyUrl: 'https://sspy-up.gov.in'
-    },
-    {
-        id: 'y6',
-        name: 'प्रधानमंत्री किसान मानधन योजना (वृद्धावस्था पेंशन)',
-        desc: '60 वर्ष की आयु पूरी होने पर लघु एवं सीमांत किसानों को ₹3,000 प्रति माह की निश्चित पेंशन।',
-        eligibility: '18 से 40 वर्ष की आयु के किसान जिनके पास 2 हेक्टेयर तक कृषि भूमि है।',
-        documents: ['आधार कार्ड', 'बचत बैंक खाता / जनधन खाता', 'खतौनी (जमीन का पर्चा)'],
-        apply: 'नजदीकी कॉमन सर्विस सेंटर (CSC) पर जाकर पंजीकरण कराएं।',
-        applyUrl: 'https://maandhan.in'
-    },
-    {
-        id: 'y7',
-        name: 'प्रधानमंत्री उज्ज्वला योजना (मुफ्त गैस कनेक्शन)',
-        desc: 'गरीब ग्रामीण परिवारों की महिलाओं को निःशुल्क एलपीजी गैस कनेक्शन, पहला भरा सिलेंडर और चूल्हा।',
-        eligibility: 'बीपीएल परिवार या अनुसूचित जाति/जनजाति, पीएम आवास लाभार्थी परिवार की 18+ वर्ष की महिला सदस्य।',
-        documents: ['आधार कार्ड (आवेदक महिला व परिवार के सदस्य)', 'राशन कार्ड / बीपीएल प्रमाण', 'बैंक खाता पासबुक', 'पासपोर्ट साइज फोटो'],
-        apply: 'नजदीकी गैस एजेंसी (Indane / Bharat / HP) या CSC केंद्र से ऑनलाइन आवेदन करें।',
-        applyUrl: 'https://pmuy.gov.in'
-    },
-    {
-        id: 'y8',
-        name: 'पीएम सूर्य घर: मुफ्त बिजली योजना',
-        desc: 'छत पर सोलर पैनल लगवाने हेतु केंद्र सरकार द्वारा ₹78,000 तक की सीधी सब्सिडी और 300 यूनिट तक मुफ्त बिजली।',
-        eligibility: 'सभी आवासीय परिवार जिनके पास अपनी पक्की छत और वैध बिजली कनेक्शन है।',
-        documents: ['बिजली का बिल (हाल का)', 'आधार कार्ड', 'बैंक खाता पासबुक', 'छत का स्वामित्व / फोटो'],
-        apply: 'नेशनल पोर्टल pmsuryaghar.gov.in पर ऑनलाइन या बिजली विभाग से आवेदन करें।',
-        applyUrl: 'https://pmsuryaghar.gov.in'
-    }
-];
+const DEFAULT_YOJANA = [];
 
 const DEFAULT_KRISHI = [
   {
@@ -691,19 +636,9 @@ app.put('/api/jaankari', requireAdmin, async(req, res) => {
 app.get('/api/yojana', async(req, res) => {
     try {
         let data = await yojanaCollection
-            .find({
-                $and: [
-                    { id: { $nin: ['y1', 'y4'] } },
-                    { name: { $not: { $regex: /आवास|awas|आयुष्मान|ayushman|सुमंगला|sumangala/i } } }
-                ]
-            })
+            .find({})
             .sort({ id: 1 })
             .toArray();
-
-        if (data.length === 0) {
-            await yojanaCollection.insertMany(DEFAULT_YOJANA);
-            data = DEFAULT_YOJANA;
-        }
 
         res.json(data);
     } catch (error) {
@@ -956,29 +891,11 @@ async function connectDB() {
             console.warn('Krishi image sync warning:', syncErr.message);
         }
 
-        // Clean up schemes moved to top 1-click citizen cards (PMAY, Ayushman, Sumangala)
+        // Clean up all old duplicate schemes from yojana collection
         try {
-            await yojanaCollection.deleteMany({
-                $or: [
-                    { id: { $in: ['y1', 'y4'] } },
-                    { name: { $regex: /आवास|awas|आयुष्मान|ayushman|सुमंगला|sumangala/i } }
-                ]
-            });
+            await yojanaCollection.deleteMany({});
         } catch (delErr) {
             console.warn('Yojana cleanup warning:', delErr.message);
-        }
-
-        // Sync yojana in database to ensure eligibility, documents, and applyUrl are populated
-        try {
-            for (const y of DEFAULT_YOJANA) {
-                await yojanaCollection.updateOne(
-                    { id: y.id },
-                    { $set: { name: y.name, desc: y.desc, eligibility: y.eligibility, documents: y.documents, apply: y.apply, applyUrl: y.applyUrl } },
-                    { upsert: true }
-                );
-            }
-        } catch (yErr) {
-            console.warn('Yojana sync warning:', yErr.message);
         }
 
         // Seed default jaankari if not present or missing contacts

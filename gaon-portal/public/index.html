@@ -3539,11 +3539,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="yojanaWrap">
-                    <div class="loading-row">सरकारी योजनाएं लोड हो रही हैं...</div>
-                </div>
-                <button class="btn btn-outline btn-block" id="addYojanaBtn">+ नई सरकारी योजना जोड़ें</button>
             </section>
 
         </main>
@@ -5195,151 +5190,58 @@ document.getElementById('jaankariWrap').addEventListener('click', async (e) => {
 });
 
 /* ============ SARKARI YOJANAEIN ============ */
-const DEFAULT_YOJANA = [
-  {
-    id: 'y2',
-    name: 'राशन कार्ड (पात्र गृहस्थी / अंत्योदय)',
-    desc: 'गरीब परिवारों को राष्ट्रीय खाद्य सुरक्षा (NFSA) के तहत मुफ्त/सस्ती दर पर चावल, गेहूं और राशन का वितरण।',
-    eligibility: 'ग्रामीण क्षेत्र के पात्र गरीब एवं अंत्योदय परिवार जिनकी वार्षिक आय निर्धारित सीमा में हो।',
-    documents: ['परिवार के सभी सदस्यों का आधार कार्ड', 'मुखिया महिला की पासपोर्ट फ़ोटो', 'आय प्रमाण पत्र', 'बैंक पासबुक', 'निवास प्रमाण / बिजली बिल'],
-    apply: 'ब्लॉक खाद्य आपूर्ति कार्यालय या जनसेवा केंद्र (CSC) से ऑनलाइन।',
-    applyUrl: 'https://fcs.up.gov.in'
-  },
-  {
-    id: 'y3',
-    name: 'पीएम किसान सम्मान निधि (₹6,000 सालाना)',
-    desc: 'किसानों को प्रति वर्ष ₹2,000 की 3 समान किस्तों में कुल ₹6,000 सीधे बैंक खाते (DBT) में दिए जाते हैं।',
-    eligibility: 'सभी भू-स्वामी किसान परिवार जिनके नाम पर कृषि योग्य भूमि की खतौनी दर्ज है।',
-    documents: ['खतौनी (भूलेख नकल)', 'आधार कार्ड', 'बैंक पासबुक (NPCI / DBT चालू होना अनिवार्य)', 'मोबाइल नंबर'],
-    apply: 'PM-Kisan पोर्टल पर ऑनलाइन स्वयं या CSC / कृषि विभाग कार्यालय से।',
-    applyUrl: 'https://pmkisan.gov.in'
-  },
-  {
-    id: 'y5',
-    name: 'वृद्धावस्था / विधवा / दिव्यांग पेंशन योजना',
-    desc: '60 वर्ष से अधिक उम्र के बुजुर्गों, निराश्रित महिलाओं एवं दिव्यांग जनों को ₹1,000 प्रति माह सीधे खाते में पेंशन।',
-    eligibility: '60+ वर्ष के बुजुर्ग, पति की मृत्यु के बाद निराश्रित महिलाएं, 40%+ दिव्यांग (बीपीएल सीमा के अंतर्गत)।',
-    documents: ['आधार कार्ड', 'आयु प्रमाण पत्र', 'आय प्रमाण पत्र (ग्रामीण: वार्षिक ₹46,080 से कम)', 'बैंक पासबुक', 'दिव्यांग प्रमाण पत्र (दिव्यांगों के लिए) / पति का मृत्यु प्रमाण पत्र'],
-    apply: 'SSP पोर्टल पर ऑनलाइन आवेदन या ब्लॉक समाज कल्याण अधिकारी कार्यालय में।',
-    applyUrl: 'https://sspy-up.gov.in'
-  },
-  {
-    id: 'y6',
-    name: 'प्रधानमंत्री किसान मानधन योजना (वृद्धावस्था पेंशन)',
-    desc: '60 वर्ष की आयु पूरी होने पर लघु एवं सीमांत किसानों को ₹3,000 प्रति माह की निश्चित पेंशन।',
-    eligibility: '18 से 40 वर्ष की आयु के किसान जिनके पास 2 हेक्टेयर तक कृषि भूमि है।',
-    documents: ['आधार कार्ड', 'बचत बैंक खाता / जनधन खाता', 'खतौनी (जमीन का पर्चा)'],
-    apply: 'नजदीकी कॉमन सर्विस सेंटर (CSC) पर जाकर पंजीकरण कराएं।',
-    applyUrl: 'https://maandhan.in'
-  },
-  {
-    id: 'y7',
-    name: 'प्रधानमंत्री उज्ज्वला योजना (मुफ्त गैस कनेक्शन)',
-    desc: 'गरीब ग्रामीण परिवारों की महिलाओं को निःशुल्क एलपीजी गैस कनेक्शन, पहला भरा सिलेंडर और चूल्हा।',
-    eligibility: 'बीपीएल परिवार या अनुसूचित जाति/जनजाति, पीएम आवास लाभार्थी परिवार की 18+ वर्ष की महिला सदस्य।',
-    documents: ['आधार कार्ड (आवेदक महिला व परिवार के सदस्य)', 'राशन कार्ड / बीपीएल प्रमाण', 'बैंक खाता पासबुक', 'पासपोर्ट साइज फोटो'],
-    apply: 'नजदीकी गैस एजेंसी (Indane / Bharat / HP) या CSC केंद्र से ऑनलाइन आवेदन करें।',
-    applyUrl: 'https://pmuy.gov.in'
-  },
-  {
-    id: 'y8',
-    name: 'पीएम सूर्य घर: मुफ्त बिजली योजना',
-    desc: 'छत पर सोलर पैनल लगवाने हेतु केंद्र सरकार द्वारा ₹78,000 तक की सीधी सब्सिडी और 300 यूनिट तक मुफ्त बिजली।',
-    eligibility: 'सभी आवासीय परिवार जिनके पास अपनी पक्की छत और वैध बिजली कनेक्शन है।',
-    documents: ['बिजली का बिल (हाल का)', 'आधार कार्ड', 'बैंक खाता पासबुक', 'छत का स्वामित्व / फोटो'],
-    apply: 'नेशनल पोर्टल pmsuryaghar.gov.in पर ऑनलाइन या बिजली विभाग से आवेदन करें।',
-    applyUrl: 'https://pmsuryaghar.gov.in'
-  }
-];
+const DEFAULT_YOJANA = [];
 
 function renderYojana(){
   const wrap = document.getElementById('yojanaWrap');
-  const rawList = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
-
-  // Filter out schemes that are already featured in the top Citizen Quick Services cards (PMAY, Ayushman Bharat, Kanya Sumangala)
-  const list = rawList.filter(y => {
-    const n = (y.name || '').toLowerCase();
-    const d = (y.desc || '').toLowerCase();
-    if (y.id === 'y1' || n.includes('आवास') || n.includes('awas') || d.includes('आवास')) return false;
-    if (y.id === 'y4' || n.includes('आयुष्मान') || n.includes('ayushman') || d.includes('आयुष्मान')) return false;
-    if (n.includes('सुमंगला') || n.includes('sumangala') || d.includes('सुमंगला')) return false;
-    return true;
-  });
-
-  wrap.innerHTML = list.map(y => {
-    const docs = Array.isArray(y.documents) ? y.documents : (y.documents ? String(y.documents).split(',') : []);
-    return `
-      <div class="yojana-card">
-        <h3>${escapeHtml(y.name)}</h3>
-        <p>${escapeHtml(y.desc)}</p>
-
-        ${y.eligibility ? `
-          <div class="yojana-eligibility">
-            <strong>🎯 पात्रता (कौन ले सकता है लाभ):</strong> ${escapeHtml(y.eligibility)}
-          </div>
-        ` : ''}
-
-        ${docs.length > 0 ? `
-          <div class="yojana-docs-box">
-            <strong>📋 जरूरी कागजात (दस्तावेज चेकलिस्ट):</strong>
-            <ul class="yojana-docs-list">
-              ${docs.map(d => `<li>☑️ ${escapeHtml(d.trim())}</li>`).join('')}
-            </ul>
-          </div>
-        ` : ''}
-
-        <div class="apply">📍 <strong>आवेदन कैसे करें:</strong> ${escapeHtml(y.apply || 'पंचायत कार्यालय में संपर्क करें।')}</div>
-
-        <div class="yojana-actions-row">
-          ${y.applyUrl ? `
-            <a href="${escapeHtml(y.applyUrl)}" target="_blank" rel="noopener noreferrer" class="btn-yojana-link">
-              🌐 आधिकारिक पोर्टल ↗
-            </a>
-          ` : ''}
-          <button type="button" class="btn-wa-share" data-share-yojana="${y.id}" style="margin-top:0;">
-            <span>📲</span> WhatsApp पर शेयर
-          </button>
-        </div>
-      </div>
-    `;
-  }).join('');
+  if(!wrap) return;
+  wrap.innerHTML = '';
 }
 
-document.getElementById('yojanaWrap').addEventListener('click', (e) => {
-  const shareBtn = e.target.closest('[data-share-yojana]');
-  if(!shareBtn) return;
-  const id = shareBtn.dataset.shareYojana;
-  const list = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
-  const y = list.find(item => item.id === id);
-  if(!y) return;
-  const docs = Array.isArray(y.documents) ? y.documents.join(', ') : (y.documents || 'आधार, बैंक पासबुक');
-  const shareText = `*🏛️ ग्राम जगदीशपुर - सरकारी योजना अलर्ट*\n\n📄 *${y.name}*\n${y.desc}\n\n🎯 *पात्रता:* ${y.eligibility || 'सभी ग्रामीण'}\n📋 *जरूरी दस्तावेज:* ${docs}\n📍 *आवेदन:* ${y.apply || 'पंचायत कार्यालय'}${y.applyUrl ? `\n🌐 लिंक: ${y.applyUrl}` : ''}\n\n👉 गाँव पोर्टल पर अन्य योजनाएं देखें:\n${window.location.origin}`;
-  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
-});
+const yWrapEl = document.getElementById('yojanaWrap');
+if(yWrapEl){
+  yWrapEl.addEventListener('click', (e) => {
+    const shareBtn = e.target.closest('[data-share-yojana]');
+    if(!shareBtn) return;
+    const id = shareBtn.dataset.shareYojana;
+    const list = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
+    const y = list.find(item => item.id === id);
+    if(!y) return;
+    const docs = Array.isArray(y.documents) ? y.documents.join(', ') : (y.documents || 'आधार, बैंक पासबुक');
+    const shareText = `*🏛️ ग्राम जगदीशपुर - सरकारी योजना अलर्ट*\n\n📄 *${y.name}*\n${y.desc}\n\n🎯 *पात्रता:* ${y.eligibility || 'सभी ग्रामीण'}\n📋 *जरूरी दस्तावेज:* ${docs}\n📍 *आवेदन:* ${y.apply || 'पंचायत कार्यालय'}${y.applyUrl ? `\n🌐 लिंक: ${y.applyUrl}` : ''}\n\n👉 गाँव पोर्टल पर अन्य योजनाएं देखें:\n${window.location.origin}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+  });
+}
 
-document.getElementById('addYojanaBtn').addEventListener('click', ()=>openOverlay('overlayYojana'));
+const addYBtnEl = document.getElementById('addYojanaBtn');
+if(addYBtnEl){
+  addYBtnEl.addEventListener('click', ()=>openOverlay('overlayYojana'));
+}
 
-document.getElementById('formYojana').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const docsRaw = (document.getElementById('yDocs') ? document.getElementById('yDocs').value.trim() : '');
-  const docs = docsRaw ? docsRaw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+const formYEl = document.getElementById('formYojana');
+if(formYEl){
+  formYEl.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const docsRaw = (document.getElementById('yDocs') ? document.getElementById('yDocs').value.trim() : '');
+    const docs = docsRaw ? docsRaw.split(',').map(s=>s.trim()).filter(Boolean) : [];
 
-  const payload = {
-    name: document.getElementById('yName').value.trim(),
-    desc: document.getElementById('yDesc').value.trim(),
-    eligibility: (document.getElementById('yEligibility') ? document.getElementById('yEligibility').value.trim() : ''),
-    documents: docs,
-    apply: (document.getElementById('yApply') ? document.getElementById('yApply').value.trim() : '') || 'Panchayat karyalay me sampark karein.',
-    applyUrl: (document.getElementById('yApplyUrl') ? document.getElementById('yApplyUrl').value.trim() : '')
-  };
-  const item = await apiSend('POST', '/yojana', payload);
-  if(!item) return;
-  yojanaList.push(item);
-  document.getElementById('formYojana').reset();
-  closeOverlay('overlayYojana');
-  renderYojana();
-  toast('Yojana jud gayi ✅');
-});
+    const payload = {
+      name: document.getElementById('yName').value.trim(),
+      desc: document.getElementById('yDesc').value.trim(),
+      eligibility: (document.getElementById('yEligibility') ? document.getElementById('yEligibility').value.trim() : ''),
+      documents: docs,
+      apply: (document.getElementById('yApply') ? document.getElementById('yApply').value.trim() : '') || 'Panchayat karyalay me sampark karein.',
+      applyUrl: (document.getElementById('yApplyUrl') ? document.getElementById('yApplyUrl').value.trim() : '')
+    };
+    const item = await apiSend('POST', '/yojana', payload);
+    if(!item) return;
+    yojanaList.push(item);
+    document.getElementById('formYojana').reset();
+    closeOverlay('overlayYojana');
+    renderYojana();
+    toast('Yojana jud gayi ✅');
+  });
+}
 
 /* ============ KHETI-BAADI (KRISHI GUIDE) ============ */
 const DEFAULT_KRISHI = [
