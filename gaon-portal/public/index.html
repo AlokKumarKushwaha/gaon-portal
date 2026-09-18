@@ -2968,6 +2968,18 @@
             background: #FFFBEB;
             border: 1.5px solid #FDE68A;
         }
+        .citizen-card.pmay-theme {
+            background: #FFF7ED;
+            border: 1.5px solid #FDBA74;
+        }
+        .citizen-card.ayushman-theme {
+            background: #F0FDFA;
+            border: 1.5px solid #99F6E4;
+        }
+        .citizen-card.kanya-theme {
+            background: #FFF1F2;
+            border: 1.5px solid #FECDD3;
+        }
         .citizen-card-icon {
             font-size: 1.8rem;
             line-height: 1;
@@ -3014,6 +3026,12 @@
         .citizen-card.pension-theme .citizen-card-btn:hover { background: #6B21A8; }
         .citizen-card.pmkisan-theme .citizen-card-btn { background: #D97706; }
         .citizen-card.pmkisan-theme .citizen-card-btn:hover { background: #B45309; }
+        .citizen-card.pmay-theme .citizen-card-btn { background: #EA580C; }
+        .citizen-card.pmay-theme .citizen-card-btn:hover { background: #C2410C; }
+        .citizen-card.ayushman-theme .citizen-card-btn { background: #0D9488; }
+        .citizen-card.ayushman-theme .citizen-card-btn:hover { background: #0F766E; }
+        .citizen-card.kanya-theme .citizen-card-btn { background: #E11D48; }
+        .citizen-card.kanya-theme .citizen-card-btn:hover { background: #BE123C; }
 
         /* ===================== FEATURE #3: FARM MACHINERY SHARING ===================== */
         .machinery-section {
@@ -3404,7 +3422,7 @@
                             <span class="citizen-badge-icon">🌐</span>
                             <div>
                                 <h3>1-क्लिक सरकारी चेक (Citizen Quick Services)</h3>
-                                <p>खतौनी, राशन कार्ड लिस्ट, पेंशन व PM-किसान स्टेटस सीधे आधिकारिक पोर्टल से जांचें</p>
+                                <p>खतौनी, राशन कार्ड, पेंशन, PM-किसान, आवास, आयुष्मान व कन्या सुमंगला सीधे आधिकारिक पोर्टल से जांचें</p>
                             </div>
                         </div>
                         <button type="button" class="btn-guide-toggle" id="btnToggleGovHelp" title="मोबाइल से कैसे चेक करें">
@@ -3416,7 +3434,7 @@
                     <div class="citizen-guide-box" id="citizenGuideBox" style="display:none;">
                         <div class="guide-step">
                             <span class="step-num">1</span>
-                            <div><strong>पोर्टल चुनें:</strong> नीचे जिस सुविधा की जांच करनी है, उसके बटन (जैसे "खतौनी देखें" या "राशन कार्ड लिस्ट") पर क्लिक करें।</div>
+                            <div><strong>पोर्टल चुनें:</strong> नीचे जिस सुविधा की जांच करनी है, उसके बटन (जैसे "खतौनी देखें", "आवास लिस्ट", "राशन कार्ड") पर क्लिक करें।</div>
                         </div>
                         <div class="guide-step">
                             <span class="step-num">2</span>
@@ -3424,7 +3442,7 @@
                         </div>
                         <div class="guide-step">
                             <span class="step-num">3</span>
-                            <div><strong>नाम या खाता संख्या दर्ज करें:</strong> खतौनी में गाटा/खाता संख्या, या राशन कार्ड/पेंशन में लाभार्थी का नाम देखें।</div>
+                            <div><strong>नाम या खाता संख्या दर्ज करें:</strong> खतौनी में गाटा संख्या, या राशन/पेंशन/आवास में लाभार्थी का नाम देखें।</div>
                         </div>
                     </div>
 
@@ -3478,6 +3496,45 @@
                             </div>
                             <a href="https://pmkisan.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
                                 PM किसान स्टेटस ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 5: PM Awas Yojana -->
+                        <div class="citizen-card pmay-theme">
+                            <div class="citizen-card-icon">🏠</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">प्रधानमंत्री आवास योजना (ग्रामीण)</div>
+                                <p class="citizen-card-desc">पक्के मकान हेतु ₹1,20,000 की सरकारी सहायता, नई ग्रामवार लाभार्थी सूची व किस्त स्टेटस देखें</p>
+                                <div class="citizen-card-meta">पोर्टल: pmayg.nic.in (ग्रामीण विकास मंत्रालय)</div>
+                            </div>
+                            <a href="https://pmayg.nic.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                आवास लिस्ट व स्टेटस ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 6: Ayushman Bharat -->
+                        <div class="citizen-card ayushman-theme">
+                            <div class="citizen-card-icon">🏥</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">आयुष्मान भारत (₹5 लाख मुफ़्त इलाज)</div>
+                                <p class="citizen-card-desc">प्रति वर्ष परिवार को ₹5 लाख तक का कैशलेस व मुफ़्त इलाज, पात्रता सूची जांचें व कार्ड बनाएं</p>
+                                <div class="citizen-card-meta">पोर्टल: beneficiary.nha.gov.in (NHA)</div>
+                            </div>
+                            <a href="https://beneficiary.nha.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                आयुष्मान कार्ड जांचें ↗
+                            </a>
+                        </div>
+
+                        <!-- Card 7: Mukhyamantri Kanya Sumangala -->
+                        <div class="citizen-card kanya-theme">
+                            <div class="citizen-card-icon">👧</div>
+                            <div class="citizen-card-body">
+                                <div class="citizen-card-title">मुख्यमंत्री कन्या सुमंगला योजना</div>
+                                <p class="citizen-card-desc">बिटिया के जन्म से पढ़ाई तक 6 किस्तों में कुल ₹25,000 की सरकारी आर्थिक सहायता ऑनलाइन जांचें</p>
+                                <div class="citizen-card-meta">पोर्टल: mksy.up.gov.in (महिला कल्याण विभाग UP)</div>
+                            </div>
+                            <a href="https://mksy.up.gov.in" target="_blank" rel="noopener noreferrer" class="citizen-card-btn">
+                                कन्या सुमंगला स्टेटस ↗
                             </a>
                         </div>
                     </div>
@@ -5140,15 +5197,6 @@ document.getElementById('jaankariWrap').addEventListener('click', async (e) => {
 /* ============ SARKARI YOJANAEIN ============ */
 const DEFAULT_YOJANA = [
   {
-    id: 'y1',
-    name: 'प्रधानमंत्री आवास योजना (ग्रामीण)',
-    desc: 'बेघर एवं कच्चे या जर्जर मकान में रहने वाले परिवारों को पक्का मकान निर्माण हेतु ₹1,20,000 की सरकारी आर्थिक सहायता।',
-    eligibility: 'SECC 2011 सूची में शामिल, बेघर या कच्चे मकान वाले बीपीएल / गरीब परिवार जिनके पास पक्का मकान नहीं है।',
-    documents: ['आधार कार्ड (परिवार के सभी सदस्य)', 'बैंक पासबुक (आधार से लिंक)', 'मनरेगा जॉब कार्ड', 'राशन कार्ड', 'आय प्रमाण पत्र / शपथ पत्र'],
-    apply: 'ग्राम पंचायत सेक्रेटरी / ब्लॉक कार्यालय या ऑनलाइन CSC केंद्र से।',
-    applyUrl: 'https://pmayg.nic.in'
-  },
-  {
     id: 'y2',
     name: 'राशन कार्ड (पात्र गृहस्थी / अंत्योदय)',
     desc: 'गरीब परिवारों को राष्ट्रीय खाद्य सुरक्षा (NFSA) के तहत मुफ्त/सस्ती दर पर चावल, गेहूं और राशन का वितरण।',
@@ -5167,15 +5215,6 @@ const DEFAULT_YOJANA = [
     applyUrl: 'https://pmkisan.gov.in'
   },
   {
-    id: 'y4',
-    name: 'आयुष्मान भारत - जन आरोग्य योजना (₹5 लाख मुफ्त इलाज)',
-    desc: 'प्रति वर्ष परिवार को ₹5 लाख तक का कैशलेस और मुफ्त इलाज सरकारी व सूचीबद्ध प्राइवेट अस्पतालों में।',
-    eligibility: 'सामाजिक-आर्थिक जाति जनगणना (SECC) व अंत्योदय कार्ड धारक परिवार।',
-    documents: ['आधार कार्ड', 'राशन कार्ड (अंत्योदय / लाल कार्ड)', 'मोबाइल नंबर'],
-    apply: 'ग्राम पंचायत कैंप, CHC/PHC अस्पताल या नजदीकी CSC केंद्र से गोल्डन कार्ड बनवाएं।',
-    applyUrl: 'https://mera.pmjay.gov.in'
-  },
-  {
     id: 'y5',
     name: 'वृद्धावस्था / विधवा / दिव्यांग पेंशन योजना',
     desc: '60 वर्ष से अधिक उम्र के बुजुर्गों, निराश्रित महिलाओं एवं दिव्यांग जनों को ₹1,000 प्रति माह सीधे खाते में पेंशन।',
@@ -5192,12 +5231,40 @@ const DEFAULT_YOJANA = [
     documents: ['आधार कार्ड', 'बचत बैंक खाता / जनधन खाता', 'खतौनी (जमीन का पर्चा)'],
     apply: 'नजदीकी कॉमन सर्विस सेंटर (CSC) पर जाकर पंजीकरण कराएं।',
     applyUrl: 'https://maandhan.in'
+  },
+  {
+    id: 'y7',
+    name: 'प्रधानमंत्री उज्ज्वला योजना (मुफ्त गैस कनेक्शन)',
+    desc: 'गरीब ग्रामीण परिवारों की महिलाओं को निःशुल्क एलपीजी गैस कनेक्शन, पहला भरा सिलेंडर और चूल्हा।',
+    eligibility: 'बीपीएल परिवार या अनुसूचित जाति/जनजाति, पीएम आवास लाभार्थी परिवार की 18+ वर्ष की महिला सदस्य।',
+    documents: ['आधार कार्ड (आवेदक महिला व परिवार के सदस्य)', 'राशन कार्ड / बीपीएल प्रमाण', 'बैंक खाता पासबुक', 'पासपोर्ट साइज फोटो'],
+    apply: 'नजदीकी गैस एजेंसी (Indane / Bharat / HP) या CSC केंद्र से ऑनलाइन आवेदन करें।',
+    applyUrl: 'https://pmuy.gov.in'
+  },
+  {
+    id: 'y8',
+    name: 'पीएम सूर्य घर: मुफ्त बिजली योजना',
+    desc: 'छत पर सोलर पैनल लगवाने हेतु केंद्र सरकार द्वारा ₹78,000 तक की सीधी सब्सिडी और 300 यूनिट तक मुफ्त बिजली।',
+    eligibility: 'सभी आवासीय परिवार जिनके पास अपनी पक्की छत और वैध बिजली कनेक्शन है।',
+    documents: ['बिजली का बिल (हाल का)', 'आधार कार्ड', 'बैंक खाता पासबुक', 'छत का स्वामित्व / फोटो'],
+    apply: 'नेशनल पोर्टल pmsuryaghar.gov.in पर ऑनलाइन या बिजली विभाग से आवेदन करें।',
+    applyUrl: 'https://pmsuryaghar.gov.in'
   }
 ];
 
 function renderYojana(){
   const wrap = document.getElementById('yojanaWrap');
-  const list = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
+  const rawList = (yojanaList && yojanaList.length) ? yojanaList : DEFAULT_YOJANA;
+
+  // Filter out schemes that are already featured in the top Citizen Quick Services cards (PMAY, Ayushman Bharat, Kanya Sumangala)
+  const list = rawList.filter(y => {
+    const n = (y.name || '').toLowerCase();
+    const d = (y.desc || '').toLowerCase();
+    if (y.id === 'y1' || n.includes('आवास') || n.includes('awas') || d.includes('आवास')) return false;
+    if (y.id === 'y4' || n.includes('आयुष्मान') || n.includes('ayushman') || d.includes('आयुष्मान')) return false;
+    if (n.includes('सुमंगला') || n.includes('sumangala') || d.includes('सुमंगला')) return false;
+    return true;
+  });
 
   wrap.innerHTML = list.map(y => {
     const docs = Array.isArray(y.documents) ? y.documents : (y.documents ? String(y.documents).split(',') : []);
