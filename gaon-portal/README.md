@@ -1,6 +1,9 @@
-# Hamara Gaon Portal
+# Alok Kushwaha Gaon Portal (जगदीशपुर गाँव पोर्टल)
 
-Gaon ke liye community website — samasya reporting, suchna board, gaon ki jaankari, aur sarkari yojanaein, ek jagah.
+🌐 **Live Website**: [https://jagdishpurgaon1.onrender.com/](https://jagdishpurgaon1.onrender.com/)  
+👨‍💻 **Developer & Creator**: Alok Kushwaha  
+
+जगदीशपुर ग्राम पंचायत के लिए डिजिटल कम्युनिटी पोर्टल — समस्या निवारण, सूचना बोर्ड, गाँव की जानकारी, सरकारी योजनाएं, छात्र व युवा कोना, स्वास्थ्य सेवा, और 1-क्लिक सरकारी फॉर्म।
 
 ## Kya hai isme
 
