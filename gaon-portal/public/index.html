@@ -3727,6 +3727,9 @@
             }
             .print-modal-header, .close-x, .btn-print-now {
                 display: none !important;
+            }
+        }
+
         /* Settings Button, Dark Theme & Guide Styles */
         .btn-settings-header {
             background: rgba(255, 255, 255, 0.18);
@@ -5426,6 +5429,202 @@
     <script>
         /* ============ Config ============ */
         const API = '/api';
+
+/* ============ Settings, Multilingual (i18n), Theme & Font Handlers ============ */
+const I18N = {
+    hi: {
+        brandTitle: 'Jagdishpur Gaon Portal',
+        brandSub: 'गाँव की आवाज़, गाँव के लिए · Alok Kushwaha Gaon Portal',
+        lblEmergency: '🚨 आपातकालीन:',
+        emergencyAll: 'सभी संपर्क 📞',
+        weatherAudio: 'सुनें',
+        tabSamasya: 'समस्या',
+        tabChaupal: 'संदेश',
+        tabKrishi: 'खेती-बाड़ी',
+        tabSuchna: 'सूचना बोर्ड',
+        tabJaankari: 'गाँव की जानकारी',
+        tabYojana: 'सरकारी योजनाएं',
+        tabYuva: 'छात्र व युवा',
+        tabSwasthya: 'स्वास्थ्य सेवा',
+        tabForms: 'सरकारी फॉर्म',
+        devConnect: 'डेवलपर से जुड़ें / सुझाव दें',
+        settingsTitle: 'सेटिंग्स व पोर्टल गाइड',
+        lblCurrentLang: 'हिन्दी (Hindi)',
+        lblLangHeading: 'भाषा का चुनाव / Select Language',
+        lblThemeTitle: '🌓 डिस्प्ले थीम (Display Theme)',
+        lblThemeDay: 'लाइट मोड (Day)',
+        lblThemeNight: 'डार्क मोड (Night)',
+        lblFontTitle: '🔠 लिखावट का आकार (Text Font Size)',
+        lblFontSm: 'छोटा (Small)',
+        lblFontNormal: 'सामान्य (Normal)',
+        lblFontLg: 'बड़ा (Large)',
+        lblCacheTitle: '🔄 पोर्टल रिफ्रेश व ऐप डेटा',
+        lblRefreshBtn: 'ताज़ा अपडेट तुरंत लोड करें (Clear & Reload)',
+        lblGuideTitle: '📖 वेबसाइट के सभी फीचर्स की जानकारी (Portal Guide)',
+        lblGuideSub: 'नीचे किसी भी सेक्शन पर टैप करके जानें कि वह क्या है और कैसे काम करता है:'
+    },
+    en: {
+        brandTitle: 'Jagdishpur Gaon Portal',
+        brandSub: 'Voice of Village, For the Village · Alok Kushwaha Gaon Portal',
+        lblEmergency: '🚨 Emergency:',
+        emergencyAll: 'All Contacts 📞',
+        weatherAudio: 'Listen',
+        tabSamasya: 'Grievance',
+        tabChaupal: 'Chaupal',
+        tabKrishi: 'Krishi Guide',
+        tabSuchna: 'Notice Board',
+        tabJaankari: 'Village Info',
+        tabYojana: 'Govt Schemes',
+        tabYuva: 'Youth Corner',
+        tabSwasthya: 'Health Care',
+        tabForms: 'Govt Forms',
+        devConnect: 'Connect with Developer / Feedback',
+        settingsTitle: 'Settings & Portal Guide',
+        lblCurrentLang: 'English',
+        lblLangHeading: 'Language Selection / Select Language',
+        lblThemeTitle: '🌓 Display Theme',
+        lblThemeDay: 'Day Mode',
+        lblThemeNight: 'Night Mode',
+        lblFontTitle: '🔠 Text Font Size',
+        lblFontSm: 'Small',
+        lblFontNormal: 'Normal',
+        lblFontLg: 'Large',
+        lblCacheTitle: '🔄 Portal Refresh & App Cache',
+        lblRefreshBtn: 'Load Fresh Updates (Clear & Reload)',
+        lblGuideTitle: '📖 All Features & Working Guide (Portal Guide)',
+        lblGuideSub: 'Tap on any section below to learn what it is and how it works:'
+    }
+};
+
+let currentLang = localStorage.getItem('portal_lang') || 'hi';
+let currentTheme = localStorage.getItem('portal_theme') || 'light';
+let currentFont = localStorage.getItem('portal_font') || 'normal';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('portal_lang', lang);
+
+    document.querySelectorAll('#btnLangHi, #btnLangEn').forEach(b => b.classList.remove('active'));
+    if (lang === 'en') {
+        const b = document.getElementById('btnLangEn');
+        if (b) b.classList.add('active');
+    } else {
+        const b = document.getElementById('btnLangHi');
+        if (b) b.classList.add('active');
+    }
+
+    const dict = I18N[lang] || I18N.hi;
+    const updateText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+    };
+
+    updateText('brandSub', dict.brandSub);
+    updateText('lblEmergency', dict.lblEmergency);
+    updateText('lblWeatherAudio', dict.weatherAudio);
+    updateText('tabLblSamasya', dict.tabSamasya);
+    updateText('tabLblChaupal', dict.tabChaupal);
+    updateText('tabLblKrishi', dict.tabKrishi);
+    updateText('tabLblSuchna', dict.tabSuchna);
+    updateText('tabLblJaankari', dict.tabJaankari);
+    updateText('tabLblYojana', dict.tabYojana);
+    updateText('tabLblYuva', dict.tabYuva);
+    updateText('tabLblSwasthya', dict.tabSwasthya);
+    updateText('tabLblForms', dict.tabForms);
+    updateText('lblDevConnect', dict.devConnect);
+    updateText('settingsModalTitle', dict.settingsTitle);
+    updateText('lblCurrentLang', dict.lblCurrentLang);
+    updateText('lblLangHeading', dict.lblLangHeading);
+    updateText('lblThemeTitle', dict.lblThemeTitle);
+    updateText('lblThemeDay', dict.lblThemeDay);
+    updateText('lblThemeNight', dict.lblThemeNight);
+    updateText('lblFontTitle', dict.lblFontTitle);
+    updateText('lblFontSm', dict.lblFontSm);
+    updateText('lblFontNormal', dict.lblFontNormal);
+    updateText('lblFontLg', dict.lblFontLg);
+    updateText('lblCacheTitle', dict.lblCacheTitle);
+    updateText('lblRefreshBtn', dict.lblRefreshBtn);
+    updateText('lblGuideTitle', dict.lblGuideTitle);
+    updateText('lblGuideSub', dict.lblGuideSub);
+
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) updateFab(activeTab.dataset.tab);
+}
+
+function setTheme(theme) {
+    currentTheme = theme;
+    localStorage.setItem('portal_theme', theme);
+
+    const btnLight = document.getElementById('btnThemeLight');
+    const btnDark = document.getElementById('btnThemeDark');
+    const lblTheme = document.getElementById('lblCurrentTheme');
+
+    if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+        if (btnDark) btnDark.classList.add('active');
+        if (btnLight) btnLight.classList.remove('active');
+        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Night Mode' : 'डार्क मोड (Night)';
+    } else {
+        document.body.classList.remove('theme-dark');
+        if (btnLight) btnLight.classList.add('active');
+        if (btnDark) btnDark.classList.remove('active');
+        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Day Mode' : 'लाइट मोड (Day)';
+    }
+}
+
+function setFontSize(size) {
+    currentFont = size;
+    localStorage.setItem('portal_font', size);
+
+    document.body.classList.remove('font-sm', 'font-normal', 'font-lg');
+    document.body.classList.add('font-' + size);
+
+    document.querySelectorAll('#btnFontSm, #btnFontNormal, #btnFontLg').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('btnFont' + size.charAt(0).toUpperCase() + size.slice(1));
+    if (activeBtn) activeBtn.classList.add('active');
+
+    const lblFont = document.getElementById('lblCurrentFont');
+    if (lblFont) {
+        if (size === 'sm') lblFont.textContent = (currentLang === 'en') ? 'Small' : 'छोटा (Small)';
+        else if (size === 'lg') lblFont.textContent = (currentLang === 'en') ? 'Large' : 'बड़ा (Large)';
+        else lblFont.textContent = (currentLang === 'en') ? 'Normal' : 'सामान्य (Normal)';
+    }
+}
+
+function toggleGuide(el) {
+    const item = el.closest('.guide-item');
+    if (!item) return;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.guide-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) {
+        item.classList.add('open');
+    }
+}
+
+async function refreshAppCache() {
+    toast((currentLang === 'en') ? 'Clearing cache & reloading... 🔄' : 'कैश साफ करके नया डेटा लोड हो रहा है... 🔄');
+    if ('caches' in window) {
+        try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+        } catch (err) {
+            console.warn('Cache clear error:', err);
+        }
+    }
+    setTimeout(() => {
+        window.location.reload(true);
+    }, 600);
+}
+
+// Attach settings button opener
+document.getElementById('btnOpenSettings')?.addEventListener('click', () => openOverlay('overlaySettings'));
+
+// Initialize preferences on page load
+setTheme(currentTheme);
+setFontSize(currentFont);
+setLanguage(currentLang);
+
+
         const CATEGORIES = [{
             id: 'sadak',
             name: 'सड़क',
@@ -5578,6 +5777,7 @@
 
         function updateFab(tab) {
             const fab = document.getElementById('mainFab');
+            if (!fab) return;
             const isEn = (typeof currentLang !== 'undefined' && currentLang === 'en');
             if (tab === 'samasya') {
                 fab.style.display = 'inline-flex';
@@ -8508,11 +8708,11 @@ function initWeather() {
 
 /* ============ Init ============ */
 async function init(){
-  updateAdminButton();
-  initVoiceInput();
-  initWeather();
-  initCitizenServices();
-  initMachinery();
+  try { updateAdminButton(); } catch(e) { console.error('updateAdminButton err:', e); }
+  try { initVoiceInput(); } catch(e) { console.error('initVoiceInput err:', e); }
+  try { initWeather(); } catch(e) { console.error('initWeather err:', e); }
+  try { initCitizenServices(); } catch(e) { console.error('initCitizenServices err:', e); }
+  try { initMachinery(); } catch(e) { console.error('initMachinery err:', e); }
 
   const btnEmAll = document.getElementById('btnEmergencyAll');
   if(btnEmAll){
@@ -8522,31 +8722,39 @@ async function init(){
     });
   }
 
-  const [su, j, y, ch, kr] = await Promise.all([
-    apiGet('/suchna'),
-    apiGet('/jaankari'),
-    apiGet('/yojana'),
-    apiGet('/chaupal'),
-    apiGet('/krishi')
-  ]);
-  suchnaList = su || [];
-  jaankari = j || null;
-  yojanaList = y || [];
-  chaupalList = ch || [];
-  krishiList = (kr && Array.isArray(kr) && kr.length > 0) ? kr : DEFAULT_KRISHI;
-  if(krishiList.length > 0 && !activeKrishiCrop){
-    activeKrishiCrop = krishiList[0].id;
+  try {
+    const [su, j, y, ch, kr] = await Promise.all([
+      apiGet('/suchna').catch(e => { console.error('suchna err:', e); return null; }),
+      apiGet('/jaankari').catch(e => { console.error('jaankari err:', e); return null; }),
+      apiGet('/yojana').catch(e => { console.error('yojana err:', e); return null; }),
+      apiGet('/chaupal').catch(e => { console.error('chaupal err:', e); return null; }),
+      apiGet('/krishi').catch(e => { console.error('krishi err:', e); return null; })
+    ]);
+    suchnaList = su || [];
+    jaankari = j || null;
+    yojanaList = y || [];
+    chaupalList = ch || [];
+    krishiList = (kr && Array.isArray(kr) && kr.length > 0) ? kr : DEFAULT_KRISHI;
+    if(krishiList.length > 0 && !activeKrishiCrop){
+      activeKrishiCrop = krishiList[0].id;
+    }
+  } catch(e) {
+    console.error('API load error in init:', e);
+    krishiList = DEFAULT_KRISHI;
   }
 
-  renderCatGrid();
-  renderSamasyaList();
-  renderChaupal();
-  renderSuchna();
-  renderJaankari();
-  renderYojana();
-  renderKrishi();
+  // Always render sections - never leave them stuck in loading state!
+  try { renderCatGrid(); } catch(e) { console.error('renderCatGrid err:', e); }
+  try { renderSamasyaList(); } catch(e) { console.error('renderSamasyaList err:', e); }
+  try { renderChaupal(); } catch(e) { console.error('renderChaupal err:', e); }
+  try { renderSuchna(); } catch(e) { console.error('renderSuchna err:', e); }
+  try { renderJaankari(); } catch(e) { console.error('renderJaankari err:', e); }
+  try { renderYojana(); } catch(e) { console.error('renderYojana err:', e); }
+  try { renderKrishi(); } catch(e) { console.error('renderKrishi err:', e); }
 
-  if(adminKey) await loadSamasyaList();
+  if(adminKey){
+    try { await loadSamasyaList(); } catch(e) { console.error('loadSamasyaList err:', e); }
+  }
 }
 init();
 
@@ -9261,200 +9469,6 @@ function shareFormOnWhatsApp(formId) {
     const text = `📄 *${form.title}*\\n🏢 *विभाग:* ${form.dept}\\n\\n📋 *ज़रूरी दस्तावेज़ (कागजात):*\\n${form.docs}\\n\\n🖨️ इस फॉर्म को ऑनलाइन देखने, भरने और A4 साइज़ में प्रिंट / PDF डाउनलोड करने के लिए जगदीशपुर गाँव पोर्टल पर जाएँ:\\n👉 ${portalUrl}\\n\\n_गाँव के सभी भाइयों के साथ शेयर करें!_`;
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
 }
-
-/* ============ Settings, Multilingual (i18n), Theme & Font Handlers ============ */
-const I18N = {
-    hi: {
-        brandTitle: 'Jagdishpur Gaon Portal',
-        brandSub: 'गाँव की आवाज़, गाँव के लिए · Alok Kushwaha Gaon Portal',
-        lblEmergency: '🚨 आपातकालीन:',
-        emergencyAll: 'सभी संपर्क 📞',
-        weatherAudio: 'सुनें',
-        tabSamasya: 'समस्या',
-        tabChaupal: 'संदेश',
-        tabKrishi: 'खेती-बाड़ी',
-        tabSuchna: 'सूचना बोर्ड',
-        tabJaankari: 'गाँव की जानकारी',
-        tabYojana: 'सरकारी योजनाएं',
-        tabYuva: 'छात्र व युवा',
-        tabSwasthya: 'स्वास्थ्य सेवा',
-        tabForms: 'सरकारी फॉर्म',
-        devConnect: 'डेवलपर से जुड़ें / सुझाव दें',
-        settingsTitle: 'सेटिंग्स व पोर्टल गाइड',
-        lblCurrentLang: 'हिन्दी (Hindi)',
-        lblLangHeading: 'भाषा का चुनाव / Select Language',
-        lblThemeTitle: '🌓 डिस्प्ले थीम (Display Theme)',
-        lblThemeDay: 'लाइट मोड (Day)',
-        lblThemeNight: 'डार्क मोड (Night)',
-        lblFontTitle: '🔠 लिखावट का आकार (Text Font Size)',
-        lblFontSm: 'छोटा (Small)',
-        lblFontNormal: 'सामान्य (Normal)',
-        lblFontLg: 'बड़ा (Large)',
-        lblCacheTitle: '🔄 पोर्टल रिफ्रेश व ऐप डेटा',
-        lblRefreshBtn: 'ताज़ा अपडेट तुरंत लोड करें (Clear & Reload)',
-        lblGuideTitle: '📖 वेबसाइट के सभी फीचर्स की जानकारी (Portal Guide)',
-        lblGuideSub: 'नीचे किसी भी सेक्शन पर टैप करके जानें कि वह क्या है और कैसे काम करता है:'
-    },
-    en: {
-        brandTitle: 'Jagdishpur Gaon Portal',
-        brandSub: 'Voice of Village, For the Village · Alok Kushwaha Gaon Portal',
-        lblEmergency: '🚨 Emergency:',
-        emergencyAll: 'All Contacts 📞',
-        weatherAudio: 'Listen',
-        tabSamasya: 'Grievance',
-        tabChaupal: 'Chaupal',
-        tabKrishi: 'Krishi Guide',
-        tabSuchna: 'Notice Board',
-        tabJaankari: 'Village Info',
-        tabYojana: 'Govt Schemes',
-        tabYuva: 'Youth Corner',
-        tabSwasthya: 'Health Care',
-        tabForms: 'Govt Forms',
-        devConnect: 'Connect with Developer / Feedback',
-        settingsTitle: 'Settings & Portal Guide',
-        lblCurrentLang: 'English',
-        lblLangHeading: 'Language Selection / Select Language',
-        lblThemeTitle: '🌓 Display Theme',
-        lblThemeDay: 'Day Mode',
-        lblThemeNight: 'Night Mode',
-        lblFontTitle: '🔠 Text Font Size',
-        lblFontSm: 'Small',
-        lblFontNormal: 'Normal',
-        lblFontLg: 'Large',
-        lblCacheTitle: '🔄 Portal Refresh & App Cache',
-        lblRefreshBtn: 'Load Fresh Updates (Clear & Reload)',
-        lblGuideTitle: '📖 All Features & Working Guide (Portal Guide)',
-        lblGuideSub: 'Tap on any section below to learn what it is and how it works:'
-    }
-};
-
-let currentLang = localStorage.getItem('portal_lang') || 'hi';
-let currentTheme = localStorage.getItem('portal_theme') || 'light';
-let currentFont = localStorage.getItem('portal_font') || 'normal';
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('portal_lang', lang);
-
-    document.querySelectorAll('#btnLangHi, #btnLangEn').forEach(b => b.classList.remove('active'));
-    if (lang === 'en') {
-        const b = document.getElementById('btnLangEn');
-        if (b) b.classList.add('active');
-    } else {
-        const b = document.getElementById('btnLangHi');
-        if (b) b.classList.add('active');
-    }
-
-    const dict = I18N[lang] || I18N.hi;
-    const updateText = (id, txt) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = txt;
-    };
-
-    updateText('brandSub', dict.brandSub);
-    updateText('lblEmergency', dict.lblEmergency);
-    updateText('lblWeatherAudio', dict.weatherAudio);
-    updateText('tabLblSamasya', dict.tabSamasya);
-    updateText('tabLblChaupal', dict.tabChaupal);
-    updateText('tabLblKrishi', dict.tabKrishi);
-    updateText('tabLblSuchna', dict.tabSuchna);
-    updateText('tabLblJaankari', dict.tabJaankari);
-    updateText('tabLblYojana', dict.tabYojana);
-    updateText('tabLblYuva', dict.tabYuva);
-    updateText('tabLblSwasthya', dict.tabSwasthya);
-    updateText('tabLblForms', dict.tabForms);
-    updateText('lblDevConnect', dict.devConnect);
-    updateText('settingsModalTitle', dict.settingsTitle);
-    updateText('lblCurrentLang', dict.lblCurrentLang);
-    updateText('lblLangHeading', dict.lblLangHeading);
-    updateText('lblThemeTitle', dict.lblThemeTitle);
-    updateText('lblThemeDay', dict.lblThemeDay);
-    updateText('lblThemeNight', dict.lblThemeNight);
-    updateText('lblFontTitle', dict.lblFontTitle);
-    updateText('lblFontSm', dict.lblFontSm);
-    updateText('lblFontNormal', dict.lblFontNormal);
-    updateText('lblFontLg', dict.lblFontLg);
-    updateText('lblCacheTitle', dict.lblCacheTitle);
-    updateText('lblRefreshBtn', dict.lblRefreshBtn);
-    updateText('lblGuideTitle', dict.lblGuideTitle);
-    updateText('lblGuideSub', dict.lblGuideSub);
-
-    const activeTab = document.querySelector('.tab-btn.active');
-    if (activeTab) updateFab(activeTab.dataset.tab);
-}
-
-function setTheme(theme) {
-    currentTheme = theme;
-    localStorage.setItem('portal_theme', theme);
-
-    const btnLight = document.getElementById('btnThemeLight');
-    const btnDark = document.getElementById('btnThemeDark');
-    const lblTheme = document.getElementById('lblCurrentTheme');
-
-    if (theme === 'dark') {
-        document.body.classList.add('theme-dark');
-        if (btnDark) btnDark.classList.add('active');
-        if (btnLight) btnLight.classList.remove('active');
-        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Night Mode' : 'डार्क मोड (Night)';
-    } else {
-        document.body.classList.remove('theme-dark');
-        if (btnLight) btnLight.classList.add('active');
-        if (btnDark) btnDark.classList.remove('active');
-        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Day Mode' : 'लाइट मोड (Day)';
-    }
-}
-
-function setFontSize(size) {
-    currentFont = size;
-    localStorage.setItem('portal_font', size);
-
-    document.body.classList.remove('font-sm', 'font-normal', 'font-lg');
-    document.body.classList.add('font-' + size);
-
-    document.querySelectorAll('#btnFontSm, #btnFontNormal, #btnFontLg').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.getElementById('btnFont' + size.charAt(0).toUpperCase() + size.slice(1));
-    if (activeBtn) activeBtn.classList.add('active');
-
-    const lblFont = document.getElementById('lblCurrentFont');
-    if (lblFont) {
-        if (size === 'sm') lblFont.textContent = (currentLang === 'en') ? 'Small' : 'छोटा (Small)';
-        else if (size === 'lg') lblFont.textContent = (currentLang === 'en') ? 'Large' : 'बड़ा (Large)';
-        else lblFont.textContent = (currentLang === 'en') ? 'Normal' : 'सामान्य (Normal)';
-    }
-}
-
-function toggleGuide(el) {
-    const item = el.closest('.guide-item');
-    if (!item) return;
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.guide-item').forEach(i => i.classList.remove('open'));
-    if (!isOpen) {
-        item.classList.add('open');
-    }
-}
-
-async function refreshAppCache() {
-    toast((currentLang === 'en') ? 'Clearing cache & reloading... 🔄' : 'कैश साफ करके नया डेटा लोड हो रहा है... 🔄');
-    if ('caches' in window) {
-        try {
-            const keys = await caches.keys();
-            await Promise.all(keys.map(k => caches.delete(k)));
-        } catch (err) {
-            console.warn('Cache clear error:', err);
-        }
-    }
-    setTimeout(() => {
-        window.location.reload(true);
-    }, 600);
-}
-
-// Attach settings button opener
-document.getElementById('btnOpenSettings')?.addEventListener('click', () => openOverlay('overlaySettings'));
-
-// Initialize preferences on page load
-setTheme(currentTheme);
-setFontSize(currentFont);
-setLanguage(currentLang);
 
 /* ============ PWA: Service worker + Install prompt ============ */
 if ('serviceWorker' in navigator) {
