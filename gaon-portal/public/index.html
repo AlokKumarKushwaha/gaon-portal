@@ -197,6 +197,8 @@
             z-index: 1;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
             margin-top: 8px;
         }
         
@@ -3732,24 +3734,38 @@
 
         /* Settings Button, Dark Theme & Guide Styles */
         .btn-settings-header {
-            background: rgba(255, 255, 255, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            color: #F3ECDD;
-            font-size: 1.25rem;
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #D9C9A3;
+            font-size: 0.76rem;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 5px;
             cursor: pointer;
             flex: none;
-            transition: transform 0.3s ease, background 0.2s ease;
-            padding: 0;
-            line-height: 1;
+            padding: 6px 11px;
+            line-height: 1.2;
+            transition: background 0.2s ease, transform 0.15s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         .btn-settings-header:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+        }
+        .btn-settings-header:active {
+            transform: scale(0.96);
+        }
+        .btn-settings-header .settings-gear {
+            font-size: 0.88rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .btn-settings-header:hover .settings-gear {
             transform: rotate(45deg);
         }
 
@@ -3991,7 +4007,6 @@
 
         <header class="site-header">
             <div class="brand-row">
-                <button type="button" class="btn-settings-header" id="btnOpenSettings" title="सेटिंग्स व गाइड (Settings & Guide)">⚙️</button>
                 <div class="brand-mark">🏡</div>
                 <div class="brand-text">
                     <h1 id="brandTitle">Jagdishpur Gaon Portal</h1>
@@ -4000,6 +4015,10 @@
                 <button class="install-btn" id="installBtn">📲 App Install</button>
             </div>
             <div class="admin-row" id="adminRow">
+                <button type="button" class="btn-settings-header" id="btnOpenSettings" title="सेटिंग्स व गाइड (Settings & Guide)">
+                    <span class="settings-gear">⚙️</span>
+                    <span id="lblHeaderSettings">सेटिंग्स</span>
+                </button>
                 <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
             </div>
         </header>
@@ -5448,6 +5467,7 @@ const I18N = {
         tabSwasthya: 'स्वास्थ्य सेवा',
         tabForms: 'सरकारी फॉर्म',
         devConnect: 'डेवलपर से जुड़ें / सुझाव दें',
+        lblHeaderSettings: 'सेटिंग्स',
         settingsTitle: 'सेटिंग्स व पोर्टल गाइड',
         lblCurrentLang: 'हिन्दी (Hindi)',
         lblLangHeading: 'भाषा का चुनाव / Select Language',
@@ -5479,6 +5499,7 @@ const I18N = {
         tabSwasthya: 'Health Care',
         tabForms: 'Govt Forms',
         devConnect: 'Connect with Developer / Feedback',
+        lblHeaderSettings: 'Settings',
         settingsTitle: 'Settings & Portal Guide',
         lblCurrentLang: 'English',
         lblLangHeading: 'Language Selection / Select Language',
@@ -5532,6 +5553,7 @@ function setLanguage(lang) {
     updateText('tabLblSwasthya', dict.tabSwasthya);
     updateText('tabLblForms', dict.tabForms);
     updateText('lblDevConnect', dict.devConnect);
+    updateText('lblHeaderSettings', dict.lblHeaderSettings);
     updateText('settingsModalTitle', dict.settingsTitle);
     updateText('lblCurrentLang', dict.lblCurrentLang);
     updateText('lblLangHeading', dict.lblLangHeading);
