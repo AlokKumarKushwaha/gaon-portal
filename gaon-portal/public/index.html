@@ -3727,8 +3727,259 @@
             }
             .print-modal-header, .close-x, .btn-print-now {
                 display: none !important;
-            }
+        /* Settings Button, Dark Theme & Guide Styles */
+        .btn-settings-header {
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #F3ECDD;
+            font-size: 1.25rem;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex: none;
+            transition: transform 0.3s ease, background 0.2s ease;
+            padding: 0;
+            line-height: 1;
         }
+        .btn-settings-header:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+        }
+
+        /* Dark Theme */
+        body.theme-dark {
+            --wall: #0F172A;
+            --wall-dark: #020617;
+            --indigo: #0F172A;
+            --indigo-dark: #020617;
+            --card: #1E293B;
+            --line: #334155;
+            --ink: #F1F5F9;
+            --ink-soft: #94A3B8;
+            background: #0B1120;
+            color: #F1F5F9;
+        }
+        body.theme-dark .app { background: #0F172A; }
+        body.theme-dark .card,
+        body.theme-dark .sheet,
+        body.theme-dark .samasya-card,
+        body.theme-dark .chaupal-card,
+        body.theme-dark .suchna-card,
+        body.theme-dark .yojana-card,
+        body.theme-dark .crop-detail-card,
+        body.theme-dark .form-card,
+        body.theme-dark .yuva-card,
+        body.theme-dark .builder-footer,
+        body.theme-dark .tab-btn {
+            background: #1E293B !important;
+            border-color: #334155 !important;
+            color: #F1F5F9 !important;
+        }
+        body.theme-dark .builder-name,
+        body.theme-dark .brand-text h1,
+        body.theme-dark h2,
+        body.theme-dark h3,
+        body.theme-dark strong {
+            color: #F8FAFC !important;
+        }
+        body.theme-dark .tab-btn.active {
+            background: #D99A2B !important;
+            color: #000 !important;
+        }
+        body.theme-dark .weather-strip,
+        body.theme-dark .emergency-strip {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        body.theme-dark input,
+        body.theme-dark textarea,
+        body.theme-dark select {
+            background: #0F172A;
+            color: #F1F5F9;
+            border-color: #334155;
+        }
+
+        /* Font Sizes */
+        body.font-sm { font-size: 14px; }
+        body.font-normal { font-size: 16px; }
+        body.font-lg { font-size: 18px; }
+
+        /* Settings Sheet & Guide */
+        .settings-sheet {
+            max-width: 680px !important;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px !important;
+            padding: 0 !important;
+        }
+        .settings-header-banner {
+            background: linear-gradient(135deg, #1F3F5C 0%, #0F172A 100%);
+            color: #fff;
+            padding: 18px 22px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .settings-header-banner h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-family: 'Baloo 2', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff !important;
+        }
+        .settings-body {
+            padding: 20px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .settings-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        body.theme-dark .settings-card {
+            background: #1E293B;
+            border-color: #334155;
+        }
+        .settings-card-title {
+            font-size: .95rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #1E293B;
+        }
+        body.theme-dark .settings-card-title { color: #F1F5F9; }
+        .settings-pill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+        }
+        .setting-pill-btn {
+            background: #F1F5F9;
+            border: 2px solid #CBD5E1;
+            color: #334155;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: .88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        body.theme-dark .setting-pill-btn {
+            background: #0F172A;
+            border-color: #334155;
+            color: #E2E8F0;
+        }
+        .setting-pill-btn.active {
+            background: #1F3F5C;
+            border-color: #1F3F5C;
+            color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(31, 63, 92, 0.25);
+        }
+        body.theme-dark .setting-pill-btn.active {
+            background: #D99A2B;
+            border-color: #D99A2B;
+            color: #000;
+            box-shadow: 0 4px 10px rgba(217, 154, 43, 0.3);
+        }
+        .guide-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .guide-item {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #F8FAFC;
+            transition: all 0.2s ease;
+        }
+        body.theme-dark .guide-item {
+            background: #0F172A;
+            border-color: #334155;
+        }
+        .guide-item-head {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: .9rem;
+            user-select: none;
+        }
+        .guide-item-head:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        body.theme-dark .guide-item-head:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .guide-item-body {
+            padding: 0 16px 14px 16px;
+            font-size: .85rem;
+            color: #475569;
+            line-height: 1.6;
+            border-top: 1px dashed #E2E8F0;
+            display: none;
+        }
+        body.theme-dark .guide-item-body {
+            color: #CBD5E1;
+            border-top-color: #334155;
+        }
+        .guide-item.open .guide-item-body {
+            display: block;
+            padding-top: 12px;
+        }
+        .guide-item-badge {
+            background: #E0E7FF;
+            color: #3730A3;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: .74rem;
+            font-weight: 700;
+        }
+        body.theme-dark .guide-item-badge {
+            background: #312E81;
+            color: #C7D2FE;
+        }
+        .btn-refresh-cache {
+            background: #0284C7;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: .88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+        .btn-refresh-cache:hover { background: #0369A1; }
     </style>
 </head>
 
@@ -3737,12 +3988,13 @@
 
         <header class="site-header">
             <div class="brand-row">
+                <button type="button" class="btn-settings-header" id="btnOpenSettings" title="सेटिंग्स व गाइड (Settings & Guide)">⚙️</button>
                 <div class="brand-mark">🏡</div>
                 <div class="brand-text">
-                    <h1>Jagdishpur Gaon Portal</h1>
-                    <p>गाँव की आवाज़, गाँव के लिए · Alok Kushwaha Gaon Portal</p>
+                    <h1 id="brandTitle">Jagdishpur Gaon Portal</h1>
+                    <p id="brandSub">गाँव की आवाज़, गाँव के लिए · Alok Kushwaha Gaon Portal</p>
                 </div>
-                <button class="install-btn" id="installBtn">📲 App Install Karein</button>
+                <button class="install-btn" id="installBtn">📲 App Install</button>
             </div>
             <div class="admin-row" id="adminRow">
                 <button class="admin-link" id="adminLoginBtn">🔐 Pradhan Login</button>
@@ -3752,7 +4004,7 @@
         <!-- ===================== EMERGENCY QUICK CALL STRIP ===================== -->
         <div class="emergency-strip" id="emergencyStrip">
             <div class="emergency-strip-inner">
-                <span class="emergency-label">🚨 आपातकालीन:</span>
+                <span class="emergency-label" id="lblEmergency">🚨 आपातकालीन:</span>
                 <a href="tel:108" class="emergency-pill">🚑 108 एम्बुलेंस</a>
                 <a href="tel:112" class="emergency-pill">🚓 112 पुलिस</a>
                 <a href="tel:1912" class="emergency-pill">⚡ 1912 बिजली फॉल्ट</a>
@@ -3772,7 +4024,7 @@
                 <div class="weather-strip-right">
                     <button type="button" class="btn-weather-audio" id="btnWeatherAudioStrip" title="मौसम व खेती बुलेटिन बोलकर सुनें">
                         <span class="weather-audio-btn-icon">🔊</span>
-                        <span class="weather-audio-btn-text">सुनें</span>
+                        <span class="weather-audio-btn-text" id="lblWeatherAudio">सुनें</span>
                     </button>
                     <button type="button" class="btn-weather-details" id="btnOpenWeatherModal" title="विस्तृत मौसम व बारिश का पूर्वानुमान देखें">
                         🔍 बारिश व मौसम ↗
@@ -3782,15 +4034,15 @@
         </div>
 
         <nav class="tabs" role="tablist">
-            <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span>समस्या</button>
-            <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span>संदेश</button>
-            <button class="tab-btn" data-tab="krishi"><span class="emoji">🌾</span>खेती-बाड़ी</button>
-            <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span>सूचना बोर्ड</button>
-            <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span>गाँव की जानकारी</button>
-            <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span>सरकारी योजनाएं</button>
-            <button class="tab-btn" data-tab="yuva"><span class="emoji">🎓</span>छात्र व युवा</button>
-            <button class="tab-btn" data-tab="swasthya"><span class="emoji">👶</span>स्वास्थ्य सेवा</button>
-            <button class="tab-btn" data-tab="forms"><span class="emoji">📑</span>सरकारी फॉर्म</button>
+            <button class="tab-btn active" data-tab="samasya"><span class="emoji">📢</span><span id="tabLblSamasya">समस्या</span></button>
+            <button class="tab-btn" data-tab="chaupal"><span class="emoji">🗣️</span><span id="tabLblChaupal">संदेश</span></button>
+            <button class="tab-btn" data-tab="krishi"><span class="emoji">🌾</span><span id="tabLblKrishi">खेती-बाड़ी</span></button>
+            <button class="tab-btn" data-tab="suchna"><span class="emoji">📌</span><span id="tabLblSuchna">सूचना बोर्ड</span></button>
+            <button class="tab-btn" data-tab="jaankari"><span class="emoji">🏘️</span><span id="tabLblJaankari">गाँव की जानकारी</span></button>
+            <button class="tab-btn" data-tab="yojana"><span class="emoji">📄</span><span id="tabLblYojana">सरकारी योजनाएं</span></button>
+            <button class="tab-btn" data-tab="yuva"><span class="emoji">🎓</span><span id="tabLblYuva">छात्र व युवा</span></button>
+            <button class="tab-btn" data-tab="swasthya"><span class="emoji">👶</span><span id="tabLblSwasthya">स्वास्थ्य सेवा</span></button>
+            <button class="tab-btn" data-tab="forms"><span class="emoji">📑</span><span id="tabLblForms">सरकारी फॉर्म</span></button>
         </nav>
 
         <main>
@@ -4566,8 +4818,8 @@
                 <span class="builder-chip">🏡 गाँव का युवा, गाँव के लिए</span>
                 <span class="builder-chip">🚀 Made with ❤️ for Jagdishpur</span>
             </div>
-            <a href="https://api.whatsapp.com/send?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20%E0%A4%86%E0%A4%B2%E0%A5%8B%E0%A4%95%20%E0%A4%9C%E0%A5%80!%20%E0%A4%AE%E0%A5%88%E0%A4%82%E0%A4%A8%E0%A5%87%20%E0%A4%9C%E0%A4%97%E0%A4%A6%E0%A5%80%E0%A4%B6%E0%A4%AA%E0%A5%81%E0%A4%B0%20%E0%A4%97%E0%A4%BE%E0%A4%81%E0%A4%B5%20%E0%A4%AA%E0%A5%8B%E0%A4%B0%E0%A5%8D%E0%A4%9F%E0%A4%B2%20%E0%A4%B5%E0%A5%87%E0%A4%AC%E0%A4%B8%E0%A4%BE%E0%A4%87%E0%A4%9F%20%E0%A4%A6%E0%A5%87%E0%A4%96%E0%A5%80,%20%E0%A4%AC%E0%A4%B9%E0%A5%81%E0%A4%A4%20%E0%A4%B6%E0%A4%BE%E0%A4%A8%E0%A4%A6%E0%A4%BE%E0%A4%B0%20%E0%A4%AC%E0%A4%A8%E0%A4%BE%E0%A4%88%20%E0%A4%B9%E0%A5%88!" target="_blank" rel="noopener noreferrer" class="builder-wa-btn">
-                <span>💬</span> डेवलपर से जुड़ें / सुझाव दें
+            <a href="https://api.whatsapp.com/send?phone=918423406830&text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20%E0%A4%86%E0%A4%B2%E0%A5%8B%E0%A4%95%20%E0%A4%9C%E0%A5%80!%20%E0%A4%AE%E0%A5%88%E0%A4%82%E0%A4%A8%E0%A5%87%20%E0%A4%9C%E0%A4%97%E0%A4%A6%E0%A5%80%E0%A4%B6%E0%A4%AA%E0%A5%81%E0%A4%B0%20%E0%A4%97%E0%A4%BE%E0%A4%81%E0%A4%B5%20%E0%A4%AA%E0%A5%8B%E0%A4%B0%E0%A5%8D%E0%A4%9F%E0%A4%B2%20%E0%A4%B5%E0%A5%87%E0%A4%AC%E0%A4%B8%E0%A4%BE%E0%A4%87%E0%A4%9F%20%E0%A4%A6%E0%A5%87%E0%A4%96%E0%A5%80,%20%E0%A4%AE%E0%A5%81%E0%A4%9D%E0%A5%87%20%E0%A4%B8%E0%A5%81%E0%A4%9D%E0%A4%BE%E0%A4%B5%20%E0%A4%A6%E0%A5%87%E0%A4%A8%E0%A4%BE%20%E0%A4%B9%E0%A5%88..." target="_blank" rel="noopener noreferrer" class="builder-wa-btn" id="btnDevWhatsApp">
+                <span>💬</span> <span id="lblDevConnect">डेवलपर से जुड़ें / सुझाव दें</span>
             </a>
             <p class="builder-foot-sub">Alok Kushwaha Gaon Portal · जगदीशपुर गाँव पोर्टल · Version 2.0 (Live PWA)</p>
         </div>
@@ -4895,6 +5147,274 @@
             </div>
         </div>
 
+        <!-- ===================== SETTINGS & PORTAL GUIDE MODAL ===================== -->
+        <div class="overlay" id="overlaySettings">
+            <div class="sheet settings-sheet">
+                <div class="settings-header-banner">
+                    <h2><span>⚙️</span> <span id="settingsModalTitle">सेटिंग्स व पोर्टल गाइड</span></h2>
+                    <button type="button" class="close-x" style="position:static; margin:0; color:#fff;" data-close="overlaySettings">✕</button>
+                </div>
+                <div class="settings-body">
+                    
+                    <!-- 1. Language Toggle -->
+                    <div class="settings-card">
+                        <div class="settings-card-title">
+                            <span>🌐 <span id="lblLangHeading">भाषा का चुनाव / Select Language</span></span>
+                            <span class="guide-item-badge" id="lblCurrentLang">हिन्दी (Hindi)</span>
+                        </div>
+                        <div class="settings-pill-grid">
+                            <button type="button" class="setting-pill-btn active" id="btnLangHi" onclick="setLanguage('hi')">
+                                <span>🇮🇳</span> हिन्दी (Hindi)
+                            </button>
+                            <button type="button" class="setting-pill-btn" id="btnLangEn" onclick="setLanguage('en')">
+                                <span>🇬🇧</span> English
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Display Theme (Dark / Light) -->
+                    <div class="settings-card">
+                        <div class="settings-card-title">
+                            <span id="lblThemeTitle">🌓 डिस्प्ले थीम (Display Theme)</span>
+                            <span class="guide-item-badge" id="lblCurrentTheme">Day Mode</span>
+                        </div>
+                        <div class="settings-pill-grid">
+                            <button type="button" class="setting-pill-btn active" id="btnThemeLight" onclick="setTheme('light')">
+                                <span>☀️</span> <span id="lblThemeDay">लाइट मोड (Day)</span>
+                            </button>
+                            <button type="button" class="setting-pill-btn" id="btnThemeDark" onclick="setTheme('dark')">
+                                <span>🌙</span> <span id="lblThemeNight">डार्क मोड (Night)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Font Size Control -->
+                    <div class="settings-card">
+                        <div class="settings-card-title">
+                            <span id="lblFontTitle">🔠 लिखावट का आकार (Text Font Size)</span>
+                            <span class="guide-item-badge" id="lblCurrentFont">सामान्य (Normal)</span>
+                        </div>
+                        <div class="settings-pill-grid">
+                            <button type="button" class="setting-pill-btn" id="btnFontSm" onclick="setFontSize('sm')">
+                                <span style="font-size:.8rem;">A-</span> <span id="lblFontSm">छोटा (Small)</span>
+                            </button>
+                            <button type="button" class="setting-pill-btn active" id="btnFontNormal" onclick="setFontSize('normal')">
+                                <span style="font-size:1rem;">A</span> <span id="lblFontNormal">सामान्य (Normal)</span>
+                            </button>
+                            <button type="button" class="setting-pill-btn" id="btnFontLg" onclick="setFontSize('lg')">
+                                <span style="font-size:1.2rem; font-weight:900;">A+</span> <span id="lblFontLg">बड़ा (Large)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Quick Actions -->
+                    <div class="settings-card">
+                        <div class="settings-card-title">
+                            <span id="lblCacheTitle">🔄 पोर्टल रिफ्रेश व ऐप डेटा</span>
+                        </div>
+                        <button type="button" class="btn-refresh-cache" onclick="refreshAppCache()">
+                            <span>⚡</span> <span id="lblRefreshBtn">ताज़ा अपडेट तुरंत लोड करें (Clear & Reload)</span>
+                        </button>
+                    </div>
+
+                    <!-- 5. Complete Portal Guide -->
+                    <div class="settings-card">
+                        <div class="settings-card-title">
+                            <span id="lblGuideTitle">📖 वेबसाइट के सभी फीचर्स की जानकारी (Portal Guide)</span>
+                        </div>
+                        <p style="font-size:.82rem; color:var(--ink-soft); margin:0 0 12px;" id="lblGuideSub">
+                            नीचे किसी भी सेक्शन पर टैप करके जानें कि वह क्या है और कैसे काम करता है:
+                        </p>
+                        
+                        <div class="guide-accordion" id="guideAccordion">
+                            <!-- Guide 1: Samasya -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>📢 1. समस्या निवारण (Grievance Portal)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> गाँव के नागरिक सड़क, नाली, पीने का पानी, बिजली फॉल्ट, सफाई, स्कूल या स्वास्थ्य संबंधी अपनी कोई भी शिकायत सीधे दर्ज कर सकते हैं।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>🎤 <strong>बोलकर लिखें (Voice Typing)</strong>: बिना टाइप किए माइक बटन दबाकर हिंदी में बोलें।</li>
+                                        <li>📷 <strong>फ़ोटो अपलोड</strong>: मौके की फ़ोटो साथ में जोड़ सकते हैं।</li>
+                                        <li>🎫 <strong>टोकन ट्रैकिंग (GP-101)</strong>: शिकायत दर्ज होते ही यूनिक टोकन मिलता है जिसे 1-टैप में WhatsApp पर सेव किया जा सकता है।</li>
+                                        <li>🔒 <strong>गोपनीयता</strong>: शिकायतें आम जनता को नहीं दिखतीं, केवल ग्राम प्रधान लॉगिन करके देख और 'प्रगति पर' या 'समाधान हुआ' कर सकते हैं।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 2: Chaupal -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>🗣️ 2. गाँव की चौपाल (Community Messages)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> गाँव का सोशल मंच जहाँ कोई भी ग्रामीण भाई-बहन अपने विचार, शादी-विवाह या त्योहार की बधाई, सामाजिक संदेश, सुंदर फोटो या यूट्यूब वीडियो साझा कर सकते हैं।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>🗑️ <strong>डिलीट ऑप्शंस</strong>: "सिर्फ मेरे लिए हटाएं (Delete for Me)" और अपना पोस्ट "सभी के लिए हटाएं (Delete for Everyone)"।</li>
+                                        <li>🎥 फ़ोटो व वीडियो प्लेयर इनबिल्ट।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 3: Krishi -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>🌾 3. उन्नत खेती-बाड़ी व औज़ार रेंटल (Krishi Guide)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> किसान भाइयों के लिए एक सम्पूर्ण कृषि मार्गदर्शिका।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>🌦️ <strong>लाइव मौसम व बारिश अलर्ट</strong>: कब बारिश होगी, आर्द्रता और हवा की गति।</li>
+                                        <li>🔊 <strong>ऑडियो खेती बुलेटिन</strong>: 'सुनें' बटन दबाने पर पूरा मौसम व कृषि सलाह आवाज़ में सुनकर समझें।</li>
+                                        <li>🌱 <strong>4 मुख्य फसलें</strong>: धान, गन्ना, चना, सरसों की बुवाई, रोग पहचान, दवा और यूरिया/DAP का सही गणित।</li>
+                                        <li>🚜 <strong>कृषि औज़ार शेयरिंग</strong>: गाँव के किसान अपने ट्रैक्टर, रोटावेटर, थ्रेशर, पंपसेट व स्प्रे मशीन किराये पर उपलब्ध कराने के लिए लिस्ट कर सकते हैं और सीधे फ़ोन से बात कर सकते हैं।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 4: Suchna -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>📌 4. ग्राम सूचना बोर्ड (Official Notice Board)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> ग्राम पंचायत की सभी सरकारी व सार्वजनिक सूचनाओं का डिजिटल नोटिस बोर्ड।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>ग्राम सभा की खुली बैठक, कोटेदार राशन वितरण की तारीख, विशेष टीकाकरण कैंप की घोषणा।</li>
+                                        <li>प्रधान जी द्वारा वेरिफाइड बैच के साथ सूचनाएं जारी होती हैं।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 5: Jaankari -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>🏘️ 5. गाँव की जानकारी व आपातकालीन डायरेक्टरी</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> जगदीशपुर गाँव का इतिहास, परिवारों की संख्या, और गाँव के सभी ज़रूरी सरकारी व निजी फ़ोन नंबर।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>📞 1-टैप कॉल: 108 एम्बुलेंस, 112 पुलिस, बिजली लाइनमैन, PHC डॉक्टर, कोटेदार, पंचायत सेक्रेटरी, सरकारी नल मिस्त्री आदि।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 6: Yojana -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>📄 6. सरकारी योजनाएं (Govt Schemes Portal)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> केंद्र व UP सरकार की सभी बड़ी योजनाओं की पात्रता, आवश्यक कागजात और आधिकारिक पोर्टल लिंक।<br>
+                                    <strong>शामिल योजनाएं:</strong>
+                                    <ul>
+                                        <li>PM किसान सम्मान निधि (₹2000 किस्त स्टेटस)</li>
+                                        <li>प्रधानमंत्री ग्रामीण आवास योजना (नया PMAY-G पोर्टल)</li>
+                                        <li>यूपी भूलेख (खसरा-खतौनी नकल)</li>
+                                        <li>पेंशन पोर्टल (वृद्धा, विधवा, दिव्यांग पेंशन स्टेटस)</li>
+                                        <li>आयुष्मान भारत कार्ड (₹5 लाख मुफ्त इलाज)</li>
+                                        <li>मुख्यमंत्री कन्या सुमंगला योजना</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 7: Yuva -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>🎓 7. छात्र व युवा कोना (Student & Youth Corner)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> गाँव के विद्यार्थियों और नौकरी की तैयारी कर रहे युवाओं के लिए समर्पित कोना।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>UP छात्रवृत्ति (Scholarship) स्टेटस चेक।</li>
+                                        <li>UP बोर्ड 10वीं/12वीं रिजल्ट व मॉडल पेपर्स।</li>
+                                        <li>UP पुलिस, अग्निवीर सेना, रेलवे (RRB), UPSSSC (लेखपाल/VDO), व Sarkari Result लिंक्स।</li>
+                                        <li>🌟 <strong>गाँव के होनहार (Wall of Inspiration)</strong>: गाँव के सफल युवाओं की प्रेरक कहानियां।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 8: Swasthya -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>👶 8. स्वास्थ्य सेवा व बाल टीकाकरण कैलेंडर</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> गाँव के शिशुओं, बच्चों और गर्भवती माताओं के स्वास्थ्य की पूर्ण जानकारी।<br>
+                                    <strong>खास सुविधाएं:</strong>
+                                    <ul>
+                                        <li>🚑 108, 👶 102 (मातृ-शिशु एम्बुलेंस), 📞 104 स्वास्थ्य सलाह।</li>
+                                        <li>📅 <strong>VHSND दिवस</strong>: महीने के पहले व तीसरे बुधवार को पंचायत भवन में जाँच व टीकाकरण।</li>
+                                        <li>💉 <strong>सम्पूर्ण बाल टीकाकरण कैलेंडर (0 से 16 वर्ष)</strong>: BCG, पोलियो, पेंटावेलेंट, खसरा-रूबेला, DPT आदि का संपूर्ण चार्ट।</li>
+                                        <li>मातृ वंदना योजना (PMMVY ₹5,000/₹6,000) व जननी सुरक्षा योजना (JSY ₹1,400)।</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 9: Forms -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>📑 9. 1-क्लिक सरकारी फॉर्म प्रारूप (Printable Govt Forms)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> सरकारी दफ्तरों में लगने वाले 8 प्रमुख फॉर्म जिन्हें गाँव वाले घर बैठे मोबाइल से देख सकते हैं, A4 साइज़ में प्रिंट / PDF डाउनलोड कर सकते हैं और WhatsApp पर शेयर कर सकते हैं।<br>
+                                    <strong>फॉर्म्स:</strong>
+                                    <ul>
+                                        <li>आय, जाति, निवास प्रमाण पत्र फॉर्म</li>
+                                        <li>परिवार रजिस्टर (कुटुम्ब) नकल आवेदन</li>
+                                        <li>राशन कार्ड नया आवेदन / सदस्य जोड़ना</li>
+                                        <li>बैंक आधार सीडिंग (NPCI/DBT) सहमति पत्र (PM किसान हेतु)</li>
+                                        <li>मनरेगा (MGNREGA) जॉब कार्ड आवेदन</li>
+                                        <li>जन्म एवं मृत्यु पंजीकरण आवेदन पत्र</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Guide 10: Pradhan Admin -->
+                            <div class="guide-item">
+                                <div class="guide-item-head" onclick="toggleGuide(this)">
+                                    <span>🔐 10. प्रधान जी लॉगिन (Admin Control)</span>
+                                    <span>▼</span>
+                                </div>
+                                <div class="guide-item-body">
+                                    <strong>यह क्या है?</strong> गाँव के मुखिया (प्रधान जी) के लिए पासवर्ड-प्रोटेक्टेड डैशबोर्ड। यहाँ से प्रधान जी गाँव की दर्ज शिकायतों की स्थिति (लंबित/प्रगति/समाधान) बदल सकते हैं और नई सरकारी घोषणाएं जारी कर सकते हैं।
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Developer & WhatsApp Connect Box -->
+                    <div class="settings-card" style="text-align:center; background:linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%); border-color:#86EFAC;">
+                        <h4 style="margin:0 0 6px; color:#166534;">👨‍💻 वेबसाइट डेवलपर: Alok Kushwaha</h4>
+                        <p style="font-size:.82rem; color:#15803D; margin:0 0 14px;">
+                            "डिजिटल भारत, सशक्त गाँव — जगदीशपुर ग्राम पंचायत के विकास व ग्रामीणों की सुविधा हेतु समर्पित"
+                        </p>
+                        <a href="https://api.whatsapp.com/send?phone=918423406830&text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20%E0%A4%86%E0%A4%B2%E0%A5%8B%E0%A4%95%20%E0%A4%9C%E0%A5%80!%20%E0%A4%AE%E0%A5%88%E0%A4%82%E0%A4%A8%E0%A5%87%20%E0%A4%9C%E0%A4%97%E0%A4%A6%E0%A5%80%E0%A4%B6%E0%A4%AA%E0%A5%81%E0%A4%B0%20%E0%A4%97%E0%A4%BE%E0%A4%81%E0%A4%B5%20%E0%A4%AA%E0%A5%8B%E0%A4%B0%E0%A5%8D%E0%A4%9F%E0%A4%B2%20%E0%A4%B5%E0%A5%87%E0%A4%AC%E0%A4%B8%E0%A4%BE%E0%A4%87%E0%A4%9F%20%E0%A4%A6%E0%A5%87%E0%A4%96%E0%A5%80,%20%E0%A4%AE%E0%A5%81%E0%A4%9D%E0%A5%87%20%E0%A4%B8%E0%A5%81%E0%A4%9D%E0%A4%BE%E0%A4%B5%20%E0%A4%A6%E0%A5%87%E0%A4%A8%E0%A4%BE%20%E0%A4%B9%E0%A5%88..." target="_blank" rel="noopener noreferrer" class="builder-wa-btn" style="margin:0 auto; display:inline-flex;">
+                            <span>💬</span> डेवलपर से सीधे WhatsApp पर जुड़ें
+                        </a>
+                        <p style="font-size:.74rem; color:#166534; margin:10px 0 0;">जगदीशपुर गाँव पोर्टल · Version 2.0 (Live PWA)</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- ===================== PHOTO LIGHTBOX (full-size view) ===================== -->
         <div class="photo-lightbox" id="photoLightbox">
             <button class="photo-lightbox-close" id="photoLightboxClose">✕</button>
@@ -5058,17 +5578,18 @@
 
         function updateFab(tab) {
             const fab = document.getElementById('mainFab');
+            const isEn = (typeof currentLang !== 'undefined' && currentLang === 'en');
             if (tab === 'samasya') {
                 fab.style.display = 'inline-flex';
-                fab.textContent = '+ समस्या दर्ज करें';
+                fab.textContent = isEn ? '+ Report Grievance' : '+ समस्या दर्ज करें';
                 fab.onclick = () => openSamasyaForm();
             } else if (tab === 'chaupal') {
                 fab.style.display = 'inline-flex';
-                fab.textContent = '+ संदेश लिखें';
+                fab.textContent = isEn ? '+ Post Message' : '+ संदेश लिखें';
                 fab.onclick = () => openChaupalForm();
             } else if (tab === 'suchna') {
                 fab.style.display = 'inline-flex';
-                fab.textContent = '+ नई सूचना जोड़ें';
+                fab.textContent = isEn ? '+ Post Notice' : '+ नई सूचना जोड़ें';
                 fab.onclick = () => openOverlay('overlaySuchna');
             } else {
                 fab.style.display = 'none';
@@ -8740,6 +9261,200 @@ function shareFormOnWhatsApp(formId) {
     const text = `📄 *${form.title}*\\n🏢 *विभाग:* ${form.dept}\\n\\n📋 *ज़रूरी दस्तावेज़ (कागजात):*\\n${form.docs}\\n\\n🖨️ इस फॉर्म को ऑनलाइन देखने, भरने और A4 साइज़ में प्रिंट / PDF डाउनलोड करने के लिए जगदीशपुर गाँव पोर्टल पर जाएँ:\\n👉 ${portalUrl}\\n\\n_गाँव के सभी भाइयों के साथ शेयर करें!_`;
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
 }
+
+/* ============ Settings, Multilingual (i18n), Theme & Font Handlers ============ */
+const I18N = {
+    hi: {
+        brandTitle: 'Jagdishpur Gaon Portal',
+        brandSub: 'गाँव की आवाज़, गाँव के लिए · Alok Kushwaha Gaon Portal',
+        lblEmergency: '🚨 आपातकालीन:',
+        emergencyAll: 'सभी संपर्क 📞',
+        weatherAudio: 'सुनें',
+        tabSamasya: 'समस्या',
+        tabChaupal: 'संदेश',
+        tabKrishi: 'खेती-बाड़ी',
+        tabSuchna: 'सूचना बोर्ड',
+        tabJaankari: 'गाँव की जानकारी',
+        tabYojana: 'सरकारी योजनाएं',
+        tabYuva: 'छात्र व युवा',
+        tabSwasthya: 'स्वास्थ्य सेवा',
+        tabForms: 'सरकारी फॉर्म',
+        devConnect: 'डेवलपर से जुड़ें / सुझाव दें',
+        settingsTitle: 'सेटिंग्स व पोर्टल गाइड',
+        lblCurrentLang: 'हिन्दी (Hindi)',
+        lblLangHeading: 'भाषा का चुनाव / Select Language',
+        lblThemeTitle: '🌓 डिस्प्ले थीम (Display Theme)',
+        lblThemeDay: 'लाइट मोड (Day)',
+        lblThemeNight: 'डार्क मोड (Night)',
+        lblFontTitle: '🔠 लिखावट का आकार (Text Font Size)',
+        lblFontSm: 'छोटा (Small)',
+        lblFontNormal: 'सामान्य (Normal)',
+        lblFontLg: 'बड़ा (Large)',
+        lblCacheTitle: '🔄 पोर्टल रिफ्रेश व ऐप डेटा',
+        lblRefreshBtn: 'ताज़ा अपडेट तुरंत लोड करें (Clear & Reload)',
+        lblGuideTitle: '📖 वेबसाइट के सभी फीचर्स की जानकारी (Portal Guide)',
+        lblGuideSub: 'नीचे किसी भी सेक्शन पर टैप करके जानें कि वह क्या है और कैसे काम करता है:'
+    },
+    en: {
+        brandTitle: 'Jagdishpur Gaon Portal',
+        brandSub: 'Voice of Village, For the Village · Alok Kushwaha Gaon Portal',
+        lblEmergency: '🚨 Emergency:',
+        emergencyAll: 'All Contacts 📞',
+        weatherAudio: 'Listen',
+        tabSamasya: 'Grievance',
+        tabChaupal: 'Chaupal',
+        tabKrishi: 'Krishi Guide',
+        tabSuchna: 'Notice Board',
+        tabJaankari: 'Village Info',
+        tabYojana: 'Govt Schemes',
+        tabYuva: 'Youth Corner',
+        tabSwasthya: 'Health Care',
+        tabForms: 'Govt Forms',
+        devConnect: 'Connect with Developer / Feedback',
+        settingsTitle: 'Settings & Portal Guide',
+        lblCurrentLang: 'English',
+        lblLangHeading: 'Language Selection / Select Language',
+        lblThemeTitle: '🌓 Display Theme',
+        lblThemeDay: 'Day Mode',
+        lblThemeNight: 'Night Mode',
+        lblFontTitle: '🔠 Text Font Size',
+        lblFontSm: 'Small',
+        lblFontNormal: 'Normal',
+        lblFontLg: 'Large',
+        lblCacheTitle: '🔄 Portal Refresh & App Cache',
+        lblRefreshBtn: 'Load Fresh Updates (Clear & Reload)',
+        lblGuideTitle: '📖 All Features & Working Guide (Portal Guide)',
+        lblGuideSub: 'Tap on any section below to learn what it is and how it works:'
+    }
+};
+
+let currentLang = localStorage.getItem('portal_lang') || 'hi';
+let currentTheme = localStorage.getItem('portal_theme') || 'light';
+let currentFont = localStorage.getItem('portal_font') || 'normal';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('portal_lang', lang);
+
+    document.querySelectorAll('#btnLangHi, #btnLangEn').forEach(b => b.classList.remove('active'));
+    if (lang === 'en') {
+        const b = document.getElementById('btnLangEn');
+        if (b) b.classList.add('active');
+    } else {
+        const b = document.getElementById('btnLangHi');
+        if (b) b.classList.add('active');
+    }
+
+    const dict = I18N[lang] || I18N.hi;
+    const updateText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+    };
+
+    updateText('brandSub', dict.brandSub);
+    updateText('lblEmergency', dict.lblEmergency);
+    updateText('lblWeatherAudio', dict.weatherAudio);
+    updateText('tabLblSamasya', dict.tabSamasya);
+    updateText('tabLblChaupal', dict.tabChaupal);
+    updateText('tabLblKrishi', dict.tabKrishi);
+    updateText('tabLblSuchna', dict.tabSuchna);
+    updateText('tabLblJaankari', dict.tabJaankari);
+    updateText('tabLblYojana', dict.tabYojana);
+    updateText('tabLblYuva', dict.tabYuva);
+    updateText('tabLblSwasthya', dict.tabSwasthya);
+    updateText('tabLblForms', dict.tabForms);
+    updateText('lblDevConnect', dict.devConnect);
+    updateText('settingsModalTitle', dict.settingsTitle);
+    updateText('lblCurrentLang', dict.lblCurrentLang);
+    updateText('lblLangHeading', dict.lblLangHeading);
+    updateText('lblThemeTitle', dict.lblThemeTitle);
+    updateText('lblThemeDay', dict.lblThemeDay);
+    updateText('lblThemeNight', dict.lblThemeNight);
+    updateText('lblFontTitle', dict.lblFontTitle);
+    updateText('lblFontSm', dict.lblFontSm);
+    updateText('lblFontNormal', dict.lblFontNormal);
+    updateText('lblFontLg', dict.lblFontLg);
+    updateText('lblCacheTitle', dict.lblCacheTitle);
+    updateText('lblRefreshBtn', dict.lblRefreshBtn);
+    updateText('lblGuideTitle', dict.lblGuideTitle);
+    updateText('lblGuideSub', dict.lblGuideSub);
+
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) updateFab(activeTab.dataset.tab);
+}
+
+function setTheme(theme) {
+    currentTheme = theme;
+    localStorage.setItem('portal_theme', theme);
+
+    const btnLight = document.getElementById('btnThemeLight');
+    const btnDark = document.getElementById('btnThemeDark');
+    const lblTheme = document.getElementById('lblCurrentTheme');
+
+    if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+        if (btnDark) btnDark.classList.add('active');
+        if (btnLight) btnLight.classList.remove('active');
+        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Night Mode' : 'डार्क मोड (Night)';
+    } else {
+        document.body.classList.remove('theme-dark');
+        if (btnLight) btnLight.classList.add('active');
+        if (btnDark) btnDark.classList.remove('active');
+        if (lblTheme) lblTheme.textContent = (currentLang === 'en') ? 'Day Mode' : 'लाइट मोड (Day)';
+    }
+}
+
+function setFontSize(size) {
+    currentFont = size;
+    localStorage.setItem('portal_font', size);
+
+    document.body.classList.remove('font-sm', 'font-normal', 'font-lg');
+    document.body.classList.add('font-' + size);
+
+    document.querySelectorAll('#btnFontSm, #btnFontNormal, #btnFontLg').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('btnFont' + size.charAt(0).toUpperCase() + size.slice(1));
+    if (activeBtn) activeBtn.classList.add('active');
+
+    const lblFont = document.getElementById('lblCurrentFont');
+    if (lblFont) {
+        if (size === 'sm') lblFont.textContent = (currentLang === 'en') ? 'Small' : 'छोटा (Small)';
+        else if (size === 'lg') lblFont.textContent = (currentLang === 'en') ? 'Large' : 'बड़ा (Large)';
+        else lblFont.textContent = (currentLang === 'en') ? 'Normal' : 'सामान्य (Normal)';
+    }
+}
+
+function toggleGuide(el) {
+    const item = el.closest('.guide-item');
+    if (!item) return;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.guide-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) {
+        item.classList.add('open');
+    }
+}
+
+async function refreshAppCache() {
+    toast((currentLang === 'en') ? 'Clearing cache & reloading... 🔄' : 'कैश साफ करके नया डेटा लोड हो रहा है... 🔄');
+    if ('caches' in window) {
+        try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+        } catch (err) {
+            console.warn('Cache clear error:', err);
+        }
+    }
+    setTimeout(() => {
+        window.location.reload(true);
+    }, 600);
+}
+
+// Attach settings button opener
+document.getElementById('btnOpenSettings')?.addEventListener('click', () => openOverlay('overlaySettings'));
+
+// Initialize preferences on page load
+setTheme(currentTheme);
+setFontSize(currentFont);
+setLanguage(currentLang);
 
 /* ============ PWA: Service worker + Install prompt ============ */
 if ('serviceWorker' in navigator) {
