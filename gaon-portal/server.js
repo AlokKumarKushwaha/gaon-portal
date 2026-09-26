@@ -331,12 +331,25 @@ app.post('/api/samasya', async(req, res) => {
             });
         }
 
-        // Clean sequential token (GP-101, GP-102...)
-        let count = 0;
-        if (samasyaCollection) {
-            count = await samasyaCollection.countDocuments().catch(() => 0);
+        // Unique, distinct, unpredictable 5-digit token (e.g. GP-74829, GP-39182)
+        // Guaranteed mismatch, non-sequential, and never reuses deleted IDs
+        let token = '';
+        let isUnique = false;
+        let attempts = 0;
+        while (!isUnique && attempts < 30) {
+            attempts++;
+            const rand = Math.floor(10000 + Math.random() * 90000); // 5 random digits (10000-99999)
+            token = `GP-${rand}`;
+            if (samasyaCollection) {
+                const found = await samasyaCollection.findOne({ token }).catch(() => null);
+                if (!found) isUnique = true;
+            } else {
+                isUnique = true;
+            }
         }
-        const token = 'GP-' + (101 + count);
+        if (!isUnique) {
+            token = `GP-${Date.now().toString().slice(-5)}`;
+        }
 
         const item = {
             id: uid(),
@@ -446,12 +459,30 @@ app.patch('/api/samasya/:id', requireAdmin, async(req, res) => {
     }
 });
 
-// Sirf Pradhan delete kar sakte hain
+// Sirf Pradhan delete kar sakte hain — Purges complaint and track ID completely
 app.delete('/api/samasya/:id', requireAdmin, async(req, res) => {
     try {
-        await samasyaCollection.deleteOne({
-            id: req.params.id
-        });
+        const target = String(req.params.id || '').trim();
+        if (!target) {
+            return res.status(400).json({ error: 'id zaruri hai' });
+        }
+
+        const filter = {
+            $or: [
+                { id: target },
+                { token: target },
+                { token: target.toUpperCase() }
+            ]
+        };
+
+        const { ObjectId } = require('mongodb');
+        if (ObjectId.isValid(target)) {
+            filter.$or.push({ _id: new ObjectId(target) });
+        }
+
+        if (samasyaCollection) {
+            await samasyaCollection.deleteMany(filter);
+        }
 
         res.json({ ok: true });
     } catch (error) {

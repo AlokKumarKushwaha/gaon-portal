@@ -4167,11 +4167,11 @@
                         <div class="tracker-icon">🔍</div>
                         <div>
                             <h3>शिकायत ट्रैक करें (Track Complaint)</h3>
-                            <p>टोकन नंबर (उदा. GP-101) या 10-अंक मोबाइल नंबर दर्ज करें और वर्तमान स्थिति देखें</p>
+                            <p>टोकन नंबर (उदा. GP-48291) या 10-अंक मोबाइल नंबर दर्ज करें और वर्तमान स्थिति देखें</p>
                         </div>
                     </div>
                     <div class="tracker-search-row">
-                        <input type="text" id="trackInput" placeholder="टोकन नंबर (उदा. GP-101) या मोबाइल नं.">
+                        <input type="text" id="trackInput" placeholder="टोकन नंबर (उदा. GP-48291) या मोबाइल नं.">
                         <button type="button" class="btn btn-primary" id="btnTrackSearch" style="white-space:nowrap; padding:8px 16px;">ट्रैक करें</button>
                     </div>
                     <div id="trackResultWrap" style="display:none;"></div>
@@ -4973,7 +4973,7 @@
                     <p style="color:var(--ink-soft); font-size:.85rem; margin:0 0 12px; line-height:1.4;">
                         आपकी शिकायत प्रधान जी तक पहुँच गई है। स्थिति ट्रैक करने के लिए अपना टोकन नंबर संभाल कर रखें:
                     </p>
-                    <div class="token-display-box" id="modalTokenVal">GP-101</div>
+                    <div class="token-display-box" id="modalTokenVal">GP-48291</div>
                     <p id="modalPhoneNote" style="font-size:.8rem; color:var(--ink-soft); margin-bottom:14px;"></p>
                     <div style="display:flex; flex-direction:column; gap:8px;">
                         <button type="button" class="btn btn-primary btn-block" id="btnCopyToken">📋 टोकन कॉपी करें</button>
@@ -5262,7 +5262,7 @@
                                     <ul>
                                         <li>🎤 <strong>बोलकर लिखें (Voice Typing)</strong>: बिना टाइप किए माइक बटन दबाकर हिंदी में बोलें।</li>
                                         <li>📷 <strong>फ़ोटो अपलोड</strong>: मौके की फ़ोटो साथ में जोड़ सकते हैं।</li>
-                                        <li>🎫 <strong>टोकन ट्रैकिंग (GP-101)</strong>: शिकायत दर्ज होते ही यूनिक टोकन मिलता है जिसे 1-टैप में WhatsApp पर सेव किया जा सकता है।</li>
+                                        <li>🎫 <strong>टोकन ट्रैकिंग (उदा. GP-48291)</strong>: शिकायत दर्ज होते ही 5-अंकों का बिल्कुल अलग व सुरक्षित यूनिक टोकन मिलता है जिसे 1-टैप में WhatsApp पर सेव किया जा सकता है।</li>
                                         <li>🔒 <strong>गोपनीयता</strong>: शिकायतें आम जनता को नहीं दिखतीं, केवल ग्राम प्रधान लॉगिन करके देख और 'प्रगति पर' या 'समाधान हुआ' कर सकते हैं।</li>
                                     </ul>
                                 </div>
@@ -6028,7 +6028,7 @@ async function searchTrackComplaint(){
       <div class="track-result-card" style="text-align:center; padding:18px;">
         <div style="font-size:1.8rem; margin-bottom:6px;">❌</div>
         <p style="margin:0; font-weight:700; color:var(--terracotta);">कोई समस्या नहीं मिली</p>
-        <p style="margin:4px 0 0; font-size:.8rem; color:var(--ink-soft);">कृपया सही टोकन नंबर (उदा. GP-101) या 10 अंक मोबाइल नंबर जांचें।</p>
+        <p style="margin:4px 0 0; font-size:.8rem; color:var(--ink-soft);">कृपया सही टोकन नंबर (उदा. GP-48291) या 10 अंक मोबाइल नंबर जांचें।</p>
       </div>`;
     return;
   }
@@ -6083,6 +6083,14 @@ async function searchTrackComplaint(){
             ⏳ <em>प्रधान जी द्वारा कार्यवाही जारी है। जल्द ही अपडेट दिया जाएगा।</em>
           </div>
         `}
+
+        ${adminKey ? `
+          <div style="margin-top:14px; padding-top:10px; border-top:1px dashed var(--line); display:flex; justify-content:flex-end;">
+            <button type="button" class="btn-delete-samasya" data-track-delete-id="${item.id}" style="color:#DC2626; font-size:.8rem; padding:5px 12px; border:1px solid #FECACA; border-radius:8px; background:#FEF2F2; cursor:pointer; font-weight:700; display:inline-flex; align-items:center; gap:5px;">
+              🗑️ यह समस्या व टोकन आईडी हमेशा के लिए हटाएं
+            </button>
+          </div>
+        ` : ''}
       </div>
     `;
   }).join('');
@@ -6092,6 +6100,22 @@ document.getElementById('trackInput').addEventListener('keydown', (e)=>{
   if(e.key === 'Enter'){
     e.preventDefault();
     searchTrackComplaint();
+  }
+});
+document.getElementById('trackResultWrap').addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-track-delete-id]');
+  if(btn){
+    const id = btn.dataset.trackDeleteId;
+    if(!confirm('क्या आप सच में इस समस्या और इसके ट्रैक आईडी को हमेशा के लिए हटाना चाहते हैं?')) return;
+    const res = await apiSend('DELETE', '/samasya/' + id, {}, true);
+    if(res && res.unauthorized){ adminLogout(); return; }
+    if(res && res.ok){
+      samasyaList = samasyaList.filter(s => s.id !== id && s.token !== id);
+      renderCatGrid();
+      renderSamasyaList();
+      toast('समस्या व टोकन आईडी हमेशा के लिए हटा दी गई ✅');
+      searchTrackComplaint();
+    }
   }
 });
 
