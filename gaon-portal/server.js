@@ -5,7 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -361,6 +361,7 @@ app.post('/api/samasya', async(req, res) => {
             photo: photo || null,
             status: 'nayi',
             adminRemark: '',
+            messages: [],
             date: Date.now()
         };
 
@@ -402,24 +403,151 @@ app.get('/api/samasya/track/:query', async(req, res) => {
             .sort({ date: -1 })
             .toArray();
 
-        // Safe tracking result
-        const results = matches.map(m => ({
-            id: m.id,
-            token: m.token || ('GP-' + m.id.slice(-4)),
-            category: m.category,
-            desc: m.desc,
-            name: m.name,
-            phone: m.phone || '',
-            status: m.status || 'nayi',
-            date: m.date,
-            adminRemark: m.adminRemark || '',
-            photo: m.photo || null
-        }));
+        // Safe tracking result with conversation thread
+        const results = matches.map(m => {
+            const msgs = Array.isArray(m.messages) ? m.messages.slice() : [];
+            if (m.adminRemark && msgs.length === 0) {
+                msgs.push({
+                    id: uid(),
+                    sender: 'pradhan',
+                    senderName: '👑 ग्राम प्रधान',
+                    text: m.adminRemark,
+                    date: m.date
+                });
+            }
+            return {
+                id: m.id,
+                token: m.token || ('GP-' + m.id.slice(-4)),
+                category: m.category,
+                desc: m.desc,
+                name: m.name,
+                phone: m.phone || '',
+                status: m.status || 'nayi',
+                date: m.date,
+                adminRemark: m.adminRemark || '',
+                photo: m.photo || null,
+                messages: msgs
+            };
+        });
 
         res.json({ ok: true, items: results });
     } catch (error) {
         console.error('Tracking error:', error);
         res.status(500).json({ error: 'Shikayat track nahi ho paayi' });
+    }
+});
+
+// Interactive 2-Way Chat Reply: By Citizen (with matching token) or Pradhan (with adminKey)
+app.post('/api/samasya/:id/reply', async(req, res) => {
+    try {
+        const target = String(req.params.id || '').trim();
+        const { text, token, senderName } = req.body;
+        if (!text || !text.trim()) {
+            return res.status(400).json({ error: 'संदेश लिखना ज़रूरी है' });
+        }
+
+        const isAdmin = (req.headers['x-admin-key'] === ADMIN_PASSWORD);
+
+        const filter = {
+            $or: [
+                { id: target },
+                { token: target },
+                { token: target.toUpperCase() }
+            ]
+        };
+        if (ObjectId.isValid(target)) {
+            filter.$or.push({ _id: new ObjectId(target) });
+        }
+
+        if (!samasyaCollection) {
+            return res.status(503).json({ error: 'Database connect ho raha hai' });
+        }
+
+        const item = await samasyaCollection.findOne(filter);
+        if (!item) {
+            return res.status(404).json({ error: 'शिकायत नहीं मिली' });
+        }
+
+        // Security: Citizen must provide the matching track token!
+        if (!isAdmin) {
+            const userToken = String(token || req.headers['x-user-token'] || '').trim().toUpperCase();
+            if (!userToken || userToken !== String(item.token || '').toUpperCase()) {
+                return res.status(403).json({ error: 'गलत टोकन। केवल इस टोकन धारक को संदेश भेजने की अनुमति है।' });
+            }
+        }
+
+        const msgObj = {
+            id: uid(),
+            sender: isAdmin ? 'pradhan' : 'user',
+            senderName: isAdmin ? '👑 ग्राम प्रधान' : (senderName || item.name || 'नागरिक'),
+            text: text.trim(),
+            date: Date.now()
+        };
+
+        const updateDoc = {
+            $push: { messages: msgObj }
+        };
+        if (isAdmin) {
+            updateDoc.$set = { adminRemark: text.trim() };
+        }
+
+        await samasyaCollection.updateOne({ _id: item._id }, updateDoc);
+
+        res.json({ ok: true, message: msgObj });
+    } catch (error) {
+        console.error('Samasya reply error:', error);
+        res.status(500).json({ error: 'संदेश भेजा नहीं जा सका' });
+    }
+});
+
+// Citizen Edit: Update description, photo, or category if submitted by mistake
+app.patch('/api/samasya/:id/user-edit', async(req, res) => {
+    try {
+        const target = String(req.params.id || '').trim();
+        const { token, desc, photo, category } = req.body;
+
+        const isAdmin = (req.headers['x-admin-key'] === ADMIN_PASSWORD);
+
+        const filter = {
+            $or: [
+                { id: target },
+                { token: target },
+                { token: target.toUpperCase() }
+            ]
+        };
+        if (ObjectId.isValid(target)) {
+            filter.$or.push({ _id: new ObjectId(target) });
+        }
+
+        if (!samasyaCollection) {
+            return res.status(503).json({ error: 'Database connect ho raha hai' });
+        }
+
+        const item = await samasyaCollection.findOne(filter);
+        if (!item) {
+            return res.status(404).json({ error: 'शिकायत नहीं मिली' });
+        }
+
+        // Security check: Must have matching token
+        if (!isAdmin) {
+            const userToken = String(token || req.headers['x-user-token'] || '').trim().toUpperCase();
+            if (!userToken || userToken !== String(item.token || '').toUpperCase()) {
+                return res.status(403).json({ error: 'गलत टोकन। केवल शिकायतकर्ता ही इसमें सुधार कर सकते हैं।' });
+            }
+        }
+
+        const update = {};
+        if (typeof desc === 'string' && desc.trim()) update.desc = desc.trim();
+        if (typeof photo !== 'undefined') update.photo = photo; // allows replacing or clearing photo
+        if (typeof category === 'string' && category.trim()) update.category = category.trim();
+
+        await samasyaCollection.updateOne({ _id: item._id }, { $set: update });
+
+        const updated = await samasyaCollection.findOne({ _id: item._id });
+        res.json({ ok: true, item: updated });
+    } catch (error) {
+        console.error('Samasya user edit error:', error);
+        res.status(500).json({ error: 'शिकायत अपडेट नहीं हो सकी' });
     }
 });
 
@@ -442,6 +570,15 @@ app.patch('/api/samasya/:id', requireAdmin, async(req, res) => {
         }
         if (typeof req.body.adminRemark === 'string') {
             update.adminRemark = req.body.adminRemark;
+            // Also append to conversation thread if not duplicate
+            const msgObj = {
+                id: uid(),
+                sender: 'pradhan',
+                senderName: '👑 ग्राम प्रधान',
+                text: req.body.adminRemark.trim(),
+                date: Date.now()
+            };
+            await samasyaCollection.updateOne({ id: req.params.id }, { $push: { messages: msgObj } });
         }
 
         await samasyaCollection.updateOne({ id: req.params.id }, { $set: update });
@@ -459,13 +596,15 @@ app.patch('/api/samasya/:id', requireAdmin, async(req, res) => {
     }
 });
 
-// Sirf Pradhan delete kar sakte hain — Purges complaint and track ID completely
-app.delete('/api/samasya/:id', requireAdmin, async(req, res) => {
+// Delete samasya: by Pradhan (adminKey) OR by Citizen (with matching token) — Purges completely
+app.delete('/api/samasya/:id', async(req, res) => {
     try {
         const target = String(req.params.id || '').trim();
         if (!target) {
             return res.status(400).json({ error: 'id zaruri hai' });
         }
+
+        const isAdmin = (req.headers['x-admin-key'] === ADMIN_PASSWORD);
 
         const filter = {
             $or: [
@@ -475,14 +614,29 @@ app.delete('/api/samasya/:id', requireAdmin, async(req, res) => {
             ]
         };
 
-        const { ObjectId } = require('mongodb');
         if (ObjectId.isValid(target)) {
             filter.$or.push({ _id: new ObjectId(target) });
         }
 
-        if (samasyaCollection) {
-            await samasyaCollection.deleteMany(filter);
+        if (!samasyaCollection) {
+            return res.status(503).json({ error: 'Database connect ho raha hai' });
         }
+
+        const item = await samasyaCollection.findOne(filter);
+        if (!item) {
+            return res.status(404).json({ error: 'शिकायत नहीं मिली' });
+        }
+
+        // If not Pradhan, verify token
+        if (!isAdmin) {
+            const userToken = String(req.headers['x-user-token'] || req.query.token || (req.body && req.body.token) || '').trim().toUpperCase();
+            if (!userToken || userToken !== String(item.token || '').toUpperCase()) {
+                return res.status(403).json({ error: 'केवल प्रधान जी या सही टोकन धारक ही इसे हटा सकते हैं।' });
+            }
+        }
+
+        await samasyaCollection.deleteMany(filter);
+        console.log(`Deleted samasya: ${target} (by ${isAdmin ? 'Pradhan' : 'Citizen'})`);
 
         res.json({ ok: true });
     } catch (error) {

@@ -2086,6 +2086,210 @@
             font-size: .8rem;
             color: var(--ink-soft);
         }
+
+        /* Citizen Complaint Actions & WhatsApp-style Chat */
+        .track-actions-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--line);
+        }
+        .btn-track-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .8rem;
+            font-weight: 700;
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .2s ease;
+            font-family: 'Baloo 2', sans-serif;
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+        .btn-track-edit {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            border-color: #BFDBFE;
+        }
+        .btn-track-edit:hover {
+            background: #DBEAFE;
+        }
+        .btn-track-delete {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+        .btn-track-delete:hover {
+            background: #FEE2E2;
+        }
+        .track-photo-box {
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .track-photo-img {
+            max-width: 140px;
+            max-height: 105px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            display: block;
+        }
+        .track-photo-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,.12);
+        }
+        .track-photo-hint {
+            font-size: .72rem;
+            color: var(--ink-soft);
+            margin-top: 3px;
+        }
+        .track-chat-container {
+            margin-top: 14px;
+            background: #F8FAF8;
+            border: 1px solid #D1E7DD;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,.04);
+        }
+        .track-chat-header {
+            background: linear-gradient(90deg, #075E54 0%, #128C7E 100%);
+            color: #FFFFFF;
+            padding: 9px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .track-chat-header-title {
+            font-weight: 700;
+            font-size: .84rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Baloo 2', sans-serif;
+        }
+        .track-chat-badge-lock {
+            font-size: .68rem;
+            background: rgba(255,255,255,.2);
+            padding: 2px 7px;
+            border-radius: 12px;
+            letter-spacing: .2px;
+        }
+        .track-chat-messages {
+            max-height: 260px;
+            min-height: 80px;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #ECE5DD url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.02' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .chat-bubble {
+            max-width: 84%;
+            padding: 7px 11px 5px;
+            border-radius: 10px;
+            font-size: .84rem;
+            line-height: 1.4;
+            word-break: break-word;
+            box-shadow: 0 1px 1.5px rgba(0,0,0,.12);
+            position: relative;
+        }
+        .chat-bubble.chat-pradhan {
+            align-self: flex-start;
+            background: #FFFFFF;
+            color: #111827;
+            border-bottom-left-radius: 2px;
+            border-left: 3px solid #1E3A8A;
+        }
+        .chat-bubble.chat-user {
+            align-self: flex-end;
+            background: #DCF8C6;
+            color: #064E3B;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-bubble-sender {
+            font-size: .72rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .chat-pradhan .chat-bubble-sender {
+            color: #1E3A8A;
+        }
+        .chat-user .chat-bubble-sender {
+            color: #047857;
+        }
+        .chat-bubble-text {
+            white-space: pre-wrap;
+        }
+        .chat-bubble-time {
+            font-size: .65rem;
+            color: rgba(0,0,0,.45);
+            text-align: right;
+            margin-top: 2px;
+        }
+        .track-chat-empty {
+            text-align: center;
+            font-size: .8rem;
+            color: #64748B;
+            padding: 16px 10px;
+            background: rgba(255,255,255,.75);
+            border-radius: 10px;
+            margin: auto 0;
+        }
+        .track-chat-input-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            background: #FFFFFF;
+            border-top: 1px solid #E2E8F0;
+        }
+        .track-chat-input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 1px solid #CBD5E1;
+            border-radius: 20px;
+            font-size: .85rem;
+            outline: none;
+            background: #F8FAFC;
+            transition: border-color .2s;
+        }
+        .track-chat-input:focus {
+            border-color: #128C7E;
+            background: #FFF;
+        }
+        .track-chat-send-btn {
+            background: #25D366;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: .82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'Baloo 2', sans-serif;
+            transition: all .2s;
+        }
+        .track-chat-send-btn:hover {
+            background: #128C7E;
+        }
+        .track-chat-send-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
         /* Token Modal */
         
         .token-display-box {
@@ -4986,6 +5190,65 @@
             </div>
         </div>
 
+        <!-- ===================== EDIT SAMASYA MODAL ===================== -->
+        <div class="overlay" id="overlayEditSamasya">
+            <div class="sheet" style="max-width:480px; border-radius:18px;">
+                <div class="sheet-wrap">
+                    <button class="close-x" data-close="overlayEditSamasya">✕</button>
+                    <h2 style="margin:0 0 8px; font-size:1.2rem; color:var(--indigo-dark); display:flex; align-items:center; gap:8px;">
+                        <span>✏️</span> अपनी शिकायत में सुधार करें
+                    </h2>
+                    <p style="font-size:.82rem; color:var(--ink-soft); margin:0 0 14px; line-height:1.4;">
+                        यदि आपने विवरण या फ़ोटो में कोई त्रुटि की है, तो यहाँ से सुधार कर सुरक्षित करें।
+                    </p>
+                    <form id="formEditSamasya">
+                        <input type="hidden" id="editSamasyaId" value="">
+                        <input type="hidden" id="editSamasyaToken" value="">
+                        
+                        <div class="field" style="margin-bottom:12px;">
+                            <label style="font-weight:700; font-size:.85rem; display:block; margin-bottom:4px;">श्रेणी (Category):</label>
+                            <select id="editSamasyaCategory" class="field-select" style="width:100%;"></select>
+                        </div>
+
+                        <div class="field" style="margin-bottom:12px;">
+                            <label style="font-weight:700; font-size:.85rem; display:block; margin-bottom:4px;">समस्या का विवरण (Description):</label>
+                            <textarea id="editSamasyaDesc" class="field-textarea" rows="4" style="width:100%; resize:vertical;" placeholder="समस्या का सही विवरण लिखें..." required></textarea>
+                        </div>
+
+                        <div class="field" style="margin-bottom:16px;">
+                            <label style="font-weight:700; font-size:.85rem; display:block; margin-bottom:6px;">फ़ोटो (Photo):</label>
+                            
+                            <!-- Current Photo Display & Remove Button -->
+                            <div id="editCurrentPhotoWrap" style="display:none; margin-bottom:10px; align-items:center; gap:12px; background:#F8FAFC; padding:10px; border-radius:10px; border:1px solid var(--line);">
+                                <img id="editCurrentPhotoImg" src="" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--line);" />
+                                <div style="flex:1;">
+                                    <div style="font-size:.8rem; font-weight:700; color:var(--ink);">वर्तमान फ़ोटो</div>
+                                    <button type="button" id="btnRemoveEditPhoto" style="font-size:.78rem; color:#DC2626; background:none; border:none; padding:0; cursor:pointer; font-weight:700; margin-top:2px;">❌ यह फ़ोटो हटाएं</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Upload New / Replace Photo -->
+                            <div>
+                                <input type="file" id="editSamasyaPhotoInput" accept="image/*" style="display:none;">
+                                <button type="button" id="btnTriggerEditPhoto" class="btn btn-outline btn-block" style="display:flex; align-items:center; justify-content:center; gap:8px; font-size:.84rem; padding:9px 12px;">
+                                    <span>📷</span> <span id="lblEditPhotoText">नई फ़ोटो चुनें (फ़ोटो बदलने के लिए)</span>
+                                </button>
+                            </div>
+                            <div id="editPhotoPreviewWrap" style="display:none; margin-top:10px; text-align:center;">
+                                <img id="editPhotoPreviewImg" style="max-height:140px; max-width:100%; border-radius:8px; border:1px solid var(--line);" />
+                                <div style="font-size:.75rem; color:var(--ink-soft); margin-top:4px;">नई चुनी गई फ़ोटो का प्रीव्यू</div>
+                            </div>
+                        </div>
+
+                        <div class="sheet-actions" style="margin-top:16px;">
+                            <button type="button" class="btn btn-outline" data-close="overlayEditSamasya">रद्द करें</button>
+                            <button type="submit" class="btn btn-primary" id="btnSaveEditSamasya">💾 बदलाव सुरक्षित करें</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- ===================== SUCHNA FORM SHEET ===================== -->
         <div class="overlay" id="overlaySuchna">
             <div class="sheet">
@@ -6010,7 +6273,55 @@ function printAdminReport(){
 }
 document.getElementById('btnPrintReport').addEventListener('click', printAdminReport);
 
-/* ============ SAMASYA PUBLIC TRACKER ============ */
+/* ============ SAMASYA PUBLIC TRACKER & 2-WAY CHAT ============ */
+let lastTrackedItems = [];
+let editPhotoRemoved = false;
+let editPhotoNewBase64 = null;
+
+function fmtChatTime(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  if(isNaN(d.getTime())) return '';
+  try {
+    return d.toLocaleDateString('hi-IN', { day:'numeric', month:'short' }) + ', ' + d.toLocaleTimeString('hi-IN', { hour:'2-digit', minute:'2-digit', hour12:true });
+  } catch(e) {
+    return d.toLocaleTimeString();
+  }
+}
+
+function renderChatMessagesHtml(item){
+  const msgs = Array.isArray(item.messages) ? item.messages : [];
+  if(msgs.length === 0){
+    if(item.adminRemark){
+      return `
+        <div class="chat-bubble chat-pradhan">
+          <div class="chat-bubble-sender">👑 ग्राम प्रधान</div>
+          <div class="chat-bubble-text">${escapeHtml(item.adminRemark)}</div>
+          <div class="chat-bubble-time">${fmtChatTime(item.date)}</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="track-chat-empty">
+        <div style="font-size:1.5rem; margin-bottom:4px;">💬</div>
+        <strong style="color:var(--ink);">प्रधान जी से बातचीत शुरू करें</strong>
+        <p style="margin:4px 0 0; font-size:.78rem; color:var(--ink-soft);">नीचे बॉक्स में संदेश लिखकर भेजें। केवल आपके टोकन वाले ही इसे देख व बात कर सकते हैं।</p>
+      </div>
+    `;
+  }
+
+  return msgs.map(m => {
+    const isPradhan = (m.sender === 'pradhan');
+    return `
+      <div class="chat-bubble ${isPradhan ? 'chat-pradhan' : 'chat-user'}">
+        <div class="chat-bubble-sender">${isPradhan ? '👑 ग्राम प्रधान' : '👤 ' + escapeHtml(m.senderName || 'आप')}</div>
+        <div class="chat-bubble-text">${escapeHtml(m.text)}</div>
+        <div class="chat-bubble-time">${fmtChatTime(m.date)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
 async function searchTrackComplaint(){
   const input = document.getElementById('trackInput');
   const query = (input ? input.value : '').trim();
@@ -6024,6 +6335,7 @@ async function searchTrackComplaint(){
 
   const res = await apiGet('/samasya/track/' + encodeURIComponent(query));
   if(!res || !res.ok || !res.items || res.items.length === 0){
+    lastTrackedItems = [];
     wrap.innerHTML = `
       <div class="track-result-card" style="text-align:center; padding:18px;">
         <div style="font-size:1.8rem; margin-bottom:6px;">❌</div>
@@ -6033,15 +6345,15 @@ async function searchTrackComplaint(){
     return;
   }
 
-  const items = res.items;
-  wrap.innerHTML = items.map(item => {
+  lastTrackedItems = res.items;
+  wrap.innerHTML = res.items.map(item => {
     const isDoneNayi = true;
     const isDoneProg = item.status === 'progress' || item.status === 'solved';
     const isDoneSolved = item.status === 'solved';
     const cat = CATEGORIES.find(c => c.id === item.category);
 
     return `
-      <div class="track-result-card">
+      <div class="track-result-card" id="trackCard_${escapeHtml(item.token)}">
         <div class="track-card-head">
           <span class="track-token-badge">🎫 ${escapeHtml(item.token || 'GP')}</span>
           <span class="status-pill status-${item.status}">${STATUS_LABEL[item.status] || item.status}</span>
@@ -6068,6 +6380,12 @@ async function searchTrackComplaint(){
           <p><strong>श्रेणी:</strong> ${cat ? cat.icon + ' ' + cat.name : item.category}</p>
           <p><strong>विवरण:</strong> ${escapeHtml(item.desc)}</p>
           <p><strong>दिनांक:</strong> ${fmtDate(item.date)}</p>
+          ${item.photo ? `
+            <div class="track-photo-box">
+              <img src="${item.photo}" class="track-photo-img" data-track-photo-src="${item.photo}" alt="शिकायत फ़ोटो" title="बड़ी फ़ोटो देखने के लिए क्लिक करें" />
+              <div class="track-photo-hint">🔍 फ़ोटो देखने के लिए टैप करें</div>
+            </div>
+          ` : ''}
         </div>
 
         ${item.adminRemark ? `
@@ -6084,17 +6402,57 @@ async function searchTrackComplaint(){
           </div>
         `}
 
-        ${adminKey ? `
-          <div style="margin-top:14px; padding-top:10px; border-top:1px dashed var(--line); display:flex; justify-content:flex-end;">
-            <button type="button" class="btn-delete-samasya" data-track-delete-id="${item.id}" style="color:#DC2626; font-size:.8rem; padding:5px 12px; border:1px solid #FECACA; border-radius:8px; background:#FEF2F2; cursor:pointer; font-weight:700; display:inline-flex; align-items:center; gap:5px;">
-              🗑️ यह समस्या व टोकन आईडी हमेशा के लिए हटाएं
+        <!-- WhatsApp Style Live Chat Card -->
+        <div class="track-chat-container">
+          <div class="track-chat-header">
+            <div class="track-chat-header-title">
+              <span>💬</span>
+              <span>प्रधान जी से बातचीत (Live Thread)</span>
+            </div>
+            <span class="track-chat-badge-lock">🔒 केवल आपका टोकन (${escapeHtml(item.token)})</span>
+          </div>
+
+          <div class="track-chat-messages" id="trackChatMsgs_${escapeHtml(item.token)}">
+            ${renderChatMessagesHtml(item)}
+          </div>
+
+          <div class="track-chat-input-bar">
+            <input type="text" 
+                   class="track-chat-input" 
+                   id="trackChatInp_${escapeHtml(item.token)}" 
+                   placeholder="${adminKey ? '👑 प्रधान जी के रूप में जवाब लिखें...' : '✍️ प्रधान जी को संदेश या जवाब लिखें...'}" 
+                   maxlength="500" 
+                   data-chat-token="${escapeHtml(item.token)}" 
+                   data-chat-id="${item.id}" />
+            <button type="button" 
+                    class="track-chat-send-btn" 
+                    data-chat-send-token="${escapeHtml(item.token)}" 
+                    data-chat-send-id="${item.id}">
+              <span>भेजें</span> <span>✈️</span>
             </button>
           </div>
-        ` : ''}
+        </div>
+
+        <!-- Citizen & Admin Actions (Edit / Delete) -->
+        <div class="track-actions-bar">
+          <button type="button" class="btn-track-action btn-track-edit" data-track-edit-token="${escapeHtml(item.token)}">
+            ✏️ शिकायत सुधारें / फ़ोटो बदलें
+          </button>
+          <button type="button" class="btn-track-action btn-track-delete" data-track-user-delete="${escapeHtml(item.token)}" data-track-id="${item.id}">
+            🗑️ यह शिकायत हटाएं
+          </button>
+        </div>
       </div>
     `;
   }).join('');
+
+  // Auto scroll chat boxes to bottom
+  res.items.forEach(it => {
+    const box = document.getElementById('trackChatMsgs_' + it.token);
+    if(box) box.scrollTop = box.scrollHeight;
+  });
 }
+
 document.getElementById('btnTrackSearch').addEventListener('click', searchTrackComplaint);
 document.getElementById('trackInput').addEventListener('keydown', (e)=>{
   if(e.key === 'Enter'){
@@ -6102,20 +6460,218 @@ document.getElementById('trackInput').addEventListener('keydown', (e)=>{
     searchTrackComplaint();
   }
 });
+
+// Event Delegation for Tracker interactions (Chat Send, Photo Lightbox, Edit, Delete)
 document.getElementById('trackResultWrap').addEventListener('click', async (e) => {
-  const btn = e.target.closest('[data-track-delete-id]');
-  if(btn){
-    const id = btn.dataset.trackDeleteId;
-    if(!confirm('क्या आप सच में इस समस्या और इसके ट्रैक आईडी को हमेशा के लिए हटाना चाहते हैं?')) return;
-    const res = await apiSend('DELETE', '/samasya/' + id, {}, true);
+  // 1. Photo Lightbox
+  const photoImg = e.target.closest('[data-track-photo-src]');
+  if(photoImg){
+    document.getElementById('photoLightboxImg').src = photoImg.dataset.trackPhotoSrc;
+    document.getElementById('photoLightbox').classList.add('open');
+    return;
+  }
+
+  // 2. Chat Send Button
+  const sendBtn = e.target.closest('[data-chat-send-token]');
+  if(sendBtn){
+    const token = sendBtn.dataset.chatSendToken;
+    const inp = document.getElementById('trackChatInp_' + token);
+    if(!inp) return;
+    const text = inp.value.trim();
+    if(!text) return;
+
+    sendBtn.disabled = true;
+    inp.disabled = true;
+
+    const item = lastTrackedItems.find(it => it.token === token);
+    const senderName = adminKey ? '👑 ग्राम प्रधान' : (item && item.name ? item.name : 'नागरिक');
+    const res = await apiSend('POST', '/samasya/' + encodeURIComponent(token) + '/reply', {
+      text,
+      token,
+      senderName
+    }, !!adminKey, { 'x-user-token': token });
+
+    sendBtn.disabled = false;
+    inp.disabled = false;
+
+    if(res && res.ok){
+      inp.value = '';
+      if(item){
+        if(!Array.isArray(item.messages)) item.messages = [];
+        item.messages.push(res.message);
+      }
+      const chatBox = document.getElementById('trackChatMsgs_' + token);
+      if(chatBox && item){
+        chatBox.innerHTML = renderChatMessagesHtml(item);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+      toast('संदेश भेजा गया 📩');
+    }
+    return;
+  }
+
+  // 3. Edit Complaint Button
+  const editBtn = e.target.closest('[data-track-edit-token]');
+  if(editBtn){
+    const token = editBtn.dataset.trackEditToken;
+    const item = lastTrackedItems.find(it => it.token === token);
+    if(!item) return;
+
+    document.getElementById('editSamasyaId').value = item.id;
+    document.getElementById('editSamasyaToken').value = item.token;
+    
+    // Fill categories
+    const sel = document.getElementById('editSamasyaCategory');
+    sel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+    if(item.category) sel.value = item.category;
+
+    // Fill description
+    document.getElementById('editSamasyaDesc').value = item.desc || '';
+
+    // Handle photo state
+    editPhotoRemoved = false;
+    editPhotoNewBase64 = null;
+    const curPhotoWrap = document.getElementById('editCurrentPhotoWrap');
+    const curPhotoImg = document.getElementById('editCurrentPhotoImg');
+    const previewWrap = document.getElementById('editPhotoPreviewWrap');
+    const lblPhotoText = document.getElementById('lblEditPhotoText');
+    const photoInput = document.getElementById('editSamasyaPhotoInput');
+    if(photoInput) photoInput.value = '';
+    previewWrap.style.display = 'none';
+
+    if(item.photo){
+      curPhotoWrap.style.display = 'flex';
+      curPhotoImg.src = item.photo;
+      lblPhotoText.textContent = 'फ़ोटो बदलें (नई फ़ोटो चुनें)';
+    } else {
+      curPhotoWrap.style.display = 'none';
+      lblPhotoText.textContent = 'फ़ोटो जोड़ें (वैकल्पिक)';
+    }
+
+    openOverlay('overlayEditSamasya');
+    return;
+  }
+
+  // 4. Delete Complaint Button (Citizen or Admin)
+  const delBtn = e.target.closest('[data-track-user-delete]');
+  if(delBtn){
+    const token = delBtn.dataset.trackUserDelete;
+    const id = delBtn.dataset.trackId || token;
+    if(!confirm(`क्या आप सच में अपनी यह शिकायत और इसका ट्रैक आईडी (${token}) हमेशा के लिए हटाना चाहते हैं?\n\nयह हमेशा के लिए मिट जाएगा और वापस नहीं लाया जा सकेगा।`)){
+      return;
+    }
+
+    const res = await apiSend('DELETE', '/samasya/' + encodeURIComponent(token), { token }, !!adminKey, { 'x-user-token': token });
     if(res && res.unauthorized){ adminLogout(); return; }
     if(res && res.ok){
-      samasyaList = samasyaList.filter(s => s.id !== id && s.token !== id);
+      samasyaList = samasyaList.filter(s => s.id !== id && s.token !== token);
+      lastTrackedItems = lastTrackedItems.filter(s => s.id !== id && s.token !== token);
       renderCatGrid();
       renderSamasyaList();
-      toast('समस्या व टोकन आईडी हमेशा के लिए हटा दी गई ✅');
+      toast('समस्या व ट्रैक आईडी हमेशा के लिए हटा दी गई ✅');
       searchTrackComplaint();
     }
+    return;
+  }
+});
+
+// Chat input Enter key event
+document.getElementById('trackResultWrap').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' && e.target.classList.contains('track-chat-input')){
+    e.preventDefault();
+    const token = e.target.dataset.chatToken;
+    const sendBtn = document.querySelector(`[data-chat-send-token="${token}"]`);
+    if(sendBtn) sendBtn.click();
+  }
+});
+
+// Setup Edit Photo Controls
+document.getElementById('btnTriggerEditPhoto').addEventListener('click', () => {
+  document.getElementById('editSamasyaPhotoInput').click();
+});
+
+document.getElementById('btnRemoveEditPhoto').addEventListener('click', () => {
+  editPhotoRemoved = true;
+  editPhotoNewBase64 = null;
+  document.getElementById('editCurrentPhotoWrap').style.display = 'none';
+  document.getElementById('editPhotoPreviewWrap').style.display = 'none';
+  document.getElementById('lblEditPhotoText').textContent = 'फ़ोटो हटा दी गई (नई चुनें?)';
+  toast('फ़ोटो हटाई गई, सुरक्षित करने के लिए सेव दबाएं 🗑️');
+});
+
+document.getElementById('editSamasyaPhotoInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const maxW = 640;
+      const scale = Math.min(1, maxW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      editPhotoNewBase64 = canvas.toDataURL('image/jpeg', 0.7);
+      editPhotoRemoved = false;
+      document.getElementById('editPhotoPreviewImg').src = editPhotoNewBase64;
+      document.getElementById('editPhotoPreviewWrap').style.display = 'block';
+      document.getElementById('lblEditPhotoText').textContent = 'नई फ़ोटो चुनी गई (बदलें)';
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// Form Edit Samasya Submit
+document.getElementById('formEditSamasya').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = document.getElementById('editSamasyaToken').value;
+  const desc = document.getElementById('editSamasyaDesc').value.trim();
+  const category = document.getElementById('editSamasyaCategory').value;
+
+  if(!desc){
+    toast('विवरण लिखना ज़रूरी है ⚠️');
+    return;
+  }
+
+  const payload = {
+    token,
+    desc,
+    category
+  };
+
+  if(editPhotoRemoved){
+    payload.photo = '';
+  } else if(editPhotoNewBase64){
+    payload.photo = editPhotoNewBase64;
+  }
+
+  const saveBtn = document.getElementById('btnSaveEditSamasya');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'सुरक्षित हो रहा है...';
+
+  const res = await apiSend('PATCH', '/samasya/' + encodeURIComponent(token) + '/user-edit', payload, !!adminKey, { 'x-user-token': token });
+  saveBtn.disabled = false;
+  saveBtn.textContent = '💾 बदलाव सुरक्षित करें';
+
+  if(res && res.ok){
+    closeOverlay('overlayEditSamasya');
+    toast('शिकायत में सफलतापूर्वक सुधार हो गया ✅');
+
+    // Update in samasyaList if loaded
+    const found = samasyaList.find(s => s.token === token || s.id === token);
+    if(found){
+      found.desc = desc;
+      found.category = category;
+      if(payload.photo !== undefined) found.photo = payload.photo;
+      renderCatGrid();
+      renderSamasyaList();
+    }
+
+    // Refresh tracker
+    searchTrackComplaint();
   }
 });
 
@@ -6258,6 +6814,21 @@ function renderSamasyaList(){
 
 // Event delegation on samasya list container
 document.getElementById('samasyaListWrap').addEventListener('click', async (e)=>{
+  const chatOpenBtn = e.target.closest('[data-open-chat-token]');
+  if(chatOpenBtn){
+    const token = chatOpenBtn.dataset.openChatToken;
+    const inp = document.getElementById('trackInput');
+    if(inp){
+      inp.value = token;
+      await searchTrackComplaint();
+      const card = document.getElementById('trackCard_' + token);
+      if(card){
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+    return;
+  }
+
   const photoEl = e.target.closest('.item-photo.has-photo');
   if(photoEl){
     const item = samasyaList.find(s=>s.id===photoEl.dataset.photoId);
@@ -6342,8 +6913,11 @@ function renderItemCard(s){
       ` : ''}
       <div class="item-meta">
         <span class="item-by">${escapeHtml(s.name||'गाँव वासी')}${s.phone?` (${escapeHtml(s.phone)})`:''} · ${fmtDate(s.date)}</span>
-        <div style="display:flex; gap:6px; margin-left:auto;">
-          <button type="button" class="btn-remark" data-remark-id="${s.id}">💬 टिप्पणी</button>
+        <div style="display:flex; gap:6px; margin-left:auto; flex-wrap:wrap;">
+          <button type="button" class="btn-chat-samasya" data-open-chat-token="${escapeHtml(s.token)}" style="color:#047857; font-size:.78rem; padding:4px 9px; border:1px solid #A7F3D0; border-radius:6px; background:#ECFDF5; cursor:pointer; font-weight:700; display:inline-flex; align-items:center; gap:4px;">
+            💬 चैट ${(s.messages && s.messages.length) ? `(${s.messages.length})` : ''}
+          </button>
+          <button type="button" class="btn-remark" data-remark-id="${s.id}">✍️ टिप्पणी</button>
           <button type="button" class="btn-delete-samasya" data-delete-samasya="${s.id}" title="यह समस्या हटाएं">🗑️ हटाएं</button>
         </div>
       </div>
