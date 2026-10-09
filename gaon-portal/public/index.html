@@ -861,148 +861,478 @@
             font-weight: 500;
         }
         
-        .chaupal-feed {
+        /* ============ WHATSAPP CHAT THEME (CHAUPAL / SANDESH) ============ */
+        .wa-chat-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            height: 620px;
+            max-height: calc(100vh - 200px);
+            min-height: 440px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ECE5DD;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
         }
-        
-        .chaupal-card {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
-        }
-        
-        .chaupal-card-head {
+
+        /* WhatsApp Top Header */
+        .wa-header {
+            background: linear-gradient(135deg, #075E54 0%, #128C7E 100%);
+            color: #FFFFFF;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            z-index: 10;
         }
-        
-        .chaupal-author-avatar {
-            width: 38px;
-            height: 38px;
+        .wa-header-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: var(--indigo);
-            color: #F3ECDD;
-            font-family: 'Baloo 2', sans-serif;
-            font-weight: 700;
-            font-size: .95rem;
+            background: #25D366;
+            color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.25rem;
             flex: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .chaupal-author-info {
+        .wa-header-info {
             flex: 1;
             min-width: 0;
         }
-        
-        .chaupal-author-name {
+        .wa-header-title {
             font-family: 'Baloo 2', sans-serif;
-            font-weight: 700;
-            font-size: .96rem;
-            color: var(--indigo-dark);
-            margin: 0;
+            font-weight: 800;
+            font-size: 1.05rem;
             line-height: 1.2;
-        }
-        
-        .chaupal-post-time {
-            font-size: .74rem;
-            color: var(--ink-soft);
-            margin: 2px 0 0;
-        }
-        
-        .chaupal-card-text {
-            font-size: .94rem;
-            line-height: 1.55;
-            color: var(--ink);
-            margin: 0 0 10px;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-        
-        .chaupal-media-container {
-            margin-bottom: 12px;
-            border-radius: 10px;
+            color: #FFFFFF;
+            white-space: nowrap;
             overflow: hidden;
-            background: #111;
-            max-height: 360px;
+            text-overflow: ellipsis;
+        }
+        .wa-header-status {
+            font-size: .74rem;
+            color: #E0F2F1;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 1px;
+            flex-wrap: wrap;
+        }
+        .wa-status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #25D366;
+            display: inline-block;
+        }
+        .wa-name-chip {
+            cursor: pointer;
+            background: rgba(255,255,255,0.18);
+            padding: 2px 7px;
+            border-radius: 10px;
+            transition: background .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .wa-name-chip:hover {
+            background: rgba(255,255,255,0.32);
+        }
+        .wa-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .wa-icon-btn {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+        .wa-icon-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Message Stream Area */
+        .wa-messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #ECE5DD url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+            scroll-behavior: smooth;
+        }
+
+        /* Date Pill */
+        .wa-date-pill {
+            align-self: center;
+            background: rgba(255, 255, 255, 0.92);
+            color: #54656F;
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(11,20,26,.08);
+            margin: 6px 0;
+            letter-spacing: .2px;
+        }
+
+        /* Chat Bubbles */
+        .wa-bubble {
+            max-width: 82%;
+            padding: 6px 9px 5px;
+            font-size: .88rem;
+            line-height: 1.38;
+            position: relative;
+            box-shadow: 0 1px 1.5px rgba(11,20,26,.13);
+            word-break: break-word;
+            display: flex;
+            flex-direction: column;
+        }
+        .wa-bubble-my {
+            align-self: flex-end;
+            background: #D9FDD3;
+            color: #111B21;
+            border-radius: 8px 0px 8px 8px;
+        }
+        .wa-bubble-other {
+            align-self: flex-start;
+            background: #FFFFFF;
+            color: #111B21;
+            border-radius: 0px 8px 8px 8px;
+        }
+
+        .wa-bubble-sender {
+            font-size: .75rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+            font-family: 'Baloo 2', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .wa-bubble-text {
+            white-space: pre-wrap;
+            font-size: .88rem;
+            color: #111B21;
+        }
+        .wa-bubble-text a {
+            color: #027EB5;
+            text-decoration: underline;
+        }
+
+        /* Media in Bubble */
+        .wa-bubble-media {
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 4px;
+            max-width: 100%;
+        }
+        .wa-bubble-media img {
+            max-width: 100%;
+            max-height: 240px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            display: block;
+        }
+        .wa-bubble-media video {
+            max-width: 100%;
+            max-height: 240px;
+            border-radius: 6px;
+            display: block;
+            background: #000;
+        }
+
+        /* Bubble Bottom Meta */
+        .wa-bubble-meta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+            margin-top: 3px;
+            font-size: .65rem;
+            color: #667781;
+            align-self: flex-end;
+        }
+        .wa-ticks {
+            color: #53BDEB;
+            font-weight: bold;
+            font-size: .75rem;
+            letter-spacing: -2px;
+            margin-left: 2px;
+        }
+        .wa-mini-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: .75rem;
+            color: #667781;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            opacity: .75;
+            transition: opacity .15s;
+        }
+        .wa-mini-btn:hover {
+            opacity: 1;
+        }
+        .wa-mini-btn.liked {
+            color: #E53935;
+            opacity: 1;
+        }
+
+        /* Media Preview Chip (Above Input) */
+        .wa-media-preview-bar {
+            background: #F0F2F5;
+            padding: 8px 12px;
+            border-top: 1px solid #E9EDEF;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .wa-preview-thumb-wrap {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #000;
+            flex: none;
+        }
+        .wa-preview-thumb-wrap img, .wa-preview-thumb-wrap video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .wa-preview-remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0,0,0,0.7);
+            color: #FFF;
+            border: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
-        .chaupal-media-img {
-            width: 100%;
-            max-height: 360px;
-            object-fit: cover;
+        .wa-preview-lbl {
+            font-size: .8rem;
+            color: #3B4A54;
+            font-weight: 600;
+        }
+
+        /* Quick Emojis Drawer */
+        .wa-quick-emojis {
+            background: #FFFFFF;
+            padding: 6px 12px;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            border-top: 1px solid #E9EDEF;
+            scrollbar-width: none;
+        }
+        .wa-quick-emojis::-webkit-scrollbar {
+            display: none;
+        }
+        .wa-emoji-item {
+            font-size: 1.3rem;
             cursor: pointer;
-            transition: opacity .15s;
+            user-select: none;
+            transition: transform .15s;
         }
-        
-        .chaupal-media-img:hover {
-            opacity: .95;
+        .wa-emoji-item:hover {
+            transform: scale(1.25);
         }
-        
-        .chaupal-media-video {
-            width: 100%;
-            max-height: 360px;
-            border-radius: 10px;
-            background: #000;
-        }
-        
-        .chaupal-card-actions {
+
+        /* WhatsApp Bottom Input Bar (Photo 3 Replica) */
+        .wa-input-container {
+            background: #F0F2F5;
+            padding: 8px 10px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding-top: 10px;
-            border-top: 1px solid var(--line);
             gap: 8px;
-            flex-wrap: wrap;
+            z-index: 10;
         }
-        
-        .chaupal-action-btn {
+        .wa-input-pill {
+            flex: 1;
+            background: #FFFFFF;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            padding: 4px 10px;
+            gap: 6px;
+            box-shadow: 0 1px 2px rgba(11,20,26,.08);
+        }
+        .wa-tool-btn {
             background: none;
             border: none;
+            padding: 6px;
+            font-size: 1.15rem;
             cursor: pointer;
-            font-family: 'Baloo 2', sans-serif;
-            font-size: .84rem;
-            font-weight: 600;
-            color: var(--ink-soft);
-            display: inline-flex;
+            color: #54656F;
+            display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 8px;
-            transition: background .15s, color .15s;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background .15s;
+            flex: none;
         }
-        
-        .chaupal-action-btn:hover {
-            background: #FAF3E3;
+        .wa-tool-btn:hover {
+            background: #F5F6F6;
         }
-        
-        .chaupal-action-btn.liked {
-            color: #D32F2F;
+        .wa-text-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: .94rem;
+            font-family: inherit;
+            color: #111B21;
+            background: transparent;
+            padding: 6px 4px;
+            min-width: 0;
         }
-        
-        .chaupal-action-btn.share-btn {
-            color: #128C7E;
+        .wa-text-input::placeholder {
+            color: #8696A0;
         }
-        
-        .chaupal-action-btn.delete-btn {
-            color: var(--terracotta);
-            margin-left: auto;
+
+        /* Green Circular Send / Mic Button */
+        .wa-circle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #00A884;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(11,20,26,.25);
+            transition: background .15s, transform .15s;
+            flex: none;
         }
-        
-        .chaupal-action-btn.delete-btn:hover {
-            background: #FCE7D6;
+        .wa-circle-btn:hover {
+            background: #008f6f;
+            transform: scale(1.04);
+        }
+        .wa-circle-btn:active {
+            transform: scale(0.96);
+        }
+        .wa-circle-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        /* Empty State */
+        .wa-empty-notice {
+            align-self: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+            margin: auto 0;
+            max-width: 320px;
+        }
+        .wa-empty-notice span {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .wa-empty-notice p {
+            margin: 4px 0 0;
+            font-size: .84rem;
+            color: #54656F;
+            line-height: 1.4;
+        }
+
+        /* Dark Theme Support for WhatsApp */
+        body.theme-dark .wa-chat-wrapper {
+            background: #0B141A;
+            border-color: #222E35;
+        }
+        body.theme-dark .wa-header {
+            background: #1F2C34;
+        }
+        body.theme-dark .wa-header-avatar {
+            background: #00A884;
+        }
+        body.theme-dark .wa-messages-area {
+            background: #0B141A url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.02' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        body.theme-dark .wa-bubble-my {
+            background: #005C4B;
+            color: #E9EDEF;
+        }
+        body.theme-dark .wa-bubble-other {
+            background: #202C33;
+            color: #E9EDEF;
+        }
+        body.theme-dark .wa-bubble-text {
+            color: #E9EDEF;
+        }
+        body.theme-dark .wa-input-container {
+            background: #202C33;
+        }
+        body.theme-dark .wa-input-pill {
+            background: #2A3942;
+        }
+        body.theme-dark .wa-text-input {
+            color: #E9EDEF;
+        }
+        body.theme-dark .wa-text-input::placeholder {
+            color: #8696A0;
+        }
+        body.theme-dark .wa-tool-btn {
+            color: #8696A0;
+        }
+        body.theme-dark .wa-tool-btn:hover {
+            background: #374248;
+        }
+        body.theme-dark .wa-media-preview-bar {
+            background: #182229;
+            border-color: #222E35;
+        }
+        body.theme-dark .wa-preview-lbl {
+            color: #E9EDEF;
+        }
+        body.theme-dark .wa-quick-emojis {
+            background: #202C33;
+            border-color: #2A3942;
+        }
+        body.theme-dark .wa-date-pill {
+            background: #182229;
+            color: #8696A0;
+        }
+        body.theme-dark .wa-empty-notice {
+            background: #202C33;
+        }
+        body.theme-dark .wa-empty-notice p {
+            color: #8696A0;
         }
         /* ---- Krishi / Kheti-Baadi Guide ---- */
         
@@ -4331,21 +4661,69 @@
                 </div>
             </section>
 
-            <!-- ===================== SANDESH (CHAUPAL) PANEL ===================== -->
+            <!-- ===================== SANDESH (CHAUPAL / WHATSAPP CHAT) PANEL ===================== -->
             <section class="panel" id="panel-chaupal">
-                <div class="panel-head">
-                    <h2>गाँव के संदेश</h2>
-                    <p>गाँव वालों के लिए खुला मंच — अपना संदेश, विचार, फ़ोटो या वीडियो साझा करें!</p>
-                </div>
+                <div class="wa-chat-wrapper">
+                    <!-- WhatsApp Top Header -->
+                    <div class="wa-header">
+                        <div class="wa-header-avatar">🏡</div>
+                        <div class="wa-header-info">
+                            <div class="wa-header-title">जगदीशपुर गाँव चौपाल (संदेश)</div>
+                            <div class="wa-header-status">
+                                <span class="wa-status-dot"></span> ऑनलाइन • 
+                                <span id="waMyNameDisplay" title="अपना नाम बदलने के लिए टैप करें" class="wa-name-chip">👤 <span id="waCurrentUserName">गाँव वासी</span> ✏️</span>
+                            </div>
+                        </div>
+                        <div class="wa-header-actions">
+                            <button type="button" class="wa-icon-btn" id="waBtnRefresh" title="नए संदेश लोड करें">🔄</button>
+                        </div>
+                    </div>
 
-                <div class="chaupal-create-prompt" id="chaupalPromptBtn">
-                    <div class="prompt-avatar">✍️</div>
-                    <div class="prompt-text">गाँव के साथ कोई संदेश, फ़ोटो या वीडियो साझा करें...</div>
-                    <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:.82rem;">+ संदेश लिखें</button>
-                </div>
+                    <!-- WhatsApp Message Stream Area -->
+                    <div class="wa-messages-area" id="chaupalFeed">
+                        <div class="loading-row">संदेश लोड हो रहे हैं...</div>
+                    </div>
 
-                <div id="chaupalFeed" class="chaupal-feed">
-                    <div class="loading-row">संदेश लोड हो रहे हैं...</div>
+                    <!-- Media Preview Bar (shown when file is selected) -->
+                    <div class="wa-media-preview-bar" id="waMediaPreviewBar" style="display:none;">
+                        <div class="wa-preview-thumb-wrap">
+                            <img id="waPhotoPreview" style="display:none;" />
+                            <video id="waVideoPreview" style="display:none;" controls></video>
+                            <button type="button" class="wa-preview-remove-btn" id="waBtnRemoveMedia" title="हटाएं">✕</button>
+                        </div>
+                        <span class="wa-preview-lbl" id="waMediaPreviewLbl">फ़ोटो चुनी गई</span>
+                    </div>
+
+                    <!-- Quick Emojis Bar (Toggleable) -->
+                    <div class="wa-quick-emojis" id="waQuickEmojis" style="display:none;">
+                        <span class="wa-emoji-item">👍</span>
+                        <span class="wa-emoji-item">🙏</span>
+                        <span class="wa-emoji-item">❤️</span>
+                        <span class="wa-emoji-item">😂</span>
+                        <span class="wa-emoji-item">👏</span>
+                        <span class="wa-emoji-item">🌾</span>
+                        <span class="wa-emoji-item">🇮🇳</span>
+                        <span class="wa-emoji-item">🤝</span>
+                        <span class="wa-emoji-item">🔥</span>
+                        <span class="wa-emoji-item">💐</span>
+                        <span class="wa-emoji-item">🚜</span>
+                        <span class="wa-emoji-item">🐮</span>
+                    </div>
+
+                    <!-- WhatsApp Bottom Input Bar (Photo 3 Replica) -->
+                    <div class="wa-input-container">
+                        <div class="wa-input-pill">
+                            <button type="button" class="wa-tool-btn" id="waBtnEmoji" title="इमोजी">😊</button>
+                            <input type="text" id="waMessageInput" class="wa-text-input" placeholder="Message" autocomplete="off" />
+                            <input type="file" id="waFileInput" accept="image/*,video/*" style="display:none;" />
+                            <button type="button" class="wa-tool-btn" id="waBtnAttach" title="फ़ोटो या वीडियो जोड़ें">📎</button>
+                            <button type="button" class="wa-tool-btn" id="waBtnCamera" title="फ़ोटो लें/चुनें">📷</button>
+                        </div>
+                        <!-- Green circular Send / Mic button -->
+                        <button type="button" class="wa-circle-btn" id="waBtnSendOrMic" title="बोल कर लिखें">
+                            <span id="waBtnIcon">🎤</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -6058,6 +6436,11 @@ setLanguage(currentLang);
                 btn.classList.add('active');
                 document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
                 updateFab(btn.dataset.tab);
+                if (btn.dataset.tab === 'chaupal') {
+                    if (typeof renderChaupal === 'function') renderChaupal();
+                    const feed = document.getElementById('chaupalFeed');
+                    if (feed) feed.scrollTop = feed.scrollHeight;
+                }
             });
         });
 
@@ -6978,25 +7361,84 @@ document.getElementById('formSamasya').addEventListener('submit', async (e)=>{
   showTokenModal(result.token, payload.phone, payload.desc);
 });
 
-/* ============ CHAUPAL (Community Social Feed) ============ */
-function openChaupalForm(){
-  document.getElementById('formChaupal').reset();
-  const linkInput = document.getElementById('cLink');
-  if(linkInput) linkInput.value = '';
-  resetChaupalMedia();
-  openOverlay('overlayChaupal');
+/* ============ WHATSAPP CHAT (CHAUPAL / SANDESH) ============ */
+pendingChaupalMedia = null;
+pendingChaupalMediaType = null;
+let activeDeletePostId = null;
+let waSpeechRec = null;
+let waIsRecording = false;
+
+const WA_SENDER_COLORS = ['#007AAC', '#008069', '#E65100', '#7B1FA2', '#C2185B', '#1D4ED8', '#B45309', '#047857', '#C026D3', '#D97706'];
+function getWaSenderColor(name){
+  if(!name) return WA_SENDER_COLORS[0];
+  let hash = 0;
+  for(let i=0; i<name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  return WA_SENDER_COLORS[Math.abs(hash) % WA_SENDER_COLORS.length];
 }
 
-function resetChaupalMedia(){
-  pendingChaupalMedia = null;
-  pendingChaupalMediaType = null;
-  document.getElementById('cMedia').value = '';
-  document.getElementById('cMediaLabel').textContent = '📷 🎥 Photo ya Video chunne ke liye tap karein';
-  document.getElementById('cPhotoPreview').style.display = 'none';
-  document.getElementById('cPhotoPreview').src = '';
-  document.getElementById('cVideoPreview').style.display = 'none';
-  document.getElementById('cVideoPreview').src = '';
-  document.getElementById('cRemoveMediaBtn').style.display = 'none';
+function getCurrentChaupalUserName(){
+  return (localStorage.getItem('chaupal_user_name') || '').trim() || 'गाँव वासी';
+}
+
+function updateWaUserNameDisplay(){
+  const nameEl = document.getElementById('waCurrentUserName');
+  if(nameEl){
+    nameEl.textContent = getCurrentChaupalUserName();
+  }
+}
+
+function getMyAuthorKey(){
+  let key = localStorage.getItem('my_chaupal_device_key');
+  if(!key){
+    key = uid();
+    localStorage.setItem('my_chaupal_device_key', key);
+  }
+  return key;
+}
+
+function getMyChaupalPosts(){
+  try{
+    return JSON.parse(localStorage.getItem('my_chaupal_posts') || '{}');
+  }catch(e){ return {}; }
+}
+
+function saveMyChaupalPost(id, authorKey){
+  const posts = getMyChaupalPosts();
+  posts[id] = authorKey;
+  localStorage.setItem('my_chaupal_posts', JSON.stringify(posts));
+}
+
+function getHiddenChaupalPosts(){
+  try{
+    return JSON.parse(localStorage.getItem('hidden_chaupal_posts') || '[]');
+  }catch(e){ return []; }
+}
+
+function hideChaupalPostForMe(id){
+  const hidden = getHiddenChaupalPosts();
+  if(!hidden.includes(id)){
+    hidden.push(id);
+    localStorage.setItem('hidden_chaupal_posts', JSON.stringify(hidden));
+  }
+  renderChaupal();
+  toast('संदेश सिर्फ आपकी स्क्रीन से हटा दिया गया ✅');
+}
+
+function fmtWaDatePill(ts){
+  if(!ts) return 'आज';
+  const d = new Date(ts);
+  const now = new Date();
+  if(d.toDateString() === now.toDateString()) return 'आज';
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+  if(d.toDateString() === yesterday.toDateString()) return 'कल';
+  return d.toLocaleDateString('hi-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function fmtWaTime(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleTimeString('hi-IN', { hour:'2-digit', minute:'2-digit', hour12:true });
 }
 
 function getYouTubeId(url){
@@ -7009,164 +7451,78 @@ function linkify(text){
   if(!text) return '';
   const escaped = escapeHtml(text);
   const urlRegex = /(https?:\/\/[^\s<]+)/g;
-  return escaped.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:var(--indigo); font-weight:600; text-decoration:underline; word-break:break-all;">$1</a>');
+  return escaped.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:#027EB5; font-weight:600; text-decoration:underline; word-break:break-all;">$1</a>');
 }
 
-document.getElementById('cRemoveMediaBtn').addEventListener('click', resetChaupalMedia);
-document.getElementById('chaupalPromptBtn').addEventListener('click', openChaupalForm);
+function resetWaMedia(){
+  pendingChaupalMedia = null;
+  pendingChaupalMediaType = null;
+  const fileInput = document.getElementById('waFileInput');
+  if(fileInput) fileInput.value = '';
+  const previewBar = document.getElementById('waMediaPreviewBar');
+  if(previewBar) previewBar.style.display = 'none';
+  const pImg = document.getElementById('waPhotoPreview');
+  if(pImg){ pImg.src = ''; pImg.style.display = 'none'; }
+  const pVid = document.getElementById('waVideoPreview');
+  if(pVid){ pVid.src = ''; pVid.style.display = 'none'; }
+}
 
-document.getElementById('cMedia').addEventListener('change', (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-
-  if(file.size > 12 * 1024 * 1024){
-    toast('File bohot badi hai (Max 12MB allowed) ⚠️');
-    resetChaupalMedia();
-    return;
-  }
-
-  const isVideo = file.type.startsWith('video');
-  const isImage = file.type.startsWith('image');
-
-  if(!isVideo && !isImage){
-    toast('Sirf Photo ya Video chunein ⚠️');
-    resetChaupalMedia();
-    return;
-  }
-
-  if(isImage){
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      const img = new Image();
-      img.onload = ()=>{
-        const maxW = 900;
-        const scale = Math.min(1, maxW/img.width);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        pendingChaupalMedia = canvas.toDataURL('image/jpeg', 0.75);
-        pendingChaupalMediaType = 'photo';
-        document.getElementById('cPhotoPreview').src = pendingChaupalMedia;
-        document.getElementById('cPhotoPreview').style.display = 'block';
-        document.getElementById('cVideoPreview').style.display = 'none';
-        document.getElementById('cRemoveMediaBtn').style.display = 'inline-flex';
-        document.getElementById('cMediaLabel').textContent = '✅ Photo chun li gayi';
-      };
-      img.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  } else if(isVideo){
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      pendingChaupalMedia = reader.result;
-      pendingChaupalMediaType = 'video';
-      document.getElementById('cVideoPreview').src = pendingChaupalMedia;
-      document.getElementById('cVideoPreview').style.display = 'block';
-      document.getElementById('cPhotoPreview').style.display = 'none';
-      document.getElementById('cRemoveMediaBtn').style.display = 'inline-flex';
-      document.getElementById('cMediaLabel').textContent = '✅ Video chun liya gaya';
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-document.getElementById('formChaupal').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const name = document.getElementById('cName').value.trim();
-  const text = document.getElementById('cText').value.trim();
-  const link = document.getElementById('cLink').value.trim();
-
-  if(!text && !pendingChaupalMedia && !link){
-    toast('Kripya sandesh, photo/video ya link daalein ⚠️');
-    return;
-  }
-
-  const submitBtn = document.getElementById('cSubmitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'साझा हो रहा है...';
-
+async function refreshChaupalData(){
   try {
-    const myAuthorKey = uid();
-    const payload = {
-      name: name || 'गाँव वासी',
-      text,
-      link: link || null,
-      media: pendingChaupalMedia,
-      mediaType: pendingChaupalMediaType,
-      authorKey: myAuthorKey
-    };
-
-    const item = await apiSend('POST', '/chaupal', payload);
-    if(item){
-      saveMyChaupalPost(item.id, myAuthorKey);
-      chaupalList.unshift(item);
-      closeOverlay('overlayChaupal');
-      resetChaupalMedia();
-      document.getElementById('cLink').value = '';
+    const list = await apiGet('/chaupal');
+    if(Array.isArray(list)){
+      chaupalList = list;
       renderChaupal();
-      toast('नया संदेश सफलतापूर्वक साझा हो गया! 🎉');
     }
-  } catch(err) {
-    console.error('Post failed', err);
-    toast('संदेश पोस्ट नहीं हो पाया, कृपया दोबारा कोशिश करें ⚠️');
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'संदेश साझा करें';
+  } catch(e){
+    console.error('Refresh chaupal error', e);
   }
-});
-
-function getMyChaupalPosts(){
-  try{
-    return JSON.parse(localStorage.getItem('my_chaupal_posts') || '{}');
-  }catch(e){ return {}; }
 }
-function saveMyChaupalPost(id, authorKey){
-  const posts = getMyChaupalPosts();
-  posts[id] = authorKey;
-  localStorage.setItem('my_chaupal_posts', JSON.stringify(posts));
-}
-function getHiddenChaupalPosts(){
-  try{
-    return JSON.parse(localStorage.getItem('hidden_chaupal_posts') || '[]');
-  }catch(e){ return []; }
-}
-function hideChaupalPostForMe(id){
-  const hidden = getHiddenChaupalPosts();
-  if(!hidden.includes(id)){
-    hidden.push(id);
-    localStorage.setItem('hidden_chaupal_posts', JSON.stringify(hidden));
-  }
-  renderChaupal();
-  toast('संदेश सिर्फ आपकी स्क्रीन से हटा दिया गया ✅');
-}
-
-let activeDeletePostId = null;
 
 function renderChaupal(){
   const feed = document.getElementById('chaupalFeed');
+  if(!feed) return;
+
+  updateWaUserNameDisplay();
+
   const hiddenPosts = getHiddenChaupalPosts();
   const visibleList = (chaupalList || []).filter(p => !hiddenPosts.includes(p.id));
 
   if(visibleList.length === 0){
-    feed.innerHTML = `<div class="empty-state">
-      <span class="big">🗣️</span>
-      अभी कोई संदेश साझा नहीं किया गया है...<br>गाँव के लिए पहला संदेश, फ़ोटो, वीडियो या लिंक आप साझा करें!
-    </div>`;
+    feed.innerHTML = `
+      <div class="wa-empty-notice">
+        <span>💬</span>
+        <strong style="color:var(--ink); font-size:.95rem;">गाँव चौपाल में आपका स्वागत है!</strong>
+        <p>यहाँ गाँव के सभी लोग WhatsApp की तरह सीधे आपस में बातचीत कर सकते हैं। पहला संदेश नीचे लिखकर भेजें!</p>
+      </div>
+    `;
     return;
   }
 
-  feed.innerHTML = visibleList.map(p=>{
-    const initial = (p.name && p.name.trim()[0]) ? p.name.trim()[0].toUpperCase() : 'G';
-    const isLiked = localStorage.getItem('liked_chaupal_'+p.id);
+  // Sort chronologically (oldest to newest) like WhatsApp
+  const sorted = [...visibleList].sort((a,b) => (a.date || 0) - (b.date || 0));
+
+  const myPosts = getMyChaupalPosts();
+  const myDeviceKey = getMyAuthorKey();
+  let lastDateStr = '';
+  let html = '';
+
+  sorted.forEach(p => {
+    const pDateStr = new Date(p.date || Date.now()).toDateString();
+    if(pDateStr !== lastDateStr){
+      lastDateStr = pDateStr;
+      html += `<div class="wa-date-pill"><span>${fmtWaDatePill(p.date)}</span></div>`;
+    }
+
+    const isMyMsg = Boolean((p.authorKey && myPosts[p.id]) || (p.authorKey && p.authorKey === myDeviceKey));
+    const isLiked = localStorage.getItem('liked_chaupal_' + p.id);
 
     let mediaHtml = '';
     if(p.media){
       if(p.mediaType === 'video'){
-        mediaHtml = `<div class="chaupal-media-container"><video class="chaupal-media-video" src="${p.media}" controls playsinline preload="metadata"></video></div>`;
+        mediaHtml = `<div class="wa-bubble-media"><video src="${p.media}" controls playsinline preload="metadata"></video></div>`;
       } else {
-        mediaHtml = `<div class="chaupal-media-container"><img class="chaupal-media-img" src="${p.media}" alt="संदेश फ़ोटो" data-chaupal-img="${p.id}"></div>`;
+        mediaHtml = `<div class="wa-bubble-media"><img src="${p.media}" alt="संदेश फ़ोटो" data-chaupal-img="${p.id}" /></div>`;
       }
     }
 
@@ -7174,44 +7530,355 @@ function renderChaupal(){
     if(p.link){
       const ytId = getYouTubeId(p.link);
       if(ytId){
-        linkHtml = `<div class="chaupal-youtube-wrap" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:10px; margin-bottom:12px; background:#000;">
-          <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/${ytId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        linkHtml = `<div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px; margin-bottom:6px; background:#000;">
+          <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe>
         </div>`;
       } else {
-        linkHtml = `<a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="chaupal-link-card" style="display:flex; align-items:center; gap:8px; background:#F4EBD9; padding:10px 14px; border-radius:10px; text-decoration:none; color:var(--indigo-dark); font-weight:600; font-size:.85rem; margin-bottom:12px; border:1px solid var(--line); word-break:break-all;">
-          <span style="font-size:1.1rem;">🔗</span>
-          <span style="text-decoration:underline;">${escapeHtml(p.link)}</span>
-        </a>`;
+        linkHtml = `<div style="margin-bottom:4px;"><a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" style="color:#027EB5; word-break:break-all; font-weight:600; text-decoration:underline; font-size:.84rem;">🔗 ${escapeHtml(p.link)}</a></div>`;
       }
     }
 
-    return `<div class="chaupal-card" id="chaupal-card-${p.id}">
-      <div class="chaupal-card-head">
-        <div class="chaupal-author-avatar">${initial}</div>
-        <div class="chaupal-author-info">
-          <h4 class="chaupal-author-name">${escapeHtml(p.name || 'गाँव वासी')}</h4>
-          <p class="chaupal-post-time">${fmtTimeAgo(p.date)}</p>
+    if(isMyMsg){
+      // Right side green bubble
+      html += `
+        <div class="wa-bubble wa-bubble-my" id="chaupal-card-${p.id}">
+          ${mediaHtml}
+          ${linkHtml}
+          ${p.text ? `<div class="wa-bubble-text">${linkify(p.text)}</div>` : ''}
+          <div class="wa-bubble-meta">
+            ${p.likes ? `<span class="wa-mini-btn" style="color:#E53935; font-size:.7rem;">❤️ ${p.likes}</span>` : ''}
+            <button type="button" class="wa-mini-btn" data-delete-chaupal="${p.id}" title="यह संदेश हटाएं">🗑️</button>
+            <span class="wa-bubble-time">${fmtWaTime(p.date)}</span>
+            <span class="wa-ticks">✓✓</span>
+          </div>
         </div>
-      </div>
-      ${p.text ? `<div class="chaupal-card-text">${linkify(p.text)}</div>` : ''}
-      ${mediaHtml}
-      ${linkHtml}
-      <div class="chaupal-card-actions">
-        <button type="button" class="chaupal-action-btn ${isLiked ? 'liked' : ''}" data-like-chaupal="${p.id}">
-          <span>${isLiked ? '❤️' : '🤍'}</span>
-          <span class="chaupal-like-count">${p.likes || 0}</span> पसंद
-        </button>
-        <button type="button" class="chaupal-action-btn share-btn" data-share-chaupal="${p.id}">
-          <span>📲</span> WhatsApp शेयर
-        </button>
-        <button type="button" class="chaupal-action-btn delete-btn" data-delete-chaupal="${p.id}" title="यह संदेश हटाएं">
-          <span>🗑️</span> हटाएं
-        </button>
-      </div>
-    </div>`;
-  }).join('');
+      `;
+    } else {
+      // Left side white bubble
+      const isPradhan = (p.name && p.name.includes('प्रधान'));
+      const senderColor = isPradhan ? '#7B1FA2' : getWaSenderColor(p.name);
+      html += `
+        <div class="wa-bubble wa-bubble-other" id="chaupal-card-${p.id}">
+          <div class="wa-bubble-sender" style="color:${senderColor};">
+            ${isPradhan ? '👑 ' : ''}${escapeHtml(p.name || 'गाँव वासी')}
+          </div>
+          ${mediaHtml}
+          ${linkHtml}
+          ${p.text ? `<div class="wa-bubble-text">${linkify(p.text)}</div>` : ''}
+          <div class="wa-bubble-meta">
+            <button type="button" class="wa-mini-btn ${isLiked ? 'liked' : ''}" data-like-chaupal="${p.id}" title="पसंद करें">
+              ${isLiked ? '❤️' : '🤍'} ${p.likes || ''}
+            </button>
+            <button type="button" class="wa-mini-btn" data-share-chaupal="${p.id}" title="WhatsApp शेयर">📲</button>
+            ${adminKey ? `<button type="button" class="wa-mini-btn" data-delete-chaupal="${p.id}" title="हटाएं">🗑️</button>` : ''}
+            <span class="wa-bubble-time">${fmtWaTime(p.date)}</span>
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  feed.innerHTML = html;
+
+  // Auto scroll to bottom like WhatsApp
+  feed.scrollTop = feed.scrollHeight;
 }
 
+async function sendWaChaupalMessage(){
+  const inp = document.getElementById('waMessageInput');
+  const text = (inp ? inp.value : '').trim();
+
+  if(!text && !pendingChaupalMedia){
+    return;
+  }
+
+  const sendBtn = document.getElementById('waBtnSendOrMic');
+  if(sendBtn) sendBtn.disabled = true;
+
+  const currentUserName = getCurrentChaupalUserName();
+  const myAuthorKey = getMyAuthorKey();
+
+  const payload = {
+    name: currentUserName,
+    text: text,
+    media: pendingChaupalMedia,
+    mediaType: pendingChaupalMediaType,
+    authorKey: myAuthorKey
+  };
+
+  try {
+    const item = await apiSend('POST', '/chaupal', payload);
+    if(item){
+      saveMyChaupalPost(item.id, myAuthorKey);
+      chaupalList.push(item);
+      if(inp) inp.value = '';
+      resetWaMedia();
+      const emojisDrawer = document.getElementById('waQuickEmojis');
+      if(emojisDrawer) emojisDrawer.style.display = 'none';
+      const icon = document.getElementById('waBtnIcon');
+      if(icon) icon.textContent = '🎤';
+      const btn = document.getElementById('waBtnSendOrMic');
+      if(btn) btn.title = 'बोल कर लिखें';
+      renderChaupal();
+      toast('संदेश भेजा गया 📩');
+    }
+  } catch(err){
+    console.error('Send message failed', err);
+    toast('संदेश भेजा नहीं जा सका ⚠️');
+  } finally {
+    if(sendBtn) sendBtn.disabled = false;
+  }
+}
+
+function handleWaMic(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition){
+    toast('इस ब्राउज़र में वॉइस टाइपिंग उपलब्ध नहीं है, कृपया टाइप करें ✍️');
+    return;
+  }
+  if(waIsRecording){
+    if(waSpeechRec) waSpeechRec.stop();
+    return;
+  }
+  try {
+    waSpeechRec = new SpeechRecognition();
+    waSpeechRec.lang = 'hi-IN';
+    waSpeechRec.interimResults = true;
+    waSpeechRec.continuous = false;
+    
+    const inp = document.getElementById('waMessageInput');
+    const icon = document.getElementById('waBtnIcon');
+    const btn = document.getElementById('waBtnSendOrMic');
+    const originalText = inp ? inp.value : '';
+
+    waSpeechRec.onstart = () => {
+      waIsRecording = true;
+      if(icon) icon.textContent = '🔴';
+      if(btn) btn.style.background = '#E53935';
+      toast('बोलिए, आपकी आवाज़ लिखी जा रही है... 🎙️');
+    };
+    waSpeechRec.onresult = (e) => {
+      let transcript = '';
+      for(let i = e.resultIndex; i < e.results.length; ++i){
+        transcript += e.results[i][0].transcript;
+      }
+      if(inp) inp.value = originalText ? (originalText + ' ' + transcript) : transcript;
+    };
+    waSpeechRec.onerror = (e) => {
+      console.warn('Speech err', e);
+      waIsRecording = false;
+      if(btn) btn.style.background = '#00A884';
+      if(icon) icon.textContent = (inp && inp.value.trim()) ? '✈️' : '🎤';
+    };
+    waSpeechRec.onend = () => {
+      waIsRecording = false;
+      if(btn) btn.style.background = '#00A884';
+      if(inp && inp.value.trim()){
+        if(icon) icon.textContent = '✈️';
+        if(btn) btn.title = 'संदेश भेजें';
+      } else {
+        if(icon) icon.textContent = '🎤';
+        if(btn) btn.title = 'बोल कर लिखें';
+      }
+    };
+    waSpeechRec.start();
+  } catch(e){
+    console.error('Mic start error', e);
+  }
+}
+
+// Input Typing Event Listener (Switches between 🎤 and ✈️)
+const waMsgInput = document.getElementById('waMessageInput');
+if(waMsgInput){
+  waMsgInput.addEventListener('input', () => {
+    const icon = document.getElementById('waBtnIcon');
+    const btn = document.getElementById('waBtnSendOrMic');
+    if(waMsgInput.value.trim().length > 0 || pendingChaupalMedia){
+      if(icon) icon.textContent = '✈️';
+      if(btn) btn.title = 'संदेश भेजें';
+    } else {
+      if(icon) icon.textContent = '🎤';
+      if(btn) btn.title = 'बोल कर लिखें';
+    }
+  });
+
+  waMsgInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      sendWaChaupalMessage();
+    }
+  });
+}
+
+// Green Send / Mic Button Click
+const waBtnSend = document.getElementById('waBtnSendOrMic');
+if(waBtnSend){
+  waBtnSend.addEventListener('click', () => {
+    const icon = document.getElementById('waBtnIcon');
+    if(icon && icon.textContent === '✈️'){
+      sendWaChaupalMessage();
+    } else {
+      handleWaMic();
+    }
+  });
+}
+
+// Attach (📎) & Camera (📷) buttons
+const waBtnAttach = document.getElementById('waBtnAttach');
+if(waBtnAttach){
+  waBtnAttach.addEventListener('click', () => {
+    const fInput = document.getElementById('waFileInput');
+    if(fInput) fInput.click();
+  });
+}
+const waBtnCamera = document.getElementById('waBtnCamera');
+if(waBtnCamera){
+  waBtnCamera.addEventListener('click', () => {
+    const fInput = document.getElementById('waFileInput');
+    if(fInput) fInput.click();
+  });
+}
+
+// File Input Change (Photo/Video Compression & Preview)
+const waFileInput = document.getElementById('waFileInput');
+if(waFileInput){
+  waFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+
+    if(file.size > 12 * 1024 * 1024){
+      toast('फ़ाइल बहुत बड़ी है (अधिकतम 12MB की अनुमति है) ⚠️');
+      resetWaMedia();
+      return;
+    }
+
+    const isVideo = file.type.startsWith('video');
+    const isImage = file.type.startsWith('image');
+
+    if(!isVideo && !isImage){
+      toast('कृपया केवल फ़ोटो या वीडियो चुनें ⚠️');
+      resetWaMedia();
+      return;
+    }
+
+    const previewBar = document.getElementById('waMediaPreviewBar');
+    const pImg = document.getElementById('waPhotoPreview');
+    const pVid = document.getElementById('waVideoPreview');
+    const pLbl = document.getElementById('waMediaPreviewLbl');
+    const icon = document.getElementById('waBtnIcon');
+    const btn = document.getElementById('waBtnSendOrMic');
+
+    if(isImage){
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const maxW = 900;
+          const scale = Math.min(1, maxW / img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          pendingChaupalMedia = canvas.toDataURL('image/jpeg', 0.75);
+          pendingChaupalMediaType = 'photo';
+
+          if(pImg){ pImg.src = pendingChaupalMedia; pImg.style.display = 'block'; }
+          if(pVid){ pVid.style.display = 'none'; }
+          if(pLbl) pLbl.textContent = '📷 फ़ोटो चुनी गई';
+          if(previewBar) previewBar.style.display = 'flex';
+          if(icon) icon.textContent = '✈️';
+          if(btn) btn.title = 'संदेश भेजें';
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else if(isVideo){
+      const reader = new FileReader();
+      reader.onload = () => {
+        pendingChaupalMedia = reader.result;
+        pendingChaupalMediaType = 'video';
+
+        if(pVid){ pVid.src = pendingChaupalMedia; pVid.style.display = 'block'; }
+        if(pImg){ pImg.style.display = 'none'; }
+        if(pLbl) pLbl.textContent = '🎥 वीडियो चुना गया';
+        if(previewBar) previewBar.style.display = 'flex';
+        if(icon) icon.textContent = '✈️';
+        if(btn) btn.title = 'संदेश भेजें';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+// Remove Media Button
+const waBtnRemoveMedia = document.getElementById('waBtnRemoveMedia');
+if(waBtnRemoveMedia){
+  waBtnRemoveMedia.addEventListener('click', () => {
+    resetWaMedia();
+    const inp = document.getElementById('waMessageInput');
+    const icon = document.getElementById('waBtnIcon');
+    const btn = document.getElementById('waBtnSendOrMic');
+    if(!inp || !inp.value.trim()){
+      if(icon) icon.textContent = '🎤';
+      if(btn) btn.title = 'बोल कर लिखें';
+    }
+  });
+}
+
+// Emoji Picker Toggle (😊)
+const waBtnEmoji = document.getElementById('waBtnEmoji');
+if(waBtnEmoji){
+  waBtnEmoji.addEventListener('click', () => {
+    const emojis = document.getElementById('waQuickEmojis');
+    if(emojis){
+      emojis.style.display = (emojis.style.display === 'none' || !emojis.style.display) ? 'flex' : 'none';
+    }
+  });
+}
+
+// Emoji Tap
+document.querySelectorAll('.wa-emoji-item').forEach(el => {
+  el.addEventListener('click', () => {
+    const inp = document.getElementById('waMessageInput');
+    if(inp){
+      inp.value += el.textContent;
+      inp.focus();
+      const icon = document.getElementById('waBtnIcon');
+      const btn = document.getElementById('waBtnSendOrMic');
+      if(icon) icon.textContent = '✈️';
+      if(btn) btn.title = 'संदेश भेजें';
+    }
+  });
+});
+
+// Name Change Chip (Click in Header)
+const waNameDisplay = document.getElementById('waMyNameDisplay');
+if(waNameDisplay){
+  waNameDisplay.addEventListener('click', () => {
+    const cur = getCurrentChaupalUserName();
+    const newName = prompt('गाँव चौपाल (संदेश) में अपना नाम दर्ज करें:', cur === 'गाँव वासी' ? '' : cur);
+    if(newName !== null){
+      const val = newName.trim() || 'गाँव वासी';
+      localStorage.setItem('chaupal_user_name', val);
+      updateWaUserNameDisplay();
+      renderChaupal();
+      toast('नाम सेट हो गया: ' + val + ' ✅');
+    }
+  });
+}
+
+// Refresh Button (🔄 in Header)
+const waBtnRefresh = document.getElementById('waBtnRefresh');
+if(waBtnRefresh){
+  waBtnRefresh.addEventListener('click', async () => {
+    toast('नए संदेश जाँचे जा रहे हैं... 🔄');
+    await refreshChaupalData();
+    toast('संदेश अपडेट हो गए ✅');
+  });
+}
+
+// Feed Click Delegation (Lightbox, Like, Share, Delete)
 document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
   const imgEl = e.target.closest('[data-chaupal-img]');
   if(imgEl){
@@ -7248,7 +7915,7 @@ document.getElementById('chaupalFeed').addEventListener('click', async (e)=>{
     if(!post) return;
     let extra = '';
     if(post.link) extra += `\n🔗 Link: ${post.link}`;
-    const shareText = `*🏡 Jagdishpur Gaon Portal - गाँव के संदेश*\n\n👤 *${post.name || 'गाँव वासी'}:*\n"${post.text || 'फ़ोटो/वीडियो/लिंक साझा किया गया'}"${extra}\n\n👉 *पूरा देखने के लिए यहाँ खोलें:*\n${window.location.origin}`;
+    const shareText = `*🏡 Jagdishpur Gaon Portal - गाँव के संदेश*\n\n👤 *${post.name || 'गाँव वासी'}:*\n"${post.text || 'फ़ोटो/वीडियो/लिंक साझा किया गया'}"${extra}\n\n👉 *देखने के लिए यहाँ खोलें:*\n${window.location.origin}`;
     const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
     window.open(waUrl, '_blank');
     return;
