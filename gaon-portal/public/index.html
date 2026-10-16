@@ -2935,6 +2935,21 @@
             padding: 2px 8px;
             font-size: .75rem;
             font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: all .2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .weather-strip-rain:hover {
+            background: #BAE6FD;
+            border-color: #38BDF8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2);
+        }
+        .weather-strip-rain:active {
+            transform: scale(0.96);
         }
         .btn-weather-details {
             background: #0284C7;
@@ -5020,7 +5035,7 @@
                     <span class="weather-strip-loc">📍 <span id="weatherStripLocName">स्थान खोज रहे हैं...</span></span>
                     <span class="weather-strip-temp" id="weatherStripTemp">--°C</span>
                     <span class="weather-strip-cond" id="weatherStripCond">⛅ मौसम लोड हो रहा है...</span>
-                    <span class="weather-strip-rain" id="weatherStripRain">🌧️ बारिश: --%</span>
+                    <span class="weather-strip-rain" id="weatherStripRain" role="button" tabindex="0" title="विस्तृत बारिश व मौसम का पूर्वानुमान देखें (क्लिक करें)">🌧️ बारिश: --%</span>
                     <button type="button" class="weather-strip-cal-btn" id="btnOpenCalendarModal" title="गाँव का पंचांग व त्यौहार कैलेंडर देखें">
                         <span>📅</span> <span id="lblWeatherCalendar">त्यौहार कैलेंडर</span>
                     </button>
@@ -10370,6 +10385,22 @@ function initWeather() {
         btnOpen.addEventListener('click', () => {
             renderModalLocChips();
             openOverlay('overlayWeather');
+        });
+    }
+
+    // Top strip rain pill -> open modal
+    const rainPill = document.getElementById('weatherStripRain');
+    if (rainPill) {
+        const handleOpenWeather = () => {
+            renderModalLocChips();
+            openOverlay('overlayWeather');
+        };
+        rainPill.addEventListener('click', handleOpenWeather);
+        rainPill.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleOpenWeather();
+            }
         });
     }
 
