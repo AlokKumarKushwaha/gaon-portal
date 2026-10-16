@@ -3395,6 +3395,52 @@
             background: #fff;
             color: #0369A1;
         }
+        .weather-card-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-gps-header {
+            background: #10B981;
+            color: #fff;
+            border: 1px solid #34D399;
+            border-radius: 16px;
+            padding: 5px 12px;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all .2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-gps-header:hover {
+            background: #059669;
+            border-color: #10B981;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
+        }
+        .btn-gps-header:active {
+            transform: scale(0.97);
+        }
+        @media(max-width: 640px) {
+            .weather-card-header-actions {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .btn-gps-header, .btn-change-loc {
+                width: 100%;
+                justify-content: center;
+                padding: 7px 12px;
+                font-size: .8rem;
+            }
+        }
         .weather-main-grid {
             display: grid;
             grid-template-columns: 240px 1fr;
@@ -10212,9 +10258,16 @@ function renderWeatherCardHtml(isModal = false) {
                     <span>${escapeHtml(currentWeatherLocation.name)}</span>
                     ${currentWeatherLocation.isGps ? '<span style="background:#10B981; font-size:.65rem; padding:2px 6px; border-radius:10px; font-weight:700;">LIVE GPS</span>' : ''}
                 </div>
-                <button type="button" class="btn-change-loc" data-action="open-weather-modal">
-                    🔄 स्थान बदलें
-                </button>
+                <div class="weather-card-header-actions">
+                    <button type="button" class="btn-gps-header" data-action="detect-gps" title="वर्तमान GPS स्थान लाइव पता करें">
+                        <span>📍</span> मेरा वर्तमान GPS स्थान लें (Live Detect)
+                    </button>
+                    ${!isModal ? `
+                    <button type="button" class="btn-change-loc" data-action="open-weather-modal" title="अन्य शहर या गाँव का मौसम देखें">
+                        🔄 स्थान बदलें
+                    </button>
+                    ` : ''}
+                </div>
             </div>
 
             <div class="weather-main-grid">
@@ -10426,12 +10479,14 @@ function initWeather() {
         });
     }
 
-    // Modal GPS detection button
-    const btnGps = document.getElementById('btnDetectGpsModal');
-    if (btnGps) {
-        btnGps.addEventListener('click', async () => {
-            isManualLocationSelected = false;
-            toast('📍 आपका वर्तमान स्थान खोज रहे हैं...');
+    // GPS detection logic (shared between modal and kheti card)
+    let isDetectingGps = false;
+    async function triggerGpsLocationDetection() {
+        if (isDetectingGps) return;
+        isDetectingGps = true;
+        isManualLocationSelected = false;
+        toast('📍 आपका वर्तमान स्थान खोज रहे हैं...');
+        try {
             const loc = await detectUserLocation(true);
             if (loc) {
                 await loadWeatherData(loc);
@@ -10440,7 +10495,18 @@ function initWeather() {
             } else {
                 toast('GPS स्थान नहीं मिल पाया, कृपया ब्राउज़र में लोकेशन अनुमति दें ⚠️');
             }
-        });
+        } catch (err) {
+            console.error('GPS detect error', err);
+            toast('GPS स्थान लोड करने में त्रुटि हुई ⚠️');
+        } finally {
+            isDetectingGps = false;
+        }
+    }
+
+    // Modal GPS detection button
+    const btnGps = document.getElementById('btnDetectGpsModal');
+    if (btnGps) {
+        btnGps.addEventListener('click', triggerGpsLocationDetection);
     }
 
     // Modal city search form
@@ -10463,8 +10529,14 @@ function initWeather() {
         });
     }
 
-    // Event delegation for "स्थान बदलें", "ऑडियो सुनें", and "WhatsApp Share"
+    // Event delegation for "GPS स्थान", "स्थान बदलें", "ऑडियो सुनें", and "WhatsApp Share"
     document.addEventListener('click', (e) => {
+        const gpsBtn = e.target.closest('[data-action="detect-gps"]');
+        if (gpsBtn) {
+            triggerGpsLocationDetection();
+            return;
+        }
+
         const audioBtn = e.target.closest('[data-action="toggle-audio"]');
         if (audioBtn) {
             toggleWeatherAudioBulletin();
