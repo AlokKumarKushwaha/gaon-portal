@@ -71,6 +71,13 @@ app.use((req, res, next) => {
     next();
 });
 
+// Explicit route for robots.txt (clean UTF-8, no-cache, text/plain)
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.send("User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nSitemap: https://jagdishpurgaon1.onrender.com/sitemap.xml\n");
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database readiness check middleware
